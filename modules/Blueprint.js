@@ -1,3 +1,6 @@
+import mapper  from './helpers/Mapper.js';
+import options from './helpers/Options.js';
+
 /**
  * @module Blueprint
  * @author Adam Timberlake
@@ -8,9 +11,13 @@ class Blueprint {
     /**
      * @constructor
      * @param {SVGElement} svgElement
+     * @param {Object} [options={}]
+     * @return {Blueprint}
      */
-    constructor(svgElement) {
-        this.shapes = [];
+    constructor(svgElement, options = {}) {
+        this.svg     = d3.select(svgElement);
+        this.shapes  = [];
+        this.options = _.assign(options.defaults(), options);
     }
 
     /**
@@ -21,6 +28,12 @@ class Blueprint {
      */
     add(tagName, attributes = {}) {
 
+        var shape = mapper.getShapeClass(tagName);
+        shape.setOptions(this.options);
+
+        this.shapes.push(shape);
+        return shape;
+
     }
 
     /**
@@ -29,7 +42,7 @@ class Blueprint {
      * @return {void}
      */
     remove(shape) {
-
+        shape.remove();
     }
 
     /**
