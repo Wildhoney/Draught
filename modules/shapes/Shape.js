@@ -14,4 +14,13 @@ class Shape {
         return this.getTag();
     }
 
+    /**
+     * @method setOptions
+     * @param {Object} options
+     * @return {void}
+     */
+    setOptions(options) {
+        this.options = options;
+    }
+
 }
