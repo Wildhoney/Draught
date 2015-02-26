@@ -1,3 +1,3 @@
 # Blueprint
 
-![Blueprint Diagram](http://i.imgur.com/kMC9bij.png)
+![Blueprint Diagram](http://i.imgur.com/Kc1iqli.png)
