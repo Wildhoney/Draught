@@ -1,6 +1,16 @@
-import Shape     from './../shapes/Shape.js';
-import Text      from './../shapes/types/Text.js';
-import Rectangle from './../shapes/types/Rectangle.js';
+// Facades.
+import TextFacade from './../shapes/facades/types/Text.js';
+import RectFacade from './../shapes/facades/types/Rectangle.js';
+
+// Internals.
+import TextInternal   from './../shapes/internals/types/Text.js';
+import RectInternal   from './../shapes/internals/types/Rectangle.js';
+
+/**
+ * @property mappings
+ * @type {Array}
+ */
+var mappings = [];
 
 /**
  * @module Blueprint
@@ -11,18 +21,46 @@ import Rectangle from './../shapes/types/Rectangle.js';
 export default {
 
     /**
-     * @method getShapeClass
+     * @method getClasses
      * @param {String} tagName
-     * @return {Shape}
+     * @return {Object}
      */
-    getShapeClass(tagName) {
+    getClasses(tagName) {
 
-        var map = {
-            rect: Rectangle,
-            text: Text
+        tagName = tagName.toLowerCase();
+
+        var facadeMap = {
+            rect: RectFacade,
+            text: TextFacade
         };
 
-        return map[tagName.toLowerCase()];
+        var internalMap = {
+            rect: RectInternal,
+            text: TextInternal
+        };
+
+        return { facade: facadeMap[tagName], internal: internalMap[tagName] };
+
+    },
+
+    /**
+     * @method createAssociation
+     * @param {Internal} internal
+     * @param {Facade} facade
+     */
+    createAssociation(internal, facade) {
+        mappings.push({ facade: facade, internal: internal });
+    },
+
+    /**
+     * @method getInternalClass
+     * @param {Facade} shape
+     */
+    getInternalClass(shape) {
+
+        return mappings.find((model) => {
+            return model.facade === shape;
+        });
 
     }
 

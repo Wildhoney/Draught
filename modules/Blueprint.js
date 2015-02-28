@@ -29,11 +29,18 @@ class Blueprint {
      */
     add(tagName, attributes = {}) {
 
-        var shape = mapper.getShapeClass(tagName);
-        shape.setOptions(this.options);
+        var { Facade, Internal } = mapper.getClasses(tagName);
 
-        this.shapes.push(shape);
-        return shape;
+        var facade   = new Facade(),
+            internal = new Internal();
+
+        mapper.createAssociation(internal, facade);
+
+        // Set all the items required for the Internal shape object.
+        Internal.setOptions(this.options);
+
+        this.shapes.push(Facade);
+        return Facade;
 
     }
 
@@ -43,7 +50,7 @@ class Blueprint {
      * @return {void}
      */
     remove(shape) {
-        shape.remove();
+        mapper.getInternalClass(shape).remove();
     }
 
     /**
