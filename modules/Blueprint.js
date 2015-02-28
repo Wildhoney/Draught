@@ -1,6 +1,7 @@
 import mapper  from './helpers/Mapper.js';
 import options from './helpers/Options.js';
 import utility from './helpers/Utility.js';
+import emitter from './helpers/Emitter.js';
 
 /**
  * @module Blueprint
@@ -29,18 +30,15 @@ class Blueprint {
      */
     add(tagName, attributes = {}) {
 
-        var { Facade, Internal } = mapper.getClasses(tagName);
+        var Shape = mapper.getShape(tagName),
+            shape = new Shape(attributes);
 
-        var facade   = new Facade(),
-            internal = new Internal();
+        // Set all the items required for the shape object.
+        shape.setOptions(this.options);
+        shape.setEmitter(emitter);
 
-        mapper.createAssociation(internal, facade);
-
-        // Set all the items required for the Internal shape object.
-        Internal.setOptions(this.options);
-
-        this.shapes.push(Facade);
-        return Facade;
+        this.shapes.push(shape);
+        return shape.getInterface();
 
     }
 
@@ -50,7 +48,7 @@ class Blueprint {
      * @return {void}
      */
     remove(shape) {
-        mapper.getInternalClass(shape).remove();
+        shape.remove();
     }
 
     /**
