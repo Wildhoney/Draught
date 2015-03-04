@@ -1,44 +1,6 @@
-import Shape     = require('./shapes/Shape');
-import Rectangle = require('./shapes/types/Rectangle');
-
-/**
- * @class PrivateInterface
- */
-class PrivateInterface {
-
-    /**
-     * @property element
-     * @type {HTMLElement}
-     */
-    private element: HTMLElement;
-
-    /**
-     * @method element
-     * @return {HTMLElement}
-     */
-    protected element(): HTMLElement {
-        return this.element;
-    }
-
-    /**
-     * Helper method for defining an attribute on the shape.
-     *
-     * @method attr
-     * @param {String} name
-     * @param {*} value
-     * @return {*}
-     */
-    protected attr(name: string, value: any): any {
-
-        if (typeof value !== 'undefined') {
-            this.element().attr(name, value);
-        }
-
-        return this.element().attr(name);
-
-    }
-
-}
+import Shape      = require('shapes/Shape');
+import Rectangle  = require('shapes/types/Rectangle');
+import Dispatcher = require('helpers/Dispatcher');
 
 /**
  * @class Blueprint
@@ -70,12 +32,13 @@ class Blueprint {
      * @return {void}
      */
     constructor(element: SVGElement, options: Object = {}) {
-        this.element = d3.select(element);
-        this.options = _.assign(this.defaultOptions(), options);
+        this.element    = d3.select(element);
+        this.options    = _.assign(this.defaultOptions(), options);
+        this.dispatcher = new Dispatcher();
     }
 
     /**
-     * @method adam
+     * @method add
      * @param {String} name
      * @return {Shape}
      */
@@ -84,8 +47,8 @@ class Blueprint {
         var shape = this.instantiate(name);
 
         // Set all the items required for the shape object.
-        //shape.setOptions(this.options);
-        //shape.setEmitter(emitter);
+        shape.setOptions(this.options);
+        shape.setDispatcher(this.dispatcher);
 
         this.shapes.push(shape);
         return shape;

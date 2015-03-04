@@ -1,7 +1,7 @@
 /**
- * @class Emitter
+ * @class Dispatcher
  */
-export class Emitter {
+export class Dispatcher {
 
     /**
      * @property events

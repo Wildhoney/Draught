@@ -1,4 +1,4 @@
-import PublicInterface = require('./interfaces/Public');
+import PublicInterface = require('interfaces/Public');
 
 /**
  * @class Shape

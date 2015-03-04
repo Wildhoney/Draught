@@ -1,3 +1,5 @@
+import Shape = require('../Shape');
+
 /**
  * @class Rectangle
  * @extends Shape
