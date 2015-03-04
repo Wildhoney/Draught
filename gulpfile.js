@@ -16,6 +16,7 @@
             .pipe(concat('blueprint.js'))
             .pipe(flatten())
             .pipe(gulp.dest('dist'))
+            .pipe(gulp.dest('public/vendor/blueprint'))
             .pipe(uglify())
             .pipe(concat('blueprint.min.js'))
             .pipe(gulp.dest('dist'));
@@ -30,5 +31,8 @@
     gulp.task('test', ['tslint']);
     gulp.task('build', ['compile']);
     gulp.task('default', ['test', 'build']);
+    gulp.task('watch', function watch() {
+        gulp.watch(files, ['build', 'test']);
+    });
 
 })();

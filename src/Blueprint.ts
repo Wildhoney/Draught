@@ -26,6 +26,12 @@ class Blueprint {
     private options: Object;
 
     /**
+     * @property dispatcher
+     * @type {Dispatcher}
+     */
+    dispatcher: Dispatcher;
+
+    /**
      * @method constructor
      * @param {SVGElement} element
      * @param {Object} [options={}]
