@@ -1,3 +1,6 @@
+import Shape     = require('./shapes/Shape');
+import Rectangle = require('./shapes/types/Rectangle');
+
 /**
  * @class PrivateInterface
  */
@@ -38,39 +41,6 @@ class PrivateInterface {
 }
 
 /**
- * @class PublicInterface
- * @extends PrivateInterface
- */
-class PublicInterface extends PrivateInterface {
-
-    /**
-     * @method width
-     * @param {Number} value
-     * @return {Number|void}
-     */
-    public width(value): number {
-        return this.attr('width', value);
-    }
-
-}
-
-/**
- * @class Shape
- * @extends PublicInterface
- */
-class Shape extends PublicInterface {
-
-}
-
-/**
- * @class Rectangle
- * @extends Shape
- */
-class Rectangle extends Shape {
-    
-}
-
-/**
  * @class Blueprint
  */
 class Blueprint {
@@ -96,7 +66,7 @@ class Blueprint {
     /**
      * @method constructor
      * @param {SVGElement} element
-     * @param {Object} options
+     * @param {Object} [options={}]
      * @return {void}
      */
     constructor(element: SVGElement, options: Object = {}) {
@@ -107,12 +77,19 @@ class Blueprint {
     /**
      * @method adam
      * @param {String} name
-     * @return {PublicInterface}
+     * @return {Shape}
      */
     public add(name: string) {
+
         var shape = this.instantiate(name);
+
+        // Set all the items required for the shape object.
+        //shape.setOptions(this.options);
+        //shape.setEmitter(emitter);
+
         this.shapes.push(shape);
         return shape;
+
     }
 
     /**
@@ -132,6 +109,14 @@ class Blueprint {
      */
     public all(): Shape[] {
         return this.shapes;
+    }
+
+    /**
+     * @method clear
+     * @return {void}
+     */
+    public clear(): void {
+        _.forEach(this.shapes, (shape) => this.remove(shape));
     }
 
     /**
