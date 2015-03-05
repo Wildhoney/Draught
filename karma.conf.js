@@ -3,12 +3,10 @@ module.exports = function(config) {
     config.set({
 
         basePath: '',
-        frameworks: ['jasmine', 'requirejs'],
+        frameworks: ['jasmine'],
         files: [
-            'test-main.js',
             { pattern: 'tests/*.test.js', included: false },
-            { pattern: 'tests/**/*.test.js', included: false },
-            { pattern: 'tests/build/*.js', included: false }
+            { pattern: 'dist/blueprint.js', included: false }
         ],
         reporters: ['progress'],
         port: 9876,

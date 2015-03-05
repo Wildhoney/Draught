@@ -12,7 +12,7 @@ class Blueprint {
 
     /**
      * @method constructor
-     * @param {element} element
+     * @param {SVGElement} element
      * @param {Object} [options={}]
      * @return {void}
      */

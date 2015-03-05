@@ -24,5 +24,8 @@
     "d3": "~3.5.5",
     "lodash": "~3.3.1",
     "requirejs": "~2.1.16"
+  },
+  "devDependencies": {
+    "requirejs": "~2.1.16"
   }
 }

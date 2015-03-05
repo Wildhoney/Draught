@@ -1,3 +1,5 @@
+import Shape from './../Shape.js';
+
 /**
  * @module Blueprint
  * @submodule Rectangle

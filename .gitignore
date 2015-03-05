@@ -1,10 +1,14 @@
 # npm
-/node_modules
-/npm-debug.log
+node_modules
+npm-debug.log
 
 # Bower
-/example/vendor/*
-!/example/vendor/*.gitkeep
+example/vendor/*
+!example/vendor/*.gitkeep
 
 # IDE
-/.idea
+.idea
+
+# Jasmine
+tests/build/*.js
+!tests/build/.gitkeep

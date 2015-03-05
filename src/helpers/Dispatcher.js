@@ -1,7 +1,7 @@
 /**
  * @class Dispatcher
  */
-export class Dispatcher {
+export default class Dispatcher {
 
     /**
      * @method constructor

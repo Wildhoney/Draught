@@ -7,7 +7,7 @@ import Events    from './../helpers/Events.js';
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Blueprint
  */
-export class Shape {
+export default class Shape {
 
     /**
      * @method constructor
@@ -34,6 +34,10 @@ export class Shape {
 
         if (this.interface === null) {
             this.interface = new Interface();
+        }
+
+        if (typeof this.addInterfaceMethods === 'function') {
+            this.interface = _.assign(this.interface, this.addInterfaceMethods());
         }
 
         return this.interface;
