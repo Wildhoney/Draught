@@ -1,0 +1,22 @@
+gulp:
+  entry: ./src/Blueprint.js
+
+  directories:
+    dist: dist
+    vendor: public/vendor/blueprint
+
+  tests:
+    temp: tests/build/blueprint.js
+
+  dependencies:
+    - public/vendor/d3/d3.js
+    - public/vendor/lodash/lodash.js
+
+  names:
+    dev: blueprint.js
+    prod: blueprint.min.js
+
+  all:
+    - ./src/*.js
+    - ./src/**/*.js
+    - ./src/**/**/*.js
