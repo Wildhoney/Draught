@@ -1,44 +1,24 @@
-import Shape      = require('shapes/Shape');
-import Rectangle  = require('shapes/types/Rectangle');
-import Dispatcher = require('helpers/Dispatcher');
+import Rectangle  from './shapes/types/rectangle/Element.js';
+//import Text       from './shapes/types/text/Element.js';
+
+import Dispatcher from './helpers/Dispatcher.js';
 
 /**
- * @class Blueprint
+ * @module Blueprint
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Blueprint
  */
 class Blueprint {
 
     /**
-     * @property element
-     * @type {Object}
-     */
-    private element: Object;
-
-    /**
-     * @property shapes
-     * @type {Shape[]}
-     */
-    private shapes: Shape[];
-
-    /**
-     * @property options
-     * @type {Array}
-     */
-    private options: Object;
-
-    /**
-     * @property dispatcher
-     * @type {Dispatcher}
-     */
-    dispatcher: Dispatcher;
-
-    /**
      * @method constructor
-     * @param {SVGElement} element
+     * @param {element} element
      * @param {Object} [options={}]
      * @return {void}
      */
-    constructor(element: SVGElement, options: Object = {}) {
+    constructor(element, options = {}) {
         this.element    = d3.select(element);
+        this.shapes     = [];
         this.options    = _.assign(this.defaultOptions(), options);
         this.dispatcher = new Dispatcher();
     }
@@ -48,7 +28,7 @@ class Blueprint {
      * @param {String} name
      * @return {Shape}
      */
-    public add(name: string) {
+    public add(name) {
 
         var shape = this.instantiate(name);
 
@@ -76,7 +56,7 @@ class Blueprint {
      * @method all
      * @return {Shape[]}
      */
-    public all(): Shape[] {
+    public all() {
         return this.shapes;
     }
 
@@ -84,7 +64,7 @@ class Blueprint {
      * @method clear
      * @return {void}
      */
-    public clear(): void {
+    public clear() {
         _.forEach(this.shapes, (shape) => this.remove(shape));
     }
 
@@ -93,7 +73,7 @@ class Blueprint {
      * @param {String} name
      * @return {Shape}
      */
-    private instantiate(name: string): Shape {
+    private instantiate(name) {
 
         var map = {
             rect: Rectangle
@@ -107,7 +87,7 @@ class Blueprint {
      * @method defaultOptions
      * @return {Object}
      */
-    private defaultOptions(): Object {
+    private defaultOptions() {
         return {};
     }
 

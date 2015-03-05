@@ -4,10 +4,12 @@
 export class Dispatcher {
 
     /**
-     * @property events
-     * @type {Object}
+     * @method constructor
+     * @constructor
      */
-    events: Object = {};
+    constructor() {
+        this.events = [];
+    }
 
     /**
      * @method dispatchEvent
@@ -15,7 +17,7 @@ export class Dispatcher {
      * @param {Object} [properties={}]
      * @return {void}
      */
-    dispatchEvent(name: string, properties: Object = {}): void {
+    dispatchEvent(name, properties = {}) {
         _.forEach(this.events[name], (callbackFn) => callbackFn(properties));
     }
 
@@ -25,7 +27,7 @@ export class Dispatcher {
      * @param {Function} [fn=function noop() {}]
      * @return {void}
      */
-    addEventListener(name: string, fn: Function = function noop() {}): void {
+    addEventListener(name, fn) {
 
         if (!this.events[name]) {
             this.events[name] = [];
