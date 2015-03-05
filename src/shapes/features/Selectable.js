@@ -1,14 +1,9 @@
 /**
- * @class Selectable
+ * @module Blueprint
+ * @submodule Selectable
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Blueprint
  */
 export class Selectable {
-
-    /**
-     * @method constructor
-     * @return {Selectable}
-     */
-    constructor(shape) {
-
-    }
 
 }

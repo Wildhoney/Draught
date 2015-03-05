@@ -1,38 +1,60 @@
 (function main() {
 
     var gulp       = require('gulp'),
-        typescript = require('gulp-typescript'),
-        flatten    = require('gulp-flatten'),
-        concat     = require('gulp-concat'),
+        jshint     = require('gulp-jshint'),
         uglify     = require('gulp-uglify'),
-        tslint     = require('gulp-tslint');
+        rename     = require('gulp-rename'),
+        fs         = require('fs'),
+        browserify = require('browserify'),
+        babelify   = require('babelify');
 
-    var files = ['src/*.ts', 'src/**/*.ts', 'src/**/**/*.ts'];
+    /**
+     * @property entryFile
+     * @type {String}
+     */
+    var entryFile = './src/Blueprint.js';
+
+    /**
+     * @property allFiles
+     * @type {String[]}
+     */
+    var allFiles = ['./src/*.js', './src/**/*.js', './src/**/**/*.js'];
 
     gulp.task('compile', function() {
 
-        return gulp.src(files)
-            .pipe(typescript({ module: 'amd' }))
-            .pipe(concat('blueprint.js'))
-            .pipe(flatten())
-            .pipe(gulp.dest('dist'))
-            .pipe(gulp.dest('public/vendor/blueprint'))
+        return browserify({ debug: true })
+                .transform(babelify)
+                .require(entryFile, { entry: true })
+                .bundle()
+                .on('error', function (model) { console.error(['Error:', model.message].join(' ')); })
+                .pipe(fs.createWriteStream('dist/blueprint.js'));
+
+    });
+
+    gulp.task('minify', ['compile'], function() {
+
+        return gulp.src('dist/blueprint.js')
             .pipe(uglify())
-            .pipe(concat('blueprint.min.js'))
+            .pipe(rename('blueprint.min.js'))
             .pipe(gulp.dest('dist'));
+
     });
 
-    gulp.task('tslint', function(){
-        gulp.src(files)
-            .pipe(tslint())
-            .pipe(tslint.report('verbose'));
+    gulp.task('lint', function() {
+
+        return gulp.src(allFiles)
+            .pipe(jshint())
+            .pipe(jshint.reporter('default', {
+                verbose: true
+            }));
+
     });
 
-    gulp.task('test', ['tslint']);
-    gulp.task('build', ['compile']);
+    gulp.task('test', ['lint']);
+    gulp.task('build', ['compile', 'minify']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
-        gulp.watch(files, ['build', 'test']);
+        gulp.watch(allFiles, ['build', 'test']);
     });
 
 })();

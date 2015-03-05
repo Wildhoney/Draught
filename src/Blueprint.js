@@ -1,7 +1,7 @@
-import Rectangle  from './shapes/types/rectangle/Element.js';
-//import Text       from './shapes/types/text/Element.js';
-
 import Dispatcher from './helpers/Dispatcher.js';
+
+// Shapes.
+import Rectangle  from './shapes/types/Rectangle.js';
 
 /**
  * @module Blueprint
@@ -28,7 +28,7 @@ class Blueprint {
      * @param {String} name
      * @return {Shape}
      */
-    public add(name) {
+    add(name) {
 
         var shape = this.instantiate(name);
 
@@ -46,7 +46,7 @@ class Blueprint {
      * @param {Shape} shape
      * @return {void}
      */
-    public remove(shape: Shape): void {
+    remove(shape) {
         shape.remove();
         var index = this.shapes.indexOf(shape);
         this.shapes.splice(index, 1);
@@ -56,7 +56,7 @@ class Blueprint {
      * @method all
      * @return {Shape[]}
      */
-    public all() {
+    all() {
         return this.shapes;
     }
 
@@ -64,7 +64,7 @@ class Blueprint {
      * @method clear
      * @return {void}
      */
-    public clear() {
+    clear() {
         _.forEach(this.shapes, (shape) => this.remove(shape));
     }
 
@@ -73,13 +73,13 @@ class Blueprint {
      * @param {String} name
      * @return {Shape}
      */
-    private instantiate(name) {
+    instantiate(name) {
 
         var map = {
             rect: Rectangle
         };
 
-        return new map[name.toLowerCase()];
+        return new map[name.toLowerCase()]();
 
     }
 
@@ -87,8 +87,16 @@ class Blueprint {
      * @method defaultOptions
      * @return {Object}
      */
-    private defaultOptions() {
+    defaultOptions() {
         return {};
     }
 
 }
+
+(function main($window) {
+
+    "use strict";
+
+    $window.Blueprint = Blueprint;
+
+})(window);

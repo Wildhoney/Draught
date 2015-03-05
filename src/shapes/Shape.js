@@ -10,6 +10,14 @@ import Events    from './../helpers/Events.js';
 export class Shape {
 
     /**
+     * @method constructor
+     * @constructor
+     */
+    constructor() {
+        this.interface = null;
+    }
+
+    /**
      * @method setDispatcher
      * @param {Dispatcher} dispatcher
      * @return {void}
@@ -20,11 +28,15 @@ export class Shape {
 
     /**
      * @method getInterface
-     * @return {void}
+     * @return {Interface}
      */
     getInterface() {
 
-        var facade = new Interface();
+        if (this.interface === null) {
+            this.interface = new Interface();
+        }
+
+        return this.interface;
 
     }
 
