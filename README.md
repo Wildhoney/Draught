@@ -29,7 +29,7 @@ You may set attributes using `setAttr` and get attributes using `getAttr` &ndash
 
 ## Developers: Data Attribute
 
-Mostly for debugging purposes, each `Interface` object has a `toString` method which returns the ID of the attribute (`[object Interface: BP5]`) which corresponds to the `data-id` &mdash; which [can be changed](#change-data-attribute) &mdash; attribute on your shape's `g` element: `<g data-id="BP5">...</g>`. Each `Shape` object also has a `toString` method which returns the shape's ID (`[object Rect: MP5]`) which is a nexus between the `Shape` and its `Interface`. You may also return the `Shape` instance &mdash; although it's not recommended &mdash; by taking it from the `blueprint.shapes` array.
+Mostly for debugging purposes, each `Interface` object has a `toString` method which returns the ID of the attribute (`[object Interface: BP5]`) which corresponds to the `data-id` &mdash; which [can be changed](#change-data-attribute) &mdash; attribute on your shape's `g` element: `<g data-id="BP5">...</g>`. Each `Shape` object also has a `toString` method which returns the shape's ID (`[object Rect: BP5]`) which is a nexus between the `Shape` and its `Interface`. You may also return the `Shape` instance &mdash; although it's not recommended &mdash; by taking it from the `blueprint.shapes` array.
 
 ```javascript
 this.shapes.push({
