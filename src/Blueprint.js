@@ -29,7 +29,6 @@ class Blueprint {
         this.registry   = new Registry();
         this.layers     = new Layers();
         this.groups     = new Groups(this.element);
-        this.label      = _.uniqueId('BP');
 
         // Register our default components.
         this.map = {
@@ -39,16 +38,8 @@ class Blueprint {
         // Set the essential registry items.
         this.registry.set('z-index-max', 0);
 
-        // Apply our event listeners.
-        this.dispatcher.listen(Events.REORDER, () => {
-
-            var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
-            var { min, max } = this.layers.reorder(groups);
-
-            this.registry.set('z-index-min', min);
-            this.registry.set('z-index-max', max);
-
-        });
+        // Listen for events.
+        this.setupListeners();
 
     }
 
@@ -82,13 +73,24 @@ class Blueprint {
 
     /**
      * @method remove
-     * @param {Shape} shape
-     * @return {void}
+     * @param {Interface} model
+     * @return {Array}
      */
-    remove(shape) {
-        shape.remove();
-        var index = this.shapes.indexOf(shape);
+    remove(model) {
+
+        var index = 0,
+            item  = _.find(this.shapes, (shape, i) => {
+
+            if (shape.interface === model) {
+                index = i;
+                return model;
+            }
+
+        });
+
+        item.shape.element.remove();
         this.shapes.splice(index, 1);
+        return this.all();
     }
 
     /**
@@ -113,7 +115,7 @@ class Blueprint {
      * @return {Shape}
      */
     new(name) {
-        return new this.map[name.toLowerCase()](this.label);
+        return new this.map[name.toLowerCase()](_.uniqueId('BP'));
     }
 
     /**
@@ -124,6 +126,29 @@ class Blueprint {
      */
     register(name, shape) {
         this.map[name] = shape;
+    }
+
+    /**
+     * @method setupListeners
+     * @return {void}
+     */
+    setupListeners() {
+
+        // Apply our event listeners.
+        this.dispatcher.listen(Events.REORDER, () => {
+
+            var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
+            var { min, max } = this.layers.reorder(groups);
+
+            this.registry.set('z-index-min', min);
+            this.registry.set('z-index-max', max);
+
+        });
+
+        this.dispatcher.listen(Events.REMOVE, (model) => {
+            this.remove(model.interface);
+        });
+
     }
 
     /**

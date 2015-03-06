@@ -18,19 +18,33 @@ export default class Dispatcher {
      * @method send
      * @param {String} name
      * @param {Object} [properties={}]
+     * @param {Function} [fn=() => {}]
      * @return {void}
      */
-    send(name, properties = {}) {
-        _.forEach(this.events[name], (callbackFn) => callbackFn(properties));
+    send(name, properties = {}, fn = null) {
+
+        _.forEach(this.events[name], (callbackFn) => {
+
+            var result = callbackFn(properties);
+
+            if (_.isFunction(fn)) {
+
+                // Event dispatcher's two-way communication via events.
+                fn(result);
+
+            }
+
+        });
+
     }
 
     /**
      * @method listen
      * @param {String} name
-     * @param {Function} [fn=function noop() {}]
+     * @param {Function} [fn=() => {}]
      * @return {void}
      */
-    listen(name, fn) {
+    listen(name, fn = () => {}) {
 
         if (!this.events[name]) {
             this.events[name] = [];

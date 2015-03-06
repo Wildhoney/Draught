@@ -1,3 +1,4 @@
+import Events  from './../helpers/Events.js';
 import utility from './../helpers/Utility.js';
 
 /**
@@ -15,6 +16,18 @@ export default class Interface {
      */
     constructor(label = '') {
         this.label = label;
+    }
+
+    /**
+     * @method remove
+     * @return {void}
+     */
+    remove() {
+
+        this.dispatcher.send(Events.REMOVE, {
+            'interface': this
+        });
+
     }
 
     /**
@@ -76,7 +89,24 @@ export default class Interface {
      * @return {Object}
      */
     getAttr() {
-        return this.get();
+
+        var result = {};
+
+        this.dispatcher.send(Events.ATTRIBUTE_GET_ALL, {}, (response) => {
+            result = response;
+        });
+
+        return result;
+
+    }
+
+    /**
+     * @method setDispatcher
+     * @param {Dispatcher} dispatcher
+     * @return {void}
+     */
+    setDispatcher(dispatcher) {
+        this.dispatcher = dispatcher;
     }
 
     /**

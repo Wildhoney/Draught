@@ -22,6 +22,22 @@ export default class Shape {
     }
 
     /**
+     * @method setupListeners
+     * @return {void}
+     */
+    setupListeners() {
+
+        this.dispatcher.listen(Events.ATTRIBUTE_GET_ALL, () => {
+
+            var zIndex = { z: d3.select(this.element.node().parentNode).datum().z },
+                model  = _.assign(this.element.datum(), zIndex);
+            return utility.retransformAttributes(model);
+
+        });
+
+    }
+
+    /**
      * @method setElement
      * @param {Object} element
      */
@@ -36,6 +52,7 @@ export default class Shape {
      */
     setDispatcher(dispatcher) {
         this.dispatcher = dispatcher;
+        this.setupListeners();
     }
 
     /**
@@ -56,8 +73,11 @@ export default class Shape {
         if (this.interface === null) {
 
             this.interface    = new Interface(this.label);
-            var setAttributes = this.setAttributes.bind(this),
-                element       = this.element;
+            this.interface.setDispatcher(this.dispatcher);
+
+            /** --- */
+
+            var setAttributes = this.setAttributes.bind(this);
 
             /**
              * @method set
@@ -67,16 +87,6 @@ export default class Shape {
             this.interface.set = function set(attributes = {}) {
                 setAttributes(attributes);
                 return this;
-            };
-
-            /**
-             * @method get
-             * @return {Object}
-             */
-            this.interface.get = function get() {
-                var zIndex = { z: d3.select(element.node().parentNode).datum().z },
-                    model  = _.assign(element.datum(), zIndex);
-                return utility.retransformAttributes(model);
             };
 
             if (_.isFunction(this.addMethods)) {

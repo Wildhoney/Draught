@@ -11,13 +11,12 @@ describe('Blueprint', function() {
         expect(typeof blueprint.dispatcher.send).toBe('function');
         expect(blueprint.groups.shapes.node().nodeName).toEqual('G');
         expect(blueprint.groups.handles.node().nodeName).toEqual('G');
-        expect(blueprint.label).toEqual('BP1');
         expect(blueprint.map.rect).toBeDefined();
 
         blueprint = new Blueprint(svg, { dataAttribute: 'data-blueprint-id' });
         blueprint.add('rect');
         var group = svg.querySelector('rect').parentNode;
-        expect(group.getAttribute('data-blueprint-id')).toEqual('BP2');
+        expect(group.getAttribute('data-blueprint-id')).toEqual('BP1');
 
     });
 
@@ -28,8 +27,8 @@ describe('Blueprint', function() {
             rectangle = blueprint.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
-        expect(rectangle.toString()).toEqual('[object Interface: BP3]');
-        expect(rectangle.label).toEqual('BP3');
+        expect(rectangle.toString()).toEqual('[object Interface: BP2]');
+        expect(rectangle.label).toEqual('BP2');
         expect(typeof rectangle.width).toBe('function');
         expect(element.attr('x')).toBeNull();
         expect(element.attr('y')).toBeNull();
@@ -94,6 +93,36 @@ describe('Blueprint', function() {
         fifth.z(-201);
         expect(blueprint.registry.get('z-index-min')).toEqual(-201);
         expect(blueprint.registry.get('z-index-max')).toEqual(101);
+
+    });
+
+    it('Should be able to remove shapes from the canvas;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            first     = blueprint.add('rect'),
+            second    = blueprint.add('rect'),
+            third     = blueprint.add('rect');
+
+        var mapLabels = function() {
+            return blueprint.all().map(function(d) {
+                return d.label;
+            });
+        };
+
+        expect(blueprint.all().length).toEqual(3);
+
+        first.remove();
+        expect(blueprint.all().length).toEqual(2);
+        expect(mapLabels()).toEqual(['BP10', 'BP11']);
+
+        third.remove();
+        expect(blueprint.all().length).toEqual(1);
+        expect(mapLabels()).toEqual(['BP10']);
+
+        second.remove();
+        expect(blueprint.all().length).toEqual(0);
+        expect(mapLabels()).toEqual([]);
 
     });
 
