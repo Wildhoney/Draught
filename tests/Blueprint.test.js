@@ -20,16 +20,18 @@ describe('Blueprint', function() {
 
         var svg       = document.createElement('svg'),
             blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(100).y(100),
+            rectangle = blueprint.add('rect').x(100).y(100).attr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
+        expect(rectangle.toString()).toEqual('[object Interface: BP2]');
         expect(rectangle.label).toEqual('BP2');
         expect(typeof rectangle.width).toBe('function');
         expect(element.attr('x')).toBeNull();
         expect(element.attr('y')).toBeNull();
         expect(element.attr('transform')).not.toBeNull();
-        //expect(element.datum().transform).toEqual('transform(100, 100)');
-
+        expect(element.attr('stroke-width')).toEqual((10).toString());
+        expect(element.datum()['stroke-width']).toEqual(10);
+        expect(element.datum().transform).toEqual('translate(100, 100)');
 
     });
 
