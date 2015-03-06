@@ -4,7 +4,10 @@
   "description": "Drawing tool for creating diagrams using D3.",
   "main": "dist/blueprint.min.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "build": "gulp build",
+    "bower": "bower install",
+    "run": "foreman start"
   },
   "repository": {
     "type": "git",

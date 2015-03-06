@@ -14,7 +14,7 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         autoWatch: false,
         //browsers: ['Chrome', 'Safari', 'ChromeCanary', 'Firefox'],
-        browsers: ['Chrome'],
+        browsers: ['Firefox'],
         singleRun: false
 
     });
