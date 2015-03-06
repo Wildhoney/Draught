@@ -71,7 +71,7 @@ blueprint.register('circle', Circle);
 
 ## Removing Shapes
 
-Once you've created a shape, you will probably wish to remove it at some point. For this the `Interface` object has a `remove` method which dispatches a `Events.REMOVE` event to the `Blueprint` object. By using this method to remove the shape, `Blueprint` can ensure the cleanup is invoked to prevent memory leaks.
+Once you've created a shape, you will probably wish to remove it at some point. For this, the `Interface` object has a `remove` method which dispatches an `Events.REMOVE` event to the `Blueprint` object. By using this method to remove the shape, `Blueprint` can ensure the cleanup is invoked to prevent memory leaks.
 
 ```javascript
 var rect = blueprint.add('rect').fill('blue').x(100);
