@@ -6,6 +6,6 @@
 
 All of the shapes in `Blueprint` use hooks to allow for the easy creation of custom shapes.
 
-- [x] `getTag` for specifying the root element's name;
-- [ ] `getAttributes` for applying custom attributes;
-- [ ] `addMethods` for adding specialised methods to the interface;
+- [x] `getTag` &mdash; For specifying the root element's tag name;
+- [ ] `addAttributes` &mdash; For applying custom attributes;
+- [ ] `addMethods` &mdash; For adding specialised methods to the interface;
