@@ -146,6 +146,8 @@ class Blueprint {
 
     "use strict";
 
+    // Kalinka, kalinka, kalinka moya!
+    // V sadu yagoda malinka, malinka moya!
     $window.Blueprint = Blueprint;
 
 })(window);
