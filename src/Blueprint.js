@@ -42,15 +42,16 @@ class Blueprint {
 
         var shape = this.new(name);
 
-        // Set all the items required for the shape object.
-        shape.setOptions(this.options);
-        shape.setDispatcher(this.dispatcher);
-
         // Insert the shape into D3 and apply the attributes.
         var group   = this.groups.shapes,
             element = group.append('g').attr('data-id', shape.label)
                            .append(shape.getTag()).datum(utility.transformAttributes(shape.getAttributes()));
         element.attr(element.datum());
+
+        // Set all the items required for the shape object.
+        shape.setOptions(this.options);
+        shape.setDispatcher(this.dispatcher);
+        shape.setElement(element);
 
         shape.addElements(element);
 

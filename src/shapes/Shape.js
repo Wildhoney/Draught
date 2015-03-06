@@ -16,8 +16,17 @@ export default class Shape {
      * @constructor
      */
     constructor(label = '') {
+        this.element   = null;
         this.label     = label;
         this.interface = null;
+    }
+
+    /**
+     * @method setElement
+     * @param {Object} element
+     */
+    setElement(element) {
+        this.element = element;
     }
 
     /**
@@ -45,13 +54,41 @@ export default class Shape {
     getInterface() {
 
         if (this.interface === null) {
-            this.interface = new Interface(this.label);
+
+            this.interface    = new Interface(this.label);
+            var setAttributes = this.setAttributes.bind(this);
+
+            /**
+             * @method applyAttributes
+             * @param {Object} attributes
+             */
+            this.interface.applyAttributes = function applyAttributes(attributes = {}) {
+                setAttributes(attributes);
+                return this;
+            };
+
+            if (_.isFunction(this.addMethods)) {
+                this.interface = _.assign(this.interface, this.addMethods());
+            }
+
         }
 
-        if (_.isFunction(this.addMethods)) {
-            this.interface = _.assign(this.interface, this.addMethods());
-        }
+        return this.interface;
 
+    }
+
+    /**
+     * @method setAttributes
+     * @param {Object} attributes
+     * @return {Interface}
+     */
+    setAttributes(attributes = {}) {
+
+        attributes = _.assign(this.element.datum(), attributes);
+        attributes = utility.transformAttributes(attributes);
+
+        this.element.datum(attributes);
+        this.element.attr(this.element.datum());
         return this.interface;
 
     }

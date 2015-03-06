@@ -12,3 +12,7 @@ example/vendor/*
 # Jasmine
 tests/build/*.js
 !tests/build/.gitkeep
+
+# CSS
+public/css/*
+!public/css/.gitkeep

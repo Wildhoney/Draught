@@ -31,7 +31,7 @@ export default class Rectangle extends Shape {
     addMethods() {
 
         return {
-            width: (value) => this.dispatchAttributeEvent({ value: value })
+            fill: (value) => this.setAttributes({ fill: value })
         }
 
     }

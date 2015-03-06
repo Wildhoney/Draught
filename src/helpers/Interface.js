@@ -1,3 +1,6 @@
+import Events  from './../helpers/Events.js';
+import utility from './../helpers/Utility.js';
+
 /**
  * @module object
  * @submodule Interface
@@ -21,7 +24,7 @@ export default class Interface {
      * @return {Interface}
      */
     x(value) {
-        return this;
+        return this.attr({ x: value });
     }
 
     /**
@@ -30,17 +33,34 @@ export default class Interface {
      * @return {Interface}
      */
     y(value) {
-        return this;
+        return this.attr({ y: value });
     }
 
     /**
-     * @method attribute
-     * @param {String} name
-     * @param {*} value
-     * @return {*}
+     * @method width
+     * @param {Number} value
+     * @return {Interface}
      */
-    attribute(name, value) {
-        return this;
+    width(value) {
+        return this.attr({ width: value });
+    }
+
+    /**
+     * @method height
+     * @param {Number} value
+     * @return {Interface}
+     */
+    height(value) {
+        return this.attr({ height: value });
+    }
+
+    /**
+     * @method attr
+     * @param {Object} attributes
+     * @return {Interface}
+     */
+    attr(attributes = {}) {
+        return this.applyAttributes(utility.camelifyKeys(attributes));
     }
 
     /**

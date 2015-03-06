@@ -6,6 +6,7 @@
         clean      = require('gulp-clean'),
         karma      = require('gulp-karma'),
         rename     = require('gulp-rename'),
+        sass       = require('gulp-sass'),
         fs         = require('fs'),
         yaml       = require('js-yaml'),
         browserify = require('browserify'),
@@ -37,6 +38,14 @@
 
     gulp.task('compile', function() {
         return buildTo(prodPath);
+    });
+
+    gulp.task('sass', function () {
+
+        return gulp.src('./public/scss/*.scss')
+                   .pipe(sass())
+                   .pipe(gulp.dest('./public/css'));
+
     });
 
     gulp.task('minify', ['compile'], function() {
@@ -90,10 +99,13 @@
     });
 
     gulp.task('test', ['lint', 'karma-prepare', 'karma', 'karma-clean']);
-    gulp.task('build', ['compile', 'minify', 'vendorify']);
+    gulp.task('build', ['sass', 'compile', 'minify', 'vendorify']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
-        gulp.watch(allFiles, ['build']);
+
+        var sassFiles = ['public/scss/*.scss', 'public/scss/**/*.scss'];
+        gulp.watch(allFiles.concat(sassFiles), ['build']);
+
     });
 
 })();
