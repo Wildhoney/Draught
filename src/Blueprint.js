@@ -24,6 +24,7 @@ class Blueprint {
 
         this.element    = d3.select(element).attr('width', '100%').attr('height', '100%');
         this.shapes     = [];
+        this.index      = 1;
         this.options    = _.assign(this.defaultOptions(), options);
         this.dispatcher = new Dispatcher();
         this.registry   = new Registry();
@@ -115,7 +116,15 @@ class Blueprint {
      * @return {Shape}
      */
     new(name) {
-        return new this.map[name.toLowerCase()](_.uniqueId('BP'));
+        return new this.map[name.toLowerCase()](this.ident());
+    }
+
+    /**
+     * @method ident
+     * @return {String}
+     */
+    ident() {
+        return ['BP', this.index++].join('');
     }
 
     /**

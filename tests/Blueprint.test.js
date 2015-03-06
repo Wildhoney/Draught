@@ -27,8 +27,8 @@ describe('Blueprint', function() {
             rectangle = blueprint.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
-        expect(rectangle.toString()).toEqual('[object Interface: BP2]');
-        expect(rectangle.label).toEqual('BP2');
+        expect(rectangle.toString()).toEqual('[object Interface: BP1]');
+        expect(rectangle.label).toEqual('BP1');
         expect(typeof rectangle.width).toBe('function');
         expect(element.attr('x')).toBeNull();
         expect(element.attr('y')).toBeNull();
@@ -115,11 +115,11 @@ describe('Blueprint', function() {
 
         first.remove();
         expect(blueprint.all().length).toEqual(2);
-        expect(mapLabels()).toEqual(['BP10', 'BP11']);
+        expect(mapLabels()).toEqual(['BP2', 'BP3']);
 
         third.remove();
         expect(blueprint.all().length).toEqual(1);
-        expect(mapLabels()).toEqual(['BP10']);
+        expect(mapLabels()).toEqual(['BP2']);
 
         second.remove();
         expect(blueprint.all().length).toEqual(0);

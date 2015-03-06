@@ -90,7 +90,7 @@ export default class Shape {
     /**
      * @method setAttributes
      * @param {Object} attributes
-     * @return {Interface}
+     * @return {void}
      */
     setAttributes(attributes = {}) {
 
@@ -113,7 +113,6 @@ export default class Shape {
 
         this.element.datum(attributes);
         this.element.attr(this.element.datum());
-        return this.interface;
 
     }
 
