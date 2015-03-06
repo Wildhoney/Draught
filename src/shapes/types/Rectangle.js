@@ -21,7 +21,7 @@ export default class Rectangle extends Shape {
      * @return {Object}
      */
     addAttributes() {
-        return { fill: 'red', width: 100, height: 100, x: 100, y: 20, z: 5 };
+        return { fill: 'red', width: 100, height: 100, x: 100, y: 20 };
     }
 
     /**

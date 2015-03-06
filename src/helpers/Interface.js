@@ -68,7 +68,7 @@ export default class Interface {
      * @return {Interface}
      */
     attr(attributes = {}) {
-        return this.applyAttributes(utility.camelifyKeys(attributes));
+        return this.set(utility.camelifyKeys(attributes));
     }
 
     /**

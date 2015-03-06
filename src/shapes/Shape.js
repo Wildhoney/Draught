@@ -59,12 +59,21 @@ export default class Shape {
             var setAttributes = this.setAttributes.bind(this);
 
             /**
-             * @method applyAttributes
+             * @method set
              * @param {Object} attributes
+             * @return {Interface}
              */
-            this.interface.applyAttributes = function applyAttributes(attributes = {}) {
+            this.interface.set = function set(attributes = {}) {
                 setAttributes(attributes);
                 return this;
+            };
+
+            /**
+             * @method getAttributes
+             * @return {Object}
+             */
+            this.interface.getAttributes = function getAttributes() {
+                return 1;
             };
 
             if (_.isFunction(this.addMethods)) {

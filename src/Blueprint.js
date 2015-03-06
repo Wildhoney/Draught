@@ -1,8 +1,8 @@
 import Dispatcher from './helpers/Dispatcher.js';
 import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
-import Registry    from './helpers/Registry.js';
-import utility    from './helpers/Utility.js';
+import Layers     from './helpers/Layers.js';
+import Registry   from './helpers/Registry.js';
 
 // Shapes.
 import Rectangle  from './shapes/types/Rectangle.js';
@@ -33,20 +33,22 @@ class Blueprint {
         this.options    = _.assign(this.defaultOptions(), options);
         this.dispatcher = new Dispatcher();
         this.registry   = new Registry();
+        this.layers     = new Layers();
         this.groups     = new Groups(this.element);
         this.label      = _.uniqueId('BP');
-        this.map        = {};
+
+        // Register our default components.
+        this.map = {
+            rect: Rectangle
+        };
 
         // Set the essential registry items.
         this.registry.set('z-index', 0);
 
-        // Register our custom shapes.
-        this.registerComponent('rect', Rectangle);
-
         // Apply our event listeners.
         this.dispatcher.listen(Events.REORDER, () => {
-            var groups = d3.selectAll(`g[${DATA_ATTRIBUTE}]`);
-            groups.sort((a, b) => a.z - b.z);
+            var groups = this.element.selectAll(`g[${DATA_ATTRIBUTE}]`);
+            this.registry.set('z-index', this.layers.reorder(groups));
         });
 
     }
@@ -58,22 +60,22 @@ class Blueprint {
      */
     add(name) {
 
-        var shape = this.new(name);
-        //this.registry.set('z-index', );
-
-        // Insert the shape into D3 and apply the attributes.
-        var group   = this.groups.shapes,
+        var shape   = this.new(name),
+            group   = this.groups.shapes,
             element = group.append('g').attr(DATA_ATTRIBUTE, shape.label).append(shape.getTag()),
             zIndex  = { z: this.registry.increment('z-index') };
 
-        // Set all the items required for the shape object.
+        // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
         shape.setDispatcher(this.dispatcher);
         shape.setElement(element);
         shape.setAttributes(_.assign(zIndex, shape.getAttributes()));
 
+        // Last chance to define any further elements for the group.
         shape.addElements(element);
 
+        // Create a mapping from the actual shape object, to the interface object that the developer
+        // interacts with.
         this.shapes.push({ shape: shape, interface: shape.getInterface()});
         return shape.getInterface();
 

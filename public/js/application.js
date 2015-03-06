@@ -8,7 +8,7 @@
             blueprint  = new Blueprint(svgElement);
 
         blueprint.add('rect').fill('lightpink').z(1);
-        blueprint.add('rect').fill('lightblue').z(2).x(160).y(100);
+        blueprint.add('rect').fill('lightblue').z(200).x(160).y(100);
 
     });
 

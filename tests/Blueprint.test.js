@@ -36,4 +36,46 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to read attributes from the shape;', function() {
+
+    });
+
+    it('Should be able to set the zIndex of the shapes;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add('rect'),
+            group     = d3.select(svg.querySelector('g[data-id]')),
+            element   = d3.select(svg.querySelector('rect'));
+
+        // Add some more rectangles so that the `sort` method is invoked.
+        blueprint.add('rect');
+        blueprint.add('rect');
+        blueprint.add('rect');
+
+        var secondGroup = d3.select(svg.querySelectorAll('g[data-id]')[1]);
+        expect(secondGroup.datum().z).toEqual(2);
+        var thirdGroup = d3.select(svg.querySelectorAll('g[data-id]')[2]);
+        expect(thirdGroup.datum().z).toEqual(3);
+        var fourthGroup = d3.select(svg.querySelectorAll('g[data-id]')[3]);
+        expect(fourthGroup.datum().z).toEqual(4);
+
+        expect(group.attr('data-id')).toEqual(rectangle.label);
+        expect(element.attr('z')).toBeNull();
+        expect(element.datum().z).toBeUndefined();
+        expect(group.datum().z).toEqual(1);
+        expect(blueprint.registry.get('z-index')).toEqual(4);
+
+        rectangle.z(101);
+        expect(element.attr('z')).toBeNull();
+        expect(element.datum().z).toBeUndefined();
+        expect(group.datum().z).toEqual(101);
+        expect(blueprint.registry.get('z-index')).toEqual(101);
+
+        blueprint.add('rect');
+        var fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
+        expect(fifthGroup.datum().z).toEqual(102);
+
+    });
+
 });
