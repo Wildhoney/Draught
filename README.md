@@ -21,7 +21,7 @@ Adding a shape is as simple as passing in a string representation for your shape
 var rect = blueprint.add('rect');
 ```
 
-In the above case the `rect` is an instance of `Interface` which encapsulates a lot of useful methods for manipulating the shape, without exposing you to the complexity beneath.
+In the above case the `rect` is an instance of `Interface` which encapsulates a lot of useful accessor methods for manipulating the shape, without exposing you to the complexity beneath.
 
 You may set attributes using `setAttr` and get attributes using `getAttr` &ndash; `Interface` also has shorthand methods for setting attributes individually, such as `x()`, `y()`, `height()`, `width()`, etc...
 
@@ -67,4 +67,13 @@ Shapes can be registered with the `register` method on the `Blueprint` object &n
 ```javascript
 class Circle extends Shape {}
 blueprint.register('circle', Circle);
+```
+
+## Removing Shapes
+
+Once you've created a shape, you will probably wish to remove it at some point. For this the `Interface` object has a `remove` method which dispatches a `Events.REMOVE` event to the `Blueprint` object. By using this method to remove the shape, `Blueprint` can ensure the cleanup is invoked to prevent memory leaks.
+
+```javascript
+var rect = blueprint.add('rect').fill('blue').x(100);
+rect.remove(); // bye bye.
 ```
