@@ -43,12 +43,17 @@ class Blueprint {
         };
 
         // Set the essential registry items.
-        this.registry.set('z-index', 0);
+        this.registry.set('z-index-max', 0);
 
         // Apply our event listeners.
         this.dispatcher.listen(Events.REORDER, () => {
-            var groups = this.element.selectAll(`g[${DATA_ATTRIBUTE}]`);
-            this.registry.set('z-index', this.layers.reorder(groups));
+
+            var groups       = this.element.selectAll(`g[${DATA_ATTRIBUTE}]`);
+            var { min, max } = this.layers.reorder(groups);
+
+            this.registry.set('z-index-min', min);
+            this.registry.set('z-index-max', max);
+
         });
 
     }
@@ -63,7 +68,7 @@ class Blueprint {
         var shape   = this.new(name),
             group   = this.groups.shapes,
             element = group.append('g').attr(DATA_ATTRIBUTE, shape.label).append(shape.getTag()),
-            zIndex  = { z: this.registry.increment('z-index') };
+            zIndex  = { z: this.registry.increment('z-index-max') };
 
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);

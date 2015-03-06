@@ -73,17 +73,22 @@ describe('Blueprint', function() {
         expect(element.attr('z')).toBeNull();
         expect(element.datum().z).toBeUndefined();
         expect(group.datum().z).toEqual(1);
-        expect(blueprint.registry.get('z-index')).toEqual(4);
+        expect(blueprint.registry.get('z-index-min')).toEqual(1);
+        expect(blueprint.registry.get('z-index-max')).toEqual(4);
 
         rectangle.z(101);
         expect(element.attr('z')).toBeNull();
         expect(element.datum().z).toBeUndefined();
         expect(group.datum().z).toEqual(101);
-        expect(blueprint.registry.get('z-index')).toEqual(101);
+        expect(blueprint.registry.get('z-index-min')).toEqual(1);
+        expect(blueprint.registry.get('z-index-max')).toEqual(101);
 
-        blueprint.add('rect');
-        var fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
+        var fifth      = blueprint.add('rect'),
+            fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
         expect(fifthGroup.datum().z).toEqual(102);
+        fifth.z(-201);
+        expect(blueprint.registry.get('z-index-min')).toEqual(-201);
+        expect(blueprint.registry.get('z-index-max')).toEqual(101);
 
     });
 

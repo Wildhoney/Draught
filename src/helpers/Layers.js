@@ -13,18 +13,20 @@ export default class Layers {
      */
     reorder(groups) {
 
-        var max = 1;
+        var min = 1, max = 1;
 
         groups.sort((a, b) => {
 
             if (a.z > max) { max = a.z }
             if (b.z > max) { max = b.z }
+            if (a.z < min) { min = a.z }
+            if (b.z < min) { min = b.z }
 
             return a.z - b.z;
 
         });
 
-        return max;
+        return { min: min, max: max };
 
     }
 
