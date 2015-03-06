@@ -32,47 +32,65 @@ export default class Interface {
 
     /**
      * @method x
-     * @param {Number} value
+     * @param {Number} [value=undefined]
      * @return {Interface}
      */
     x(value) {
-        return this.setAttr({ x: value });
+        return this.attr('x', value);
     }
 
     /**
      * @method y
-     * @param {Number} value
+     * @param {Number} [value=undefined]
      * @return {Interface}
      */
     y(value) {
-        return this.setAttr({ y: value });
+        return this.attr('y', value);
     }
 
     /**
      * @method z
-     * @param {Number} value
+     * @param {Number} [value=undefined]
      * @return {Interface}
      */
     z(value) {
-        return this.setAttr({ z: value });
+        return this.attr('z', value);
     }
 
     /**
      * @method width
-     * @param {Number} value
+     * @param {Number} [value=undefined]
      * @return {Interface}
      */
     width(value) {
-        return this.setAttr({ width: value });
+        return this.attr('width', value);
     }
 
     /**
      * @method height
-     * @param {Number} value
+     * @param {Number} [value=undefined]
      * @return {Interface}
      */
     height(value) {
-        return this.setAttr({ height: value });
+        return this.attr('height', value);
+    }
+
+    /**
+     * @property attr
+     * @param {String} property
+     * @param {*} value
+     * @return {*|void}
+     */
+    attr(property, value) {
+
+        if (_.isUndefined(value)) {
+            return this.getAttr()[property];
+        }
+
+        var model       = {};
+        model[property] = value;
+        return this.setAttr(model);
+
     }
 
     /**

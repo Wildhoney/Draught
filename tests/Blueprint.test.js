@@ -127,4 +127,18 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to use the `attr` accessor to set/get', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add('rect');
+
+        expect(rectangle.x(125).x()).toEqual(125);
+        expect(rectangle.z(2).z()).toEqual(2);
+        expect(rectangle.y(275).y()).toEqual(275);
+        expect(rectangle.width(300).width()).toEqual(300);
+        expect(rectangle.height(250).height()).toEqual(250);
+
+    });
+
 });
