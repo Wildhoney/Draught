@@ -36,7 +36,7 @@ class Blueprint {
     /**
      * @method add
      * @param {String} name
-     * @return {Shape}
+     * @return {Interface}
      */
     add(name) {
 
@@ -59,7 +59,7 @@ class Blueprint {
             interface: shape.getInterface()
         });
 
-        return shape;
+        return shape.getInterface();
 
     }
 

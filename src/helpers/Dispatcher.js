@@ -15,12 +15,12 @@ export default class Dispatcher {
     }
 
     /**
-     * @method dispatchEvent
+     * @method send
      * @param {String} name
      * @param {Object} [properties={}]
      * @return {void}
      */
-    dispatchEvent(name, properties = {}) {
+    send(name, properties = {}) {
         _.forEach(this.events[name], (callbackFn) => callbackFn(properties));
     }
 

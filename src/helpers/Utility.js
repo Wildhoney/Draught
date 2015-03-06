@@ -4,24 +4,28 @@
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Blueprint
  */
-var utility = {
+var utility = (function() {
 
-    /**
-     * @method throwException
-     * @param {String} message
-     * @throws Exception
-     * @return {void}
-     */
-    throwException: (message) => {
-        throw `Blueprint.js: ${message}.`;
-    },
+    "use strict";
 
-    /**
-     * @method transformAttributes
-     * @param {Object} attributes
-     * @return {Object}
-     */
-    transformAttributes: (attributes) => {
+    return {
+
+        /**
+         * @method throwException
+         * @param {String} message
+         * @throws Exception
+         * @return {void}
+         */
+        throwException: (message) => {
+            throw `Blueprint.js: ${message}.`;
+        },
+
+        /**
+         * @method transformAttributes
+         * @param {Object} attributes
+         * @return {Object}
+         */
+            transformAttributes: (attributes) => {
 
         if (attributes.x && attributes.y) {
 
@@ -42,10 +46,12 @@ var utility = {
      * @param {Number} y
      * @return {String}
      */
-    pointsToTransform(x, y) {
+        pointsToTransform(x, y) {
         return { transform: `translate(${x}, ${y})` };
     }
 
-};
+    };
+
+})();
 
 export default utility;
