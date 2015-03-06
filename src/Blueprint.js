@@ -1,7 +1,7 @@
 import Dispatcher from './helpers/Dispatcher.js';
 import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
-import Layers     from './helpers/Layers.js';
+import ZIndex     from './helpers/ZIndex.js';
 import Registry   from './helpers/Registry.js';
 
 // Shapes.
@@ -28,7 +28,7 @@ class Blueprint {
         this.options    = _.assign(this.defaultOptions(), options);
         this.dispatcher = new Dispatcher();
         this.registry   = new Registry();
-        this.layers     = new Layers();
+        this.zIndex     = new ZIndex();
         this.groups     = new Groups(this.element);
 
         // Register our default components.
@@ -147,7 +147,7 @@ class Blueprint {
         this.dispatcher.listen(Events.REORDER, () => {
 
             var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
-            var { min, max } = this.layers.reorder(groups);
+            var { min, max } = this.zIndex.reorder(groups);
 
             this.registry.set('z-index-min', min);
             this.registry.set('z-index-max', max);

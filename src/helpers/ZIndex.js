@@ -1,10 +1,10 @@
 /**
  * @module Blueprint
- * @submodule Layers
+ * @submodule ZIndex
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Blueprint
  */
-export default class Layers {
+export default class ZIndex {
 
     /**
      * @method reorder
