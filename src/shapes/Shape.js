@@ -56,7 +56,8 @@ export default class Shape {
         if (this.interface === null) {
 
             this.interface    = new Interface(this.label);
-            var setAttributes = this.setAttributes.bind(this);
+            var setAttributes = this.setAttributes.bind(this),
+                element       = this.element;
 
             /**
              * @method set
@@ -69,11 +70,13 @@ export default class Shape {
             };
 
             /**
-             * @method getAttributes
+             * @method get
              * @return {Object}
              */
-            this.interface.getAttributes = function getAttributes() {
-                return 1;
+            this.interface.get = function get() {
+                var zIndex = { z: d3.select(element.node().parentNode).datum().z },
+                    model  = _.assign(element.datum(), zIndex);
+                return utility.retransformAttributes(model);
             };
 
             if (_.isFunction(this.addMethods)) {

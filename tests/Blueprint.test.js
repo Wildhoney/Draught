@@ -20,7 +20,7 @@ describe('Blueprint', function() {
 
         var svg       = document.createElement('svg'),
             blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(100).y(100).attr({ strokeWidth: 10 }),
+            rectangle = blueprint.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
         expect(rectangle.toString()).toEqual('[object Interface: BP2]');
@@ -37,6 +37,15 @@ describe('Blueprint', function() {
     });
 
     it('Should be able to read attributes from the shape;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add('rect').x(250).y(250).z(9001).setAttr({ strokeWidth: 10 });
+
+        expect(rectangle.getAttr().x).toEqual(250);
+        expect(rectangle.getAttr().y).toEqual(250);
+        expect(rectangle.getAttr().z).toEqual(9001);
+        expect(rectangle.getAttr().strokeWidth).toEqual(10);
 
     });
 

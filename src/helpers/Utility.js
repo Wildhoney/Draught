@@ -59,6 +59,26 @@ var utility = (function() {
         },
 
         /**
+         * @method retransformAttributes
+         * @param {Object} attributes
+         * @return {Object}
+         */
+        retransformAttributes(attributes) {
+
+            if (attributes.transform) {
+
+                var match = attributes.transform.match(/(\d+)\s*,\s*(\d+)/i);
+                attributes.x = parseInt(match[1]);
+                attributes.y = parseInt(match[2]);
+                delete attributes.transform;
+
+            }
+
+            return utility.camelifyKeys(attributes);
+
+        },
+
+        /**
          * @method pointsToTransform
          * @param {Number} x
          * @param {Number} y
@@ -66,6 +86,23 @@ var utility = (function() {
          */
         pointsToTransform(x, y) {
             return { transform: `translate(${x}, ${y})` };
+        },
+
+        /**
+         * @method kebabifyKeys
+         * @param {Object} model
+         * @return {Object}
+         */
+        kebabifyKeys(model) {
+
+            var transformedModel = {};
+
+            _.forIn(model, (value, key) => {
+                transformedModel[_.kebabCase(key)] = value;
+            });
+
+            return transformedModel;
+
         },
 
         /**
@@ -78,7 +115,7 @@ var utility = (function() {
             var transformedModel = {};
 
             _.forIn(model, (value, key) => {
-                transformedModel[_.kebabCase(key)] = value;
+                transformedModel[_.camelCase(key)] = value;
             });
 
             return transformedModel;

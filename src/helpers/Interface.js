@@ -23,7 +23,7 @@ export default class Interface {
      * @return {Interface}
      */
     x(value) {
-        return this.attr({ x: value });
+        return this.setAttr({ x: value });
     }
 
     /**
@@ -32,7 +32,7 @@ export default class Interface {
      * @return {Interface}
      */
     y(value) {
-        return this.attr({ y: value });
+        return this.setAttr({ y: value });
     }
 
     /**
@@ -41,7 +41,7 @@ export default class Interface {
      * @return {Interface}
      */
     z(value) {
-        return this.attr({ z: value });
+        return this.setAttr({ z: value });
     }
 
     /**
@@ -50,7 +50,7 @@ export default class Interface {
      * @return {Interface}
      */
     width(value) {
-        return this.attr({ width: value });
+        return this.setAttr({ width: value });
     }
 
     /**
@@ -59,16 +59,24 @@ export default class Interface {
      * @return {Interface}
      */
     height(value) {
-        return this.attr({ height: value });
+        return this.setAttr({ height: value });
     }
 
     /**
-     * @method attr
+     * @method setAttr
      * @param {Object} attributes
      * @return {Interface}
      */
-    attr(attributes = {}) {
-        return this.set(utility.camelifyKeys(attributes));
+    setAttr(attributes = {}) {
+        return this.set(utility.kebabifyKeys(attributes));
+    }
+
+    /**
+     * @method getAttr
+     * @return {Object}
+     */
+    getAttr() {
+        return this.get();
     }
 
     /**
