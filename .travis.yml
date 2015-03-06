@@ -10,7 +10,7 @@ before_script:
 
 script:
   - npm install
-  - npm bower
+  - bower install
   - npm test
   - npm build
 
