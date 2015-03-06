@@ -14,6 +14,11 @@ describe('Blueprint', function() {
         expect(blueprint.label).toEqual('BP1');
         expect(blueprint.map.rect).toBeDefined();
 
+        blueprint = new Blueprint(svg, { dataAttribute: 'data-blueprint-id' });
+        blueprint.add('rect');
+        var group = svg.querySelector('rect').parentNode;
+        expect(group.getAttribute('data-blueprint-id')).toEqual('BP2');
+
     });
 
     it('Should be able to add an element;', function() {
@@ -23,8 +28,8 @@ describe('Blueprint', function() {
             rectangle = blueprint.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
-        expect(rectangle.toString()).toEqual('[object Interface: BP2]');
-        expect(rectangle.label).toEqual('BP2');
+        expect(rectangle.toString()).toEqual('[object Interface: BP3]');
+        expect(rectangle.label).toEqual('BP3');
         expect(typeof rectangle.width).toBe('function');
         expect(element.attr('x')).toBeNull();
         expect(element.attr('y')).toBeNull();

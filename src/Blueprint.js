@@ -8,12 +8,6 @@ import Registry   from './helpers/Registry.js';
 import Rectangle  from './shapes/types/Rectangle.js';
 
 /**
- * @constant DATA_ATTRIBUTE
- * @type {String}
- */
-const DATA_ATTRIBUTE = 'data-id';
-
-/**
  * @module Blueprint
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Blueprint
@@ -48,7 +42,7 @@ class Blueprint {
         // Apply our event listeners.
         this.dispatcher.listen(Events.REORDER, () => {
 
-            var groups       = this.element.selectAll(`g[${DATA_ATTRIBUTE}]`);
+            var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             var { min, max } = this.layers.reorder(groups);
 
             this.registry.set('z-index-min', min);
@@ -67,7 +61,7 @@ class Blueprint {
 
         var shape   = this.new(name),
             group   = this.groups.shapes,
-            element = group.append('g').attr(DATA_ATTRIBUTE, shape.label).append(shape.getTag()),
+            element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
             zIndex  = { z: this.registry.increment('z-index-max') };
 
         // Set all of the essential objects that the shape requires.
@@ -123,12 +117,12 @@ class Blueprint {
     }
 
     /**
-     * @method registerComponent
+     * @method register
      * @param {String} name
      * @param {Shape} shape
      * @return {void}
      */
-    registerComponent(name, shape) {
+    register(name, shape) {
         this.map[name] = shape;
     }
 
@@ -137,7 +131,7 @@ class Blueprint {
      * @return {Object}
      */
     defaultOptions() {
-        return {};
+        return { dataAttribute: 'data-id' };
     }
 
 }
