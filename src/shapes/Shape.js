@@ -1,5 +1,6 @@
 import Interface from './../helpers/Interface.js';
 import Events    from './../helpers/Events.js';
+import utility   from './../helpers/Utility.js';
 
 /**
  * @module Blueprint
@@ -11,9 +12,11 @@ export default class Shape {
 
     /**
      * @method constructor
+     * @param {String} [label='']
      * @constructor
      */
-    constructor() {
+    constructor(label = '') {
+        this.label     = label;
         this.interface = null;
     }
 
@@ -27,21 +30,64 @@ export default class Shape {
     }
 
     /**
+     * @method setOptions
+     * @param {Object} options
+     * @return {void}
+     */
+    setOptions(options) {
+        this.options = options;
+    }
+
+    /**
      * @method getInterface
      * @return {Interface}
      */
     getInterface() {
 
         if (this.interface === null) {
-            this.interface = new Interface();
+            this.interface = new Interface(this.label);
         }
 
-        if (typeof this.addInterfaceMethods === 'function') {
-            this.interface = _.assign(this.interface, this.addInterfaceMethods());
+        if (_.isFunction(this.addMethods)) {
+            this.interface = _.assign(this.interface, this.addMethods());
         }
 
         return this.interface;
 
+    }
+
+    /**
+     * @method getAttributes
+     * @return {Object}
+     */
+    getAttributes() {
+
+        var attributes = { x: 0, y: 0 };
+
+        if (_.isFunction(this.addAttributes)) {
+            attributes = _.assign(attributes, this.addAttributes());
+        }
+
+        return attributes;
+
+    }
+
+    /**
+     * @method addElements
+     * @param {Object} element
+     * @return {Object}
+     */
+    addElements(element) {
+        return element;
+    }
+
+    /**
+     * @method getTag
+     * @throws Exception
+     * @return {void}
+     */
+    getTag() {
+        utility.throwException(`Shape<${this.label}> must define a \`getTag\` method`);
     }
 
     /**
@@ -52,6 +98,22 @@ export default class Shape {
     dispatchAttributeEvent(properties = {}) {
         properties.element = this;
         this.dispatcher.send(Events.ATTRIBUTE, properties);
+    }
+
+    /**
+     * @method toString
+     * @return {String}
+     */
+    toString() {
+
+        var tag = this.getTag().charAt(0).toUpperCase() + this.getTag().slice(1);
+
+        if (this.label) {
+            return `[object ${tag}: ${this.label}]`;
+        }
+
+        return `[object ${tag}]`;
+
     }
 
 }

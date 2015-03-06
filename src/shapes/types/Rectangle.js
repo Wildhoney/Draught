@@ -6,13 +6,29 @@ import Shape from './../Shape.js';
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Blueprint
  */
-export class Rectangle extends Shape {
+export default class Rectangle extends Shape {
 
     /**
-     * @method addInterfaceMethods
+     * @method getTag
+     * @return {String}
+     */
+    getTag() {
+        return 'rect';
+    }
+
+    /**
+     * @method addAttributes
      * @return {Object}
      */
-    addInterfaceMethods() {
+    addAttributes() {
+        return { fill: 'red', width: 100, height: 100, x: 100, y: 20, z: 5 };
+    }
+
+    /**
+     * @method addMethods
+     * @return {Object}
+     */
+    addMethods() {
 
         return {
             width: (value) => this.dispatchAttributeEvent({ value: value })

@@ -1,5 +1,8 @@
 /**
- * @class Dispatcher
+ * @module Blueprint
+ * @submodule Dispatcher
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Blueprint
  */
 export default class Dispatcher {
 

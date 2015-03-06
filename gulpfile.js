@@ -49,7 +49,13 @@
     });
 
     gulp.task('vendorify', ['compile'], function() {
-        return gulp.src(prodPath).pipe(gulp.dest(config.gulp.directories.vendor));
+
+        var devName = config.gulp.names.dev;
+
+        return gulp.src(prodPath)
+                   .pipe(rename(devName))
+                   .pipe(gulp.dest(config.gulp.directories.vendor));
+
     });
 
     gulp.task('lint', function() {
@@ -87,7 +93,7 @@
     gulp.task('build', ['compile', 'minify', 'vendorify']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
-        gulp.watch(allFiles, ['build', 'test']);
+        gulp.watch(allFiles, ['build']);
     });
 
 })();
