@@ -26,6 +26,10 @@ class Blueprint {
         this.dispatcher = new Dispatcher();
         this.groups     = new Groups(this.element);
         this.label      = _.uniqueId('BP');
+        this.map        = {};
+
+        // Register our custom shapes.
+        this.registerComponent('rect', Rectangle)
 
     }
 
@@ -92,13 +96,17 @@ class Blueprint {
      * @return {Shape}
      */
     new(name) {
+        return new this.map[name.toLowerCase()](this.label);
+    }
 
-        var map = {
-            rect: Rectangle
-        };
-
-        return new map[name.toLowerCase()](this.label);
-
+    /**
+     * @method registerComponent
+     * @param {String} name
+     * @param {Shape} shape
+     * @return {void}
+     */
+    registerComponent(name, shape) {
+        this.map[name] = shape;
     }
 
     /**
