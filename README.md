@@ -1,5 +1,16 @@
 # Blueprint
 
+![Travis](http://img.shields.io/travis/Wildhoney/Blueprint.svg?style=flat)
+&nbsp;
+![npm](http://img.shields.io/npm/v/getblueprint.svg?style=flat)
+&nbsp;
+![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)
+
+* **Heroku**: [http://getblueprint.herokuapp.com/](http://getblueprint.herokuapp.com/)
+* **Bower:** `bower install get-blueprint`
+
+---
+
 ![Blueprint Diagram](http://i.imgur.com/Kc1iqli.png)
 
 # Getting Started
