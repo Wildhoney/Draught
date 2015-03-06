@@ -11,8 +11,8 @@ before_script:
 script:
   - npm install
   - bower install
-  - npm test
-  - npm build
+  - gulp test
+  - gulp build
 
 deploy:
   provider: heroku
