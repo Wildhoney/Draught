@@ -81,7 +81,13 @@ export default class Interface {
      * @return {Interface}
      */
     setAttr(attributes = {}) {
-        return this.set(utility.kebabifyKeys(attributes));
+
+        this.dispatcher.send(Events.ATTRIBUTE_SET, {
+            attributes: utility.kebabifyKeys(attributes)
+        });
+
+        return this;
+
     }
 
     /**

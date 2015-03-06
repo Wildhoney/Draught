@@ -26,21 +26,21 @@ export default class Registry {
     }
 
     /**
-     * @method increment
+     * @method incr
      * @param {String} property
      * @return {Number}
      */
-    increment(property) {
+    incr(property) {
         this.set(property, parseInt(this.get(property)) + 1);
         return this.properties[property];
     }
 
     /**
-     * @method decrement
+     * @method decr
      * @param {String} property
      * @return {Number}
      */
-    decrement(property) {
+    decr(property) {
         this.set(property, parseInt(this.get(property)) - 1);
         return this.properties[property];
     }

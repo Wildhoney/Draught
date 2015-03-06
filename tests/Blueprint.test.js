@@ -91,6 +91,7 @@ describe('Blueprint', function() {
             fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
         expect(fifthGroup.datum().z).toEqual(102);
         fifth.z(-201);
+
         expect(blueprint.registry.get('z-index-min')).toEqual(-201);
         expect(blueprint.registry.get('z-index-max')).toEqual(101);
 

@@ -1,6 +1,7 @@
-import Interface from './../helpers/Interface.js';
-import Events    from './../helpers/Events.js';
-import utility   from './../helpers/Utility.js';
+import Interface  from './../helpers/Interface.js';
+import Dispatcher from './../helpers/Dispatcher.js';
+import Events     from './../helpers/Events.js';
+import utility    from './../helpers/Utility.js';
 
 /**
  * @module Blueprint
@@ -22,22 +23,6 @@ export default class Shape {
     }
 
     /**
-     * @method setupListeners
-     * @return {void}
-     */
-    setupListeners() {
-
-        this.dispatcher.listen(Events.ATTRIBUTE_GET_ALL, () => {
-
-            var zIndex = { z: d3.select(this.element.node().parentNode).datum().z },
-                model  = _.assign(this.element.datum(), zIndex);
-            return utility.retransformAttributes(model);
-
-        });
-
-    }
-
-    /**
      * @method setElement
      * @param {Object} element
      */
@@ -52,7 +37,6 @@ export default class Shape {
      */
     setDispatcher(dispatcher) {
         this.dispatcher = dispatcher;
-        this.setupListeners();
     }
 
     /**
@@ -72,22 +56,26 @@ export default class Shape {
 
         if (this.interface === null) {
 
-            this.interface    = new Interface(this.label);
-            this.interface.setDispatcher(this.dispatcher);
-
-            /** --- */
-
-            var setAttributes = this.setAttributes.bind(this);
+            this.interface = new Interface(this.label);
+            var dispatcher = new Dispatcher();
+            this.interface.setDispatcher(dispatcher);
 
             /**
-             * @method set
-             * @param {Object} attributes
-             * @return {Interface}
+             * @method getAttributes
+             * @return {Object}
              */
-            this.interface.set = function set(attributes = {}) {
-                setAttributes(attributes);
-                return this;
+            var getAttributes = () => {
+
+                var zIndex = { z: d3.select(this.element.node().parentNode).datum().z },
+                    model  = _.assign(this.element.datum(), zIndex);
+                return utility.retransformAttributes(model);
+
             };
+
+            // Listeners that hook up the interface and the shape object.
+            dispatcher.listen(Events.REMOVE, (model) => this.dispatcher.send(Events.REMOVE, model));
+            dispatcher.listen(Events.ATTRIBUTE_GET_ALL, getAttributes);
+            dispatcher.listen(Events.ATTRIBUTE_SET, (model) => { this.setAttributes(model.attributes); });
 
             if (_.isFunction(this.addMethods)) {
                 this.interface = _.assign(this.interface, this.addMethods());

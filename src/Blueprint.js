@@ -53,7 +53,7 @@ class Blueprint {
         var shape   = this.new(name),
             group   = this.groups.shapes,
             element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
-            zIndex  = { z: this.registry.increment('z-index-max') };
+            zIndex  = { z: this.registry.incr('z-index-max') };
 
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
