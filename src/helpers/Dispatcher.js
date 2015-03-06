@@ -25,12 +25,12 @@ export default class Dispatcher {
     }
 
     /**
-     * @method addEventListener
+     * @method listen
      * @param {String} name
      * @param {Function} [fn=function noop() {}]
      * @return {void}
      */
-    addEventListener(name, fn) {
+    listen(name, fn) {
 
         if (!this.events[name]) {
             this.events[name] = [];

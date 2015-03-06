@@ -5,5 +5,6 @@
  * @link https://github.com/Wildhoney/Blueprint
  */
 export default {
-    ATTRIBUTE: 'attribute'
+    ATTRIBUTE: 'attribute',
+    REORDER: 'reorder'
 }

@@ -84,8 +84,22 @@ export default class Shape {
      */
     setAttributes(attributes = {}) {
 
-        attributes = _.assign(this.element.datum(), attributes);
+        attributes = _.assign(this.element.datum() || {}, attributes);
         attributes = utility.transformAttributes(attributes);
+
+        if (!_.isUndefined(attributes.z)) {
+
+            // When the developer specifies the `z` attribute, it actually pertains to the group
+            // element that the shape is a child of. We'll therefore need to remove the `z` property
+            // from the `attributes` object, and instead apply it to the shape's group element.
+            // Afterwards we'll need to broadcast an event to reorder the elements using D3's magical
+            // `sort` method.
+            var group = d3.select(this.element.node().parentNode);
+            group.datum({ z: attributes.z });
+            delete attributes.z;
+            this.dispatcher.send(Events.REORDER);
+
+        }
 
         this.element.datum(attributes);
         this.element.attr(this.element.datum());

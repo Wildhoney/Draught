@@ -28,6 +28,7 @@ describe('Blueprint', function() {
         expect(typeof rectangle.width).toBe('function');
         expect(element.attr('x')).toBeNull();
         expect(element.attr('y')).toBeNull();
+        expect(element.attr('z')).toBeNull();
         expect(element.attr('transform')).not.toBeNull();
         expect(element.attr('stroke-width')).toEqual((10).toString());
         expect(element.datum()['stroke-width']).toEqual(10);

@@ -36,6 +36,15 @@ export default class Interface {
     }
 
     /**
+     * @method z
+     * @param {Number} value
+     * @return {Interface}
+     */
+    z(value) {
+        return this.attr({ z: value });
+    }
+
+    /**
      * @method width
      * @param {Number} value
      * @return {Interface}

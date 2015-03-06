@@ -1,9 +1,17 @@
 import Dispatcher from './helpers/Dispatcher.js';
 import Groups     from './helpers/Groups.js';
+import Events     from './helpers/Events.js';
+import Registry    from './helpers/Registry.js';
 import utility    from './helpers/Utility.js';
 
 // Shapes.
 import Rectangle  from './shapes/types/Rectangle.js';
+
+/**
+ * @constant DATA_ATTRIBUTE
+ * @type {String}
+ */
+const DATA_ATTRIBUTE = 'data-id';
 
 /**
  * @module Blueprint
@@ -24,12 +32,22 @@ class Blueprint {
         this.shapes     = [];
         this.options    = _.assign(this.defaultOptions(), options);
         this.dispatcher = new Dispatcher();
+        this.registry   = new Registry();
         this.groups     = new Groups(this.element);
         this.label      = _.uniqueId('BP');
         this.map        = {};
 
+        // Set the essential registry items.
+        this.registry.set('z-index', 0);
+
         // Register our custom shapes.
-        this.registerComponent('rect', Rectangle)
+        this.registerComponent('rect', Rectangle);
+
+        // Apply our event listeners.
+        this.dispatcher.listen(Events.REORDER, () => {
+            var groups = d3.selectAll(`g[${DATA_ATTRIBUTE}]`);
+            groups.sort((a, b) => a.z - b.z);
+        });
 
     }
 
@@ -41,25 +59,22 @@ class Blueprint {
     add(name) {
 
         var shape = this.new(name);
+        //this.registry.set('z-index', );
 
         // Insert the shape into D3 and apply the attributes.
         var group   = this.groups.shapes,
-            element = group.append('g').attr('data-id', shape.label)
-                           .append(shape.getTag()).datum(utility.transformAttributes(shape.getAttributes()));
-        element.attr(element.datum());
+            element = group.append('g').attr(DATA_ATTRIBUTE, shape.label).append(shape.getTag()),
+            zIndex  = { z: this.registry.increment('z-index') };
 
         // Set all the items required for the shape object.
         shape.setOptions(this.options);
         shape.setDispatcher(this.dispatcher);
         shape.setElement(element);
+        shape.setAttributes(_.assign(zIndex, shape.getAttributes()));
 
         shape.addElements(element);
 
-        this.shapes.push({
-            shape: shape,
-            interface: shape.getInterface()
-        });
-
+        this.shapes.push({ shape: shape, interface: shape.getInterface()});
         return shape.getInterface();
 
     }
