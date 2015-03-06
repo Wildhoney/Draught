@@ -23,11 +23,13 @@ var rect = blueprint.add('rect');
 
 In the above case the `rect` is an instance of `Interface` which encapsulates a lot of useful accessor methods for manipulating the shape, without exposing you to the complexity beneath.
 
-You may set attributes using `setAttr` and get attributes using `getAttr` &ndash; `Interface` also has shorthand methods for setting attributes individually, such as `x()`, `y()`, `height()`, `width()`, etc... `Interface` also has the `attr` method for setting or getting depending on if a value was passed:
+You may set attributes using `setAttr` and get attributes using `getAttr` &ndash; `Interface` also has shorthand methods for setting attributes individually, such as `x()`, `y()`, `height()`, `width()`, etc...
+
+`Interface` also has the `attr` method for setting or getting depending on if a value was passed:
 
 ```javascript
 var value = Math.random();
-expect(rectangle.width(value).width()).toEqual(value);
+expect(rectangle.width(value).width()).toEqual(value); // √
 ```
 
 **Note:** The `z()` method is for setting the z-index but isn't applied directly to your `rect` shape, it is instead applied to the `g` element that is wrapped around your shape. When you define the z-index for your shape, the `Events.REORDER` event will be dispatched and all elements will be re-ordered using their z-indexes using `d3.sort`.
