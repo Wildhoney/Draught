@@ -23,14 +23,18 @@ class Blueprint {
      */
     constructor(element, options = {}) {
 
-        this.element    = d3.select(element).attr('width', '100%').attr('height', '100%');
+        this.options    = _.assign(this.defaultOptions(), options);
+        this.element    = d3.select(element)
+                            .attr('width', this.options.documentWidth)
+                            .attr('height', this.options.documentHeight);
         this.shapes     = [];
         this.index      = 1;
-        this.options    = _.assign(this.defaultOptions(), options);
+
+        // Helpers required by Blueprint and the rest of the system.
         this.dispatcher = new Dispatcher();
         this.registry   = new Registry();
         this.zIndex     = new ZIndex();
-        this.groups     = new Groups(this.element);
+        this.groups     = new Groups().addTo(this.element);
 
         // Register our default components.
         this.map = {
@@ -166,7 +170,13 @@ class Blueprint {
      * @return {Object}
      */
     defaultOptions() {
-        return { dataAttribute: 'data-id' };
+
+        return {
+            dataAttribute: 'data-id',
+            documentHeight: '100%',
+            documentWidth: '100%'
+        };
+
     }
 
 }

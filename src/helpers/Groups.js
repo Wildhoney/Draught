@@ -7,13 +7,14 @@
 export default class Groups {
 
     /**
-     * @method constructor
+     * @method addTo
      * @param {SVGElement} element
-     * @constructor
+     * @return {Groups}
      */
-    constructor(element) {
+    addTo(element) {
         this.shapes  = element.append('g').classed('shapes', true);
-        this.handles = element.append('g').classed('handles', true)
+        this.handles = element.append('g').classed('handles', true);
+        return this;
     }
 
 }
