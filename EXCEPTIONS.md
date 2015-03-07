@@ -8,7 +8,7 @@
 
 ## Overwriting Existing Shapes
 
-> Refusing to overwrite existing {$name} shape without explicit overwrite.
+> Refusing to overwrite existing `name` shape without explicit overwrite.
 
 **Solution:** You're attempting to overwrite an existing shape which `Blueprint` is refusing to do, unless you explicitly specify that you're intending to overwrite an existing shape &ndash; in which case you can specify the third argument &mdash; the `overwrite` property &mdash; as `true`:
 
