@@ -2,7 +2,7 @@
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Blueprint.svg?style=flat)
 &nbsp;
-![npm](http://img.shields.io/npm/v/getblueprint.svg?style=flat)
+![npm](http://img.shields.io/npm/v/get-blueprint.svg?style=flat)
 &nbsp;
 ![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)
 
