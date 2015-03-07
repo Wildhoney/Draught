@@ -3,6 +3,7 @@ import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
 import ZIndex     from './helpers/ZIndex.js';
 import Registry   from './helpers/Registry.js';
+import Constants  from './helpers/Constants.js';
 
 // Shapes.
 import Rectangle  from './shapes/types/Rectangle.js';
@@ -37,7 +38,7 @@ class Blueprint {
         };
 
         // Set the essential registry items.
-        this.registry.set('z-index-max', 0);
+        this.registry.set(Constants.REGISTRY.ZINDEX_MAX, 0);
 
         // Listen for events.
         this.setupListeners();
@@ -54,7 +55,7 @@ class Blueprint {
         var shape   = this.new(name),
             group   = this.groups.shapes,
             element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
-            zIndex  = { z: this.registry.incr('z-index-max') };
+            zIndex  = { z: this.registry.incr(Constants.REGISTRY.ZINDEX_MAX) };
 
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
@@ -149,8 +150,8 @@ class Blueprint {
             var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             var { min, max } = this.zIndex.reorder(groups);
 
-            this.registry.set('z-index-min', min);
-            this.registry.set('z-index-max', max);
+            this.registry.set(Constants.REGISTRY.ZINDEX_MIN, min);
+            this.registry.set(Constants.REGISTRY.ZINDEX_MAX, max);
 
         });
 
