@@ -4,8 +4,10 @@ import Events     from './helpers/Events.js';
 import ZIndex     from './helpers/ZIndex.js';
 import Registry   from './helpers/Registry.js';
 import Constants  from './helpers/Constants.js';
+import utility    from './helpers/Utility.js';
 
 // Shapes.
+import Shape      from './shapes/Shape.js';
 import Rectangle  from './shapes/types/Rectangle.js';
 
 /**
@@ -43,9 +45,7 @@ class Blueprint {
 
         // Set the essential registry items.
         this.registry.set(Constants.REGISTRY.ZINDEX_MAX, 0);
-
-        // Listen for events.
-        this.setupListeners();
+        this.addEventListeners();
 
     }
 
@@ -104,7 +104,7 @@ class Blueprint {
      * @return {Shape[]}
      */
     all() {
-        return this.shapes.map((shape) => shape.interface);
+        return this.shapes.map((model) => model.interface);
     }
 
     /**
@@ -113,15 +113,6 @@ class Blueprint {
      */
     clear() {
         _.forEach(this.shapes, (shape) => this.remove(shape));
-    }
-
-    /**
-     * @method new
-     * @param {String} name
-     * @return {Shape}
-     */
-    new(name) {
-        return new this.map[name.toLowerCase()](this.ident());
     }
 
     /**
@@ -136,17 +127,39 @@ class Blueprint {
      * @method register
      * @param {String} name
      * @param {Shape} shape
+     * @param {Boolean} [overwrite=false]
      * @return {void}
      */
-    register(name, shape) {
+    register(name, shape, overwrite = false) {
+
+        // Ensure the shape is a valid instance.
+        utility.assert(Object.getPrototypeOf(shape) === Shape, 'Custom shape must be an instance of `Shape`', 'Instance of Shape');
+
+        if (!overwrite && this.map.hasOwnProperty(name)) {
+
+            // Existing shapes cannot be overwritten.
+            utility.throwException(`Refusing to overwrite existing ${name} shape without explicit overwrite`, 'Overwriting Existing Shapes');
+
+        }
+
         this.map[name] = shape;
+
     }
 
     /**
-     * @method setupListeners
+     * @method new
+     * @param {String} name
+     * @return {Shape}
+     */
+    new(name) {
+        return new this.map[name.toLowerCase()](this.ident());
+    }
+
+    /**
+     * @method addEventListeners
      * @return {void}
      */
-    setupListeners() {
+    addEventListeners() {
 
         // Apply our event listeners.
         this.dispatcher.listen(Events.REORDER, () => {
@@ -177,6 +190,14 @@ class Blueprint {
             documentWidth: '100%'
         };
 
+    }
+
+    /**
+     * @method getShapePrototype
+     * @return {Shape}
+     */
+    getShapePrototype() {
+        return Shape;
     }
 
 }

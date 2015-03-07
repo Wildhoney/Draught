@@ -141,4 +141,32 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to register a custom shape;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg);
+
+        expect(function() {
+            blueprint.register('circle', {});
+        }).toThrow('Blueprint.js: Custom shape must be an instance of `Shape`. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#instance-of-shape');
+
+        var Rect = function Rectangle() {};
+        Rect.__proto__ = blueprint.getShapePrototype();
+        Rect.prototype = blueprint.getShapePrototype().prototype;
+
+        expect(function() {
+            blueprint.register('rect', Rect);
+        }).toThrow('Blueprint.js: Refusing to overwrite existing rect shape without explicit overwrite. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#overwriting-existing-shapes');
+
+        blueprint.register('rect', Rect, true);
+        expect(blueprint.map.rect).toEqual(Rect);
+        Rect.prototype.getTag = function getTag() {
+            return 'custom-rect';
+        };
+
+        var rectangle = blueprint.add('rect');
+        expect(blueprint.shapes[0].shape.getTag()).toEqual('custom-rect');
+
+    });
+
 });

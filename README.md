@@ -45,10 +45,10 @@ this.shapes.push({
 });
 ```
 
-For the `all` method the `interface` of each `shapes` object is returned:
+For the `blueprint.all` method the `interface` of each `shapes` object is returned:
 
 ```javascript
-return this.shapes.map((shape) => shape.interface);
+return this.shapes.map((model) => model.interface);
 ```
 
 ### Change Data Attribute
@@ -69,7 +69,7 @@ All of the shapes in `Blueprint` use hooks to allow for the easy creation of cus
 - [ ] `addAttributes` &mdash; For applying custom attributes;
 - [ ] `addMethods` &mdash; For adding specialised methods to the interface;
 
-Shapes can be registered with the `register` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
+Shapes can be registered with the `registerShape` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
 
 ```javascript
 class Circle extends Shape {}

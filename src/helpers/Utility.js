@@ -1,3 +1,5 @@
+import Constants from './Constants.js';
+
 /**
  * @module Blueprint
  * @submodule Utility
@@ -13,11 +15,34 @@ var utility = (function() {
         /**
          * @method throwException
          * @param {String} message
+         * @param {String} [exceptionsTitle='']
          * @throws Exception
          * @return {void}
          */
-        throwException: (message) => {
+        throwException: (message, exceptionsTitle = '') => {
+
+            if (exceptionsTitle) {
+                var link = Constants.EXCEPTIONS_URL.replace(/{(.+?)}/i, () => _.kebabCase(exceptionsTitle));
+                throw `Blueprint.js: ${message}. See: ${link}`;
+            }
+
             throw `Blueprint.js: ${message}.`;
+
+        },
+
+        /**
+         * @method assert
+         * @param {Boolean} assertion
+         * @param {String} message
+         * @param {String} exceptionsTitle
+         * @return {void}
+         */
+        assert(assertion, message, exceptionsTitle) {
+
+            if (!assertion) {
+                utility.throwException(message, exceptionsTitle);
+            }
+
         },
 
         /**

@@ -18,7 +18,8 @@
     // Common entry values.
     var entryFile = config.gulp.entry,
         allFiles  = config.gulp.all,
-        prodPath  = config.gulp.directories.dist + '/' + config.gulp.names.prod;
+        prodPath  = config.gulp.directories.dist + '/' + config.gulp.names.prod,
+        devPath   = config.gulp.directories.dist + '/' + config.gulp.names.dev;
 
     /**
      * @method buildTo
@@ -37,7 +38,7 @@
     };
 
     gulp.task('compile', function() {
-        return buildTo(prodPath);
+        return buildTo(devPath);
     });
 
     gulp.task('sass', function () {
@@ -52,7 +53,7 @@
 
         return gulp.src(prodPath)
                    .pipe(uglify())
-                   .pipe(rename(config.gulp.names.dev))
+                   .pipe(rename(config.gulp.names.prod))
                    .pipe(gulp.dest(config.gulp.directories.dist));
 
     });
