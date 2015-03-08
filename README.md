@@ -87,9 +87,14 @@ rect.remove(); // bye bye.
 
 # Z-Index Management
 
-Technically SVG doesn't have `z-index` as CSS does, and therefore the Z value is determined by the insertion order of the elements. `Blueprint` provides a handful of convenience methods for managing the Z index. Aside from the typical `z` method which accepts **any** numerical value &mdash; including `Infinity` and `-Infinity` which will be translated to in between `1` and `groups.length` &mdash; `Blueprint` has the following methods:
+Technically SVG doesn't have a `z-index` property as CSS does, and therefore the Z value is determined by the insertion order of the elements. `Blueprint` provides a handful of convenience methods for managing the Z index. Aside from the typical `z` method which accepts **any** numerical value &mdash; including `Infinity` and `-Infinity` which will be translated to in between `1` and `groups.length` &mdash; `Blueprint` has the following methods:
 
 - `sendToBack()` sends the shape to the back &mdash; `1`;
 - `bringToFront()` brings the shape to the front &mdash; `groups.length`;
 - `sendBackwards()` sends the shape backwards one step &mdash; `z() - 1`;
 - `bringForwards()` brings the shape forwards one step &mdash; `z() + 1`;
+
+```javascript
+// shufflin', shufflin'...
+rect.bringToFront().sendBackwards().bringForwards().sendToBack();
+```
