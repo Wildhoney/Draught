@@ -14,9 +14,7 @@ export default class ZIndex {
      */
     reorder(groups, group) {
 
-        var targetZ  = group.datum().z,
-            currentZ = 1,
-            maxZ     = groups.size();
+        var maxZ = groups.size();
 
         if (group.datum().z > maxZ) {
 
@@ -24,6 +22,16 @@ export default class ZIndex {
             group.datum().z = maxZ;
 
         }
+
+        if (group.datum().z < 1) {
+
+            // Also ensure it's not below the minimum.
+            group.datum().z = 1;
+
+        }
+
+        var targetZ  = group.datum().z,
+            currentZ = 1;
 
         group = group.node();
 

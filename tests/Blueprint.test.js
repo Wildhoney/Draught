@@ -69,6 +69,15 @@ describe('Blueprint', function() {
         expect(third.z()).toEqual(3);
 
         expect(first.z(9001).z()).toEqual(3);
+        expect(second.z(Infinity).z()).toEqual(3);
+        expect(third.z(-Infinity).z()).toEqual(1);
+
+        expect(first.bringToFront().z()).toEqual(3);
+        expect(first.sendBackwards().z()).toEqual(2);
+
+        expect(second.sendToBack().z()).toEqual(1);
+        expect(third.z()).toEqual(2);
+        expect(first.z()).toEqual(3);
 
     });
 

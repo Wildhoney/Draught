@@ -58,6 +58,38 @@ export default class Interface {
     }
 
     /**
+     * @method bringToFront
+     * @return {*}
+     */
+    bringToFront() {
+        return this.attr('z', Infinity);
+    }
+
+    /**
+     * @method sendToBack
+     * @return {*}
+     */
+    sendToBack() {
+        return this.attr('z', -Infinity);
+    }
+
+    /**
+     * @method sendBackwards
+     * @return {*}
+     */
+    sendBackwards() {
+        return this.attr('z', (this.getAttr().z - 1));
+    }
+
+    /**
+     * @method bringForwards
+     * @return {*}
+     */
+    bringForwards() {
+        return this.attr('z', (this.getAttr().z + 1));
+    }
+
+    /**
      * @method width
      * @param {Number} [value=undefined]
      * @return {Interface}
