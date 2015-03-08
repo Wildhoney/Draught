@@ -54,7 +54,7 @@ class Blueprint {
      */
     add(name) {
 
-        var shape   = this.new(name),
+        var shape   = this.instantiate(name),
             group   = this.groups.shapes,
             element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
             zIndex  = { z: this.index - 1 };
@@ -145,11 +145,11 @@ class Blueprint {
     }
 
     /**
-     * @method new
+     * @method instantiate
      * @param {String} name
      * @return {Shape}
      */
-    new(name) {
+    instantiate(name) {
         return new this.map[name.toLowerCase()](this.ident());
     }
 
