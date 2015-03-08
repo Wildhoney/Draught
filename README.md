@@ -32,7 +32,7 @@ var value = Math.random();
 expect(rectangle.width(value).width()).toEqual(value); // √
 ```
 
-**Note:** The `z()` method is for setting the z-index but isn't applied directly to your `rect` shape, it is instead applied to the `g` element that is wrapped around your shape. When you define the z-index for your shape, the `Events.REORDER` event will be dispatched and all elements will be re-ordered using their z-indexes using `d3.sort`.
+**Note:** The `z()` method is for setting the z-index but isn't applied directly to your `rect` shape, it is instead applied to the `g` element that is wrapped around your shape. When you define the z-index for your shape, the `Events.REORDER` event will be dispatched and all elements will be re-ordered using their z-indexes using `d3.sort`. See [Z-Index Management](#z-index-management) for further information.
 
 ## Developers: Data Attribute
 
@@ -84,3 +84,12 @@ Once you've created a shape, you will probably wish to remove it at some point. 
 var rect = blueprint.add('rect').fill('blue').x(100);
 rect.remove(); // bye bye.
 ```
+
+# Z-Index Management
+
+Technically SVG doesn't have `z-index` as CSS does, and therefore the Z value is determined by the insertion order of the elements. `Blueprint` provides a handful of convenience methods for managing the Z index. Aside from the typical `z` method which accepts **any** numerical value &mdash; including `Infinity` and `-Infinity` which will be translated to in between `1` and `groups.length` &mdash; `Blueprint` has the following methods:
+
+- `sendToBack()` sends the shape to the back &mdash; `1`;
+- `bringToFront()` brings the shape to the front &mdash; `groups.length`;
+- `sendBackwards()` sends the shape backwards one step &mdash; `z() - 1`;
+- `bringForwards()` brings the shape forwards one step &mdash; `z() + 1`;
