@@ -96,5 +96,6 @@ Technically SVG doesn't have a `z-index` property as CSS does, and therefore the
 
 ```javascript
 // shufflin', shufflin'...
+var rect = blueprint.add('rect').z(-Infinity);
 rect.bringToFront().sendBackwards().bringForwards().sendToBack();
 ```
