@@ -14,44 +14,32 @@ export default class ZIndex {
      */
     reorder(groups, group) {
 
-        var maxZ = groups.size();
+        var zMax = groups.size();
 
-        if (group.datum().z > maxZ) {
+        // Ensure the maximum Z is above zero and below the maximum.
+        if (group.datum().z > zMax) { group.datum().z = zMax; }
+        if (group.datum().z < 1)    { group.datum().z = 1;    }
 
-            // Ensure the maximum Z is below the maximum.
-            group.datum().z = maxZ;
-
-        }
-
-        if (group.datum().z < 1) {
-
-            // Also ensure it's not below the minimum.
-            group.datum().z = 1;
-
-        }
-
-        var targetZ  = group.datum().z,
-            currentZ = 1;
-
-        group = group.node();
+        var zTarget = group.datum().z, zCurrent = 1;
 
         // Initial sort into z-index order.
         groups.sort((a, b) => a.z - b.z);
 
         _.forEach(groups[0], (model) => {
 
-            if (model === group) {
+            // Current group is immutable in this iteration.
+            if (model === group.node()) {
                 return;
             }
 
             // Skip the target Z index.
-            if (currentZ === targetZ) {
-                currentZ++;
+            if (zCurrent === zTarget) {
+                zCurrent++;
             }
 
             var shape = d3.select(model),
                 datum = shape.datum();
-            datum.z = currentZ++;
+            datum.z = zCurrent++;
             shape.datum(datum);
 
         });
