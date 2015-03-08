@@ -15,7 +15,15 @@ export default class ZIndex {
     reorder(groups, group) {
 
         var targetZ  = group.datum().z,
-            currentZ = 1;
+            currentZ = 1,
+            maxZ     = groups.size();
+
+        if (group.datum().z > maxZ) {
+
+            // Ensure the maximum Z is below the maximum.
+            group.datum().z = maxZ;
+
+        }
 
         group = group.node();
 

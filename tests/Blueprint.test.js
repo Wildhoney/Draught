@@ -44,11 +44,10 @@ describe('Blueprint', function() {
 
         var svg       = document.createElement('svg'),
             blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(250).y(250).z(2).setAttr({ strokeWidth: 10 });
+            rectangle = blueprint.add('rect').x(250).y(250).setAttr({ strokeWidth: 10 });
 
         expect(rectangle.getAttr().x).toEqual(250);
         expect(rectangle.getAttr().y).toEqual(250);
-        expect(rectangle.getAttr().z).toEqual(2);
         expect(rectangle.getAttr().strokeWidth).toEqual(10);
 
     });
@@ -68,6 +67,8 @@ describe('Blueprint', function() {
         expect(second.z(1).z()).toEqual(1);
         expect(first.z()).toEqual(2);
         expect(third.z()).toEqual(3);
+
+        expect(first.z(9001).z()).toEqual(3);
 
     });
 
@@ -145,7 +146,7 @@ describe('Blueprint', function() {
             rectangle = blueprint.add('rect');
 
         expect(rectangle.x(125).x()).toEqual(125);
-        expect(rectangle.z(2).z()).toEqual(2);
+        expect(rectangle.z(1).z()).toEqual(1);
         expect(rectangle.y(275).y()).toEqual(275);
         expect(rectangle.width(300).width()).toEqual(300);
         expect(rectangle.height(250).height()).toEqual(250);
