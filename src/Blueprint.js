@@ -3,7 +3,6 @@ import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
 import ZIndex     from './helpers/ZIndex.js';
 import Registry   from './helpers/Registry.js';
-import Constants  from './helpers/Constants.js';
 import utility    from './helpers/Utility.js';
 
 // Shapes.
@@ -43,8 +42,7 @@ class Blueprint {
             rect: Rectangle
         };
 
-        // Set the essential registry items.
-        this.registry.set(Constants.REGISTRY.ZINDEX_MAX, 0);
+        // Add the event listeners.
         this.addEventListeners();
 
     }
@@ -59,7 +57,7 @@ class Blueprint {
         var shape   = this.new(name),
             group   = this.groups.shapes,
             element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
-            zIndex  = { z: this.registry.incr(Constants.REGISTRY.ZINDEX_MAX) };
+            zIndex  = { z: this.index - 1 };
 
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
@@ -162,18 +160,13 @@ class Blueprint {
     addEventListeners() {
 
         // Apply our event listeners.
-        this.dispatcher.listen(Events.REORDER, () => {
-
-            var groups       = this.element.selectAll(`g[${this.options.dataAttribute}]`);
-            var { min, max } = this.zIndex.reorder(groups);
-
-            this.registry.set(Constants.REGISTRY.ZINDEX_MIN, min);
-            this.registry.set(Constants.REGISTRY.ZINDEX_MAX, max);
-
+        this.dispatcher.listen(Events.REORDER, (event) => {
+            var groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
+            this.zIndex.reorder(groups, event.group);
         });
 
-        this.dispatcher.listen(Events.REMOVE, (model) => {
-            this.remove(model.interface);
+        this.dispatcher.listen(Events.REMOVE, (event) => {
+            this.remove(event.interface);
         });
 
     }

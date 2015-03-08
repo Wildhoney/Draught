@@ -107,7 +107,9 @@ export default class Shape {
             var group = d3.select(this.element.node().parentNode);
             group.datum({ z: attributes.z });
             delete attributes.z;
-            this.dispatcher.send(Events.REORDER);
+            this.dispatcher.send(Events.REORDER, {
+                group: group
+            });
 
         }
 

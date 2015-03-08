@@ -62,7 +62,7 @@
 
         var devName = config.gulp.names.dev;
 
-        return gulp.src(prodPath)
+        return gulp.src(devPath)
                    .pipe(rename(devName))
                    .pipe(gulp.dest(config.gulp.directories.vendor));
 

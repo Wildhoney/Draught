@@ -9,24 +9,39 @@ export default class ZIndex {
     /**
      * @method reorder
      * @param {Array} groups
+     * @param {Object} group
      * @return {Object}
      */
-    reorder(groups) {
+    reorder(groups, group) {
 
-        var min = 1, max = 1;
+        var targetZ  = group.datum().z,
+            currentZ = 1;
 
-        groups.sort((a, b) => {
+        group = group.node();
 
-            if (a.z > max) { max = a.z }
-            if (b.z > max) { max = b.z }
-            if (a.z < min) { min = a.z }
-            if (b.z < min) { min = b.z }
+        // Initial sort into z-index order.
+        groups.sort((a, b) => a.z - b.z);
 
-            return a.z - b.z;
+        _.forEach(groups[0], (model) => {
+
+            if (model === group) {
+                return;
+            }
+
+            // Skip the target Z index.
+            if (currentZ === targetZ) {
+                currentZ++;
+            }
+
+            var shape = d3.select(model),
+                datum = shape.datum();
+            datum.z = currentZ++;
+            shape.datum(datum);
 
         });
 
-        return { min: min, max: max };
+        // Final sort pass.
+        groups.sort((a, b) => a.z - b.z);
 
     }
 

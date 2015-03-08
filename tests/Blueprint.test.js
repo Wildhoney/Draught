@@ -44,12 +44,30 @@ describe('Blueprint', function() {
 
         var svg       = document.createElement('svg'),
             blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(250).y(250).z(9001).setAttr({ strokeWidth: 10 });
+            rectangle = blueprint.add('rect').x(250).y(250).z(2).setAttr({ strokeWidth: 10 });
 
         expect(rectangle.getAttr().x).toEqual(250);
         expect(rectangle.getAttr().y).toEqual(250);
-        expect(rectangle.getAttr().z).toEqual(9001);
+        expect(rectangle.getAttr().z).toEqual(2);
         expect(rectangle.getAttr().strokeWidth).toEqual(10);
+
+    });
+
+    it('Should be able to manage the z-indexes;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            first     = blueprint.add('rect'),
+            second    = blueprint.add('rect'),
+            third     = blueprint.add('rect');
+
+        expect(second.z(3).z()).toEqual(3);
+        expect(first.z()).toEqual(1);
+        expect(third.z()).toEqual(2);
+
+        expect(second.z(1).z()).toEqual(1);
+        expect(first.z()).toEqual(2);
+        expect(third.z()).toEqual(3);
 
     });
 
@@ -77,23 +95,16 @@ describe('Blueprint', function() {
         expect(element.attr('z')).toBeNull();
         expect(element.datum().z).toBeUndefined();
         expect(group.datum().z).toEqual(1);
-        expect(blueprint.registry.get('z-index-min')).toEqual(1);
-        expect(blueprint.registry.get('z-index-max')).toEqual(4);
 
-        rectangle.z(101);
+        rectangle.z(3);
         expect(element.attr('z')).toBeNull();
         expect(element.datum().z).toBeUndefined();
-        expect(group.datum().z).toEqual(101);
-        expect(blueprint.registry.get('z-index-min')).toEqual(1);
-        expect(blueprint.registry.get('z-index-max')).toEqual(101);
+        expect(group.datum().z).toEqual(3);
 
         var fifth      = blueprint.add('rect'),
             fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
-        expect(fifthGroup.datum().z).toEqual(102);
+        expect(fifthGroup.datum().z).toEqual(5);
         fifth.z(-201);
-
-        expect(blueprint.registry.get('z-index-min')).toEqual(-201);
-        expect(blueprint.registry.get('z-index-max')).toEqual(101);
 
     });
 
