@@ -88,7 +88,7 @@ rect.remove(); // bye bye.
 
 # Dispatchers
 
-Each `Shape` has a `Dispatcher` (`this.dispatcher`) which is capable of dispatching events that affect **every** shape, whereas `Feature` and `Interface` objects **only** have dispatchers capable of dispatching events to the `Shape` object &mdash; if an event is intended to be broadcasted to all shapes, then it's the responsibility of the `Shape` object to relay the dispatched event to the `Blueprint` object, such as in the case of the `Events.DESELECT` event.
+Each `Shape` has a `Dispatcher` (`this.dispatcher`) which is capable of dispatching events that affect **every** shape, whereas `Feature` and `Interface` objects **only** have dispatchers capable of dispatching events to the `Shape` object &mdash; if an event is intended to be broadcast to all shapes, then it's the responsibility of the `Shape` object to relay the dispatched event to the `Blueprint` object, such as in the case of `Events.DESELECT` from `Selectable`.
 
 # Z-Index Management
 

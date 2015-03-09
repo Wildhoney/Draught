@@ -10,5 +10,6 @@ export default {
     ATTRIBUTE_SET: 'attribute-set',
     REORDER: 'reorder',
     REMOVE: 'remove',
+    SELECT: 'select',
     DESELECT: 'deselect'
 }

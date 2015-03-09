@@ -19,6 +19,7 @@ export default class Selectable extends Feature {
     constructor(shape) {
 
         super(shape);
+        this.selected = false;
 
         shape.element.on('click', () => {
 
@@ -30,9 +31,8 @@ export default class Selectable extends Feature {
 
             }
 
-            if (!this.original) {
-                this.original = shape.getInterface().fill();
-                shape.getInterface().fill('grey');
+            if (!this.selected) {
+                this.dispatcher.send(Events.SELECT);
             }
 
         });
@@ -40,14 +40,25 @@ export default class Selectable extends Feature {
     }
 
     /**
-     * @method cancel
+     * @method select
      * @return {void}
      */
-    cancel() {
+    select() {
+        this.original = this.shape.getInterface().fill();
+        this.shape.getInterface().fill('grey');
+        this.selected = true;
+    }
 
-        if (this.original) {
+    /**
+     * @method deselect
+     * @return {void}
+     */
+    deselect() {
+
+        if (this.selected) {
             this.shape.getInterface().fill(this.original);
             this.original = null;
+            this.selected = false;
         }
 
     }
