@@ -31,7 +31,9 @@ export default class Rectangle extends Shape {
     addMethods() {
 
         return {
-            fill: (value) => this.setAttributes({ fill: value })
+            fill: function(value) {
+                return this.attr('fill', value);
+            }
         }
 
     }

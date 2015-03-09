@@ -2,6 +2,7 @@ import Dispatcher from './helpers/Dispatcher.js';
 import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
 import ZIndex     from './helpers/ZIndex.js';
+import registry   from './helpers/Registry.js';
 import utility    from './helpers/Utility.js';
 
 // Shapes.
@@ -23,8 +24,6 @@ class Blueprint {
      */
     constructor(element, options = {}) {
 
-        console.log(utility.elementReference(element));
-
         this.options    = _.assign(this.defaultOptions(), options);
         this.element    = d3.select(utility.elementReference(element))
                             .attr('width', this.options.documentWidth)
@@ -42,8 +41,9 @@ class Blueprint {
             rect: Rectangle
         };
 
-        // Add the event listeners.
+        // Add the event listeners, and setup Mousetrap to listen for keyboard events.
         this.addEventListeners();
+        this.setupMousetrap();
 
     }
 
@@ -88,16 +88,17 @@ class Blueprint {
         var index = 0,
             item  = _.find(this.shapes, (shape, i) => {
 
-            if (shape.interface === model) {
-                index = i;
-                return model;
-            }
+                if (shape.interface === model) {
+                    index = i;
+                    return model;
+                }
 
-        });
+            });
 
         item.shape.element.remove();
         this.shapes.splice(index, 1);
         return this.all();
+
     }
 
     /**
@@ -172,6 +173,17 @@ class Blueprint {
         // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
         // the `Events.DESELECT` event to deselect all selected shapes.
         this.element.on('click', () => this.dispatcher.send(Events.DESELECT))
+
+    }
+
+    /**
+     * @method setupMousetrap
+     * @return {void}
+     */
+    setupMousetrap() {
+
+        Mousetrap.bind('mod', () => registry.keys.multiSelect = true,  'keydown');
+        Mousetrap.bind('mod', () => registry.keys.multiSelect = false, 'keyup');
 
     }
 

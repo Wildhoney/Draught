@@ -26,6 +26,6 @@
     "requirejs": "~2.1.16"
   },
   "devDependencies": {
-    "requirejs": "~2.1.16"
+    "mousetrap": "~1.4.6"
   }
 }

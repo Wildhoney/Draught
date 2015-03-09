@@ -205,9 +205,15 @@ export default class Shape {
      */
     addFeatures() {
 
+        var dispatcher = new Dispatcher();
+
         this.features = {
-            selectable: new Selectable(this)
+            selectable: new Selectable(this).setDispatcher(dispatcher)
         };
+
+        dispatcher.listen(Events.DESELECT, () => {
+            this.dispatcher.send(Events.DESELECT);
+        });
 
     }
 

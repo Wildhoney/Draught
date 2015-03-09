@@ -15,4 +15,14 @@ export default class Feature {
         this.shape = shape;
     }
 
+    /**
+     * @method setDispatcher
+     * @param {Object} dispatcher
+     * @return {Feature}
+     */
+    setDispatcher(dispatcher) {
+        this.dispatcher = dispatcher;
+        return this;
+    }
+
 }
