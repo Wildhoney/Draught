@@ -86,6 +86,10 @@ var rect = blueprint.add('rect').fill('blue').x(100);
 rect.remove(); // bye bye.
 ```
 
+# Dispatchers
+
+Each `Shape` has a `Dispatcher` (`this.dispatcher`) which is capable of dispatching events that affect **every** shape, whereas `Feature` and `Interface` objects **only** have dispatchers capable of dispatching events to the `Shape` object &mdash; if an event is intended to be broadcasted to all shapes, then it's the responsibility of the `Shape` object to relay the dispatched event to the `Blueprint` object, such as in the case of the `Events.DESELECT` event.
+
 # Z-Index Management
 
 Technically SVG doesn't have a `z-index` property as CSS does, and therefore the Z value is determined by the insertion order of the elements. `Blueprint` provides a handful of convenience methods for managing the Z index. Aside from the typical `z` method which accepts **any** numerical value &mdash; including `Infinity` and `-Infinity` which will be translated to in between `1` and `groups.length` &mdash; `Blueprint` has the following methods:
