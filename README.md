@@ -70,7 +70,7 @@ All of the shapes in `Blueprint` use hooks to allow for the easy creation of cus
 - [ ] `addMethods` &mdash; For adding specialised methods to the interface;
 - [ ] `addElements` &mdash; For appending elements to the group/shape elements;
 
-Shapes can be registered with the `registerShape` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
+Shapes can be registered with the `register` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
 
 ```javascript
 class Circle extends Shape {}
