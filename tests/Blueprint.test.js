@@ -40,6 +40,17 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to add an element whilst passing in a DOM reference;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add(document.createElement('rect')).x(300).y(550);
+
+        expect(rectangle.x()).toEqual(300);
+        expect(rectangle.y()).toEqual(550);
+
+    });
+
     it('Should be able to read attributes from the shape;', function() {
 
         var svg       = document.createElement('svg'),

@@ -145,6 +145,21 @@ var utility = (function() {
 
             return transformedModel;
 
+        },
+
+        /**
+         * @method elementName
+         * @param {String|HTMLElement} nameOrElement
+         * @return {String}
+         */
+        resolveElement(nameOrElement) {
+
+            if (nameOrElement.nodeName) {
+                return nameOrElement.nodeName.toLowerCase();
+            }
+
+            return nameOrElement.toLowerCase();
+
         }
 
     };

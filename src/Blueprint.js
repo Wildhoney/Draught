@@ -2,7 +2,6 @@ import Dispatcher from './helpers/Dispatcher.js';
 import Groups     from './helpers/Groups.js';
 import Events     from './helpers/Events.js';
 import ZIndex     from './helpers/ZIndex.js';
-import Registry   from './helpers/Registry.js';
 import utility    from './helpers/Utility.js';
 
 // Shapes.
@@ -33,7 +32,6 @@ class Blueprint {
 
         // Helpers required by Blueprint and the rest of the system.
         this.dispatcher = new Dispatcher();
-        this.registry   = new Registry();
         this.zIndex     = new ZIndex();
         this.groups     = new Groups().addTo(this.element);
 
@@ -49,12 +47,12 @@ class Blueprint {
 
     /**
      * @method add
-     * @param {String} name
+     * @param {String|HTMLElement} name
      * @return {Interface}
      */
     add(name) {
 
-        var shape   = this.instantiate(name),
+        var shape   = this.instantiate(utility.resolveElement(name)),
             group   = this.groups.shapes.append('g').attr(this.options.dataAttribute, shape.label),
             element = group.append(shape.getTag()),
             zIndex  = { z: this.index - 1 };
