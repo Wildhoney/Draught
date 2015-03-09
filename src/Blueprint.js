@@ -23,6 +23,8 @@ class Blueprint {
      */
     constructor(element, options = {}) {
 
+        console.log(utility.elementReference(element));
+
         this.options    = _.assign(this.defaultOptions(), options);
         this.element    = d3.select(utility.elementReference(element))
                             .attr('width', this.options.documentWidth)
