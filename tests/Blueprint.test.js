@@ -49,7 +49,7 @@ describe('Blueprint', function() {
         var blueprint = new Blueprint('#svg-container'),
             rectangle = blueprint.add(document.createElement('rect')).x(300).y(550);
 
-        expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1);
+        expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1  );
         expect(rectangle.x()).toEqual(300);
         expect(rectangle.y()).toEqual(550);
 
