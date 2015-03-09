@@ -154,7 +154,7 @@ var utility = (function() {
          */
         elementName(model) {
 
-            if (model.hasOwnProperty('nodeName')) {
+            if (model.nodeName) {
                 return model.nodeName.toLowerCase();
             }
 
@@ -169,7 +169,7 @@ var utility = (function() {
          */
         elementReference(model) {
 
-            if (model.hasOwnProperty('nodeName')) {
+            if (model.nodeName) {
                 return model;
             }
 

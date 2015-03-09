@@ -11,6 +11,7 @@ gulp:
   dependencies:
     - public/vendor/d3/d3.js
     - public/vendor/lodash/lodash.js
+    - public/vendor/mousetrap/mousetrap.js
 
   names:
     dev: blueprint.js
