@@ -211,9 +211,7 @@ export default class Shape {
             selectable: new Selectable(this).setDispatcher(dispatcher)
         };
 
-        dispatcher.listen(Events.DESELECT, () => {
-            this.dispatcher.send(Events.DESELECT);
-        });
+        dispatcher.listen(Events.DESELECT, () => this.dispatcher.send(Events.DESELECT));
 
     }
 
