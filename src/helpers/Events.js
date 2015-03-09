@@ -9,5 +9,6 @@ export default {
     ATTRIBUTE_GET_ALL: 'attribute-get-all',
     ATTRIBUTE_SET: 'attribute-set',
     REORDER: 'reorder',
-    REMOVE: 'remove'
+    REMOVE: 'remove',
+    DESELECT: 'deselect'
 }

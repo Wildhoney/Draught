@@ -3,6 +3,9 @@ import Dispatcher from './../helpers/Dispatcher.js';
 import Events     from './../helpers/Events.js';
 import utility    from './../helpers/Utility.js';
 
+// Features.
+import Selectable from './features/Selectable.js';
+
 /**
  * @module Blueprint
  * @submodule Shape
@@ -17,17 +20,29 @@ export default class Shape {
      * @constructor
      */
     constructor(label = '') {
-        this.element   = null;
-        this.label     = label;
+        this.element = null;
+        this.group = null;
+        this.label = label;
         this.interface = null;
+        this.features = {};
     }
 
     /**
      * @method setElement
      * @param {Object} element
+     * @return {void}
      */
     setElement(element) {
         this.element = element;
+    }
+
+    /**
+     * @method setGroup
+     * @param {Object} group
+     * @return {void}
+     */
+    setGroup(group) {
+        this.group = group;
     }
 
     /**
@@ -36,7 +51,27 @@ export default class Shape {
      * @return {void}
      */
     setDispatcher(dispatcher) {
+
         this.dispatcher = dispatcher;
+
+        this.dispatcher.listen(Events.DESELECT, () => this.tryInvokeOnEachFeature('cancel'));
+
+    }
+
+    /**
+     * @method tryInvokeOnEachFeature
+     * @param {String} methodName
+     */
+    tryInvokeOnEachFeature(methodName) {
+
+        _.forIn(this.features, (feature) => {
+
+            if (_.isFunction(feature[methodName])) {
+                feature[methodName]();
+            }
+
+        });
+
     }
 
     /**
@@ -46,6 +81,27 @@ export default class Shape {
      */
     setOptions(options) {
         this.options = options;
+    }
+
+    /**
+     * Should be overwritten for shape types that have a different name to their SVG tag name, such as a `foreignObject`
+     * element using the `rect` shape name.
+     *
+     * @method getName
+     * @return {String}
+     */
+    getName() {
+        return this.getTag();
+    }
+
+    /**
+     * @method getTag
+     * @throws Exception
+     * @return {String}
+     */
+    getTag() {
+        utility.throwException(`Shape<${this.label}> must define a \`getTag\` method`);
+        return '';
     }
 
     /**
@@ -137,20 +193,22 @@ export default class Shape {
 
     /**
      * @method addElements
-     * @param {Object} element
      * @return {Object}
      */
-    addElements(element) {
-        return element;
+    addElements() {
+        return {};
     }
 
     /**
-     * @method getTag
-     * @throws Exception
+     * @method addFeatures
      * @return {void}
      */
-    getTag() {
-        utility.throwException(`Shape<${this.label}> must define a \`getTag\` method`);
+    addFeatures() {
+
+        this.features = {
+            selectable: new Selectable(this)
+        };
+
     }
 
     /**

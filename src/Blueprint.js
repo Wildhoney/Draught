@@ -55,18 +55,21 @@ class Blueprint {
     add(name) {
 
         var shape   = this.instantiate(name),
-            group   = this.groups.shapes,
-            element = group.append('g').attr(this.options.dataAttribute, shape.label).append(shape.getTag()),
+            group   = this.groups.shapes.append('g').attr(this.options.dataAttribute, shape.label),
+            element = group.append(shape.getTag()),
             zIndex  = { z: this.index - 1 };
 
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
         shape.setDispatcher(this.dispatcher);
         shape.setElement(element);
+        shape.setGroup(group);
         shape.setAttributes(_.assign(zIndex, shape.getAttributes()));
 
-        // Last chance to define any further elements for the group.
-        shape.addElements(element);
+        // Last chance to define any further elements for the group, and the application of the
+        // features which a shape should have, such as being draggable, selectable, resizeable, etc...
+        shape.addElements();
+        shape.addFeatures();
 
         // Create a mapping from the actual shape object, to the interface object that the developer
         // interacts with.
@@ -159,15 +162,16 @@ class Blueprint {
      */
     addEventListeners() {
 
-        // Apply our event listeners.
         this.dispatcher.listen(Events.REORDER, (event) => {
             var groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             this.zIndex.reorder(groups, event.group);
         });
 
-        this.dispatcher.listen(Events.REMOVE, (event) => {
-            this.remove(event.interface);
-        });
+        this.dispatcher.listen(Events.REMOVE, (event) => this.remove(event.interface));
+
+        // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
+        // the `Events.DESELECT` event to deselect all selected shapes.
+        this.element.on('click', () => this.dispatcher.send(Events.DESELECT))
 
     }
 

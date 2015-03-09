@@ -68,6 +68,7 @@ All of the shapes in `Blueprint` use hooks to allow for the easy creation of cus
 - [x] `getTag` &mdash; For specifying the root element's tag name;
 - [ ] `addAttributes` &mdash; For applying custom attributes;
 - [ ] `addMethods` &mdash; For adding specialised methods to the interface;
+- [ ] `addElements` &mdash; For appending elements to the group/shape elements;
 
 Shapes can be registered with the `registerShape` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
 

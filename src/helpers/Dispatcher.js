@@ -41,16 +41,31 @@ export default class Dispatcher {
     /**
      * @method listen
      * @param {String} name
-     * @param {Function} [fn=() => {}]
-     * @return {void}
+     * @param {Function} fn
+     * @return {Boolean}
      */
-    listen(name, fn = () => {}) {
+    listen(name, fn) {
+
+        if (!_.isFunction(fn)) {
+            return false;
+        }
 
         if (!this.events[name]) {
             this.events[name] = [];
         }
 
         this.events[name].push(fn);
+        return true;
+
+    }
+
+    /**
+     * @method unlistenAll
+     * @param {String} name
+     * @param {Function} fn
+     * @return {void}
+     */
+    unlistenAll() {
 
     }
 
