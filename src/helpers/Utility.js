@@ -149,16 +149,31 @@ var utility = (function() {
 
         /**
          * @method elementName
-         * @param {String|HTMLElement} nameOrElement
+         * @param {String|HTMLElement} model
          * @return {String}
          */
-        resolveElement(nameOrElement) {
+        elementName(model) {
 
-            if (nameOrElement.nodeName) {
-                return nameOrElement.nodeName.toLowerCase();
+            if (model.nodeName) {
+                return model.nodeName.toLowerCase();
             }
 
-            return nameOrElement.toLowerCase();
+            return model.toLowerCase();
+
+        },
+
+        /**
+         * @method elementReference
+         * @param {String|HTMLElement} model
+         * @return {HTMLElement}
+         */
+        elementReference(model) {
+
+            if (model instanceof HTMLElement) {
+                return model;
+            }
+
+            return document.querySelector(model);
 
         }
 

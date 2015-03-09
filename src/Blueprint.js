@@ -17,14 +17,14 @@ class Blueprint {
 
     /**
      * @method constructor
-     * @param {SVGElement} element
+     * @param {SVGElement|String} element
      * @param {Object} [options={}]
      * @return {void}
      */
     constructor(element, options = {}) {
 
         this.options    = _.assign(this.defaultOptions(), options);
-        this.element    = d3.select(element)
+        this.element    = d3.select(utility.elementReference(element))
                             .attr('width', this.options.documentWidth)
                             .attr('height', this.options.documentHeight);
         this.shapes     = [];
@@ -52,7 +52,7 @@ class Blueprint {
      */
     add(name) {
 
-        var shape   = this.instantiate(utility.resolveElement(name)),
+        var shape   = this.instantiate(utility.elementName(name)),
             group   = this.groups.shapes.append('g').attr(this.options.dataAttribute, shape.label),
             element = group.append(shape.getTag()),
             zIndex  = { z: this.index - 1 };

@@ -42,10 +42,14 @@ describe('Blueprint', function() {
 
     it('Should be able to add an element whilst passing in a DOM reference;', function() {
 
-        var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
+        var svgContainer = document.createElement('svg');
+        svgContainer.setAttribute('id', 'svg-container');
+        document.body.appendChild(svgContainer);
+
+        var blueprint = new Blueprint('#svg-container'),
             rectangle = blueprint.add(document.createElement('rect')).x(300).y(550);
 
+        expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1);
         expect(rectangle.x()).toEqual(300);
         expect(rectangle.y()).toEqual(550);
 
