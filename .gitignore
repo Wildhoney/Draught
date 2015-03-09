@@ -3,8 +3,8 @@ node_modules
 npm-debug.log
 
 # Bower
-example/vendor/*
-!example/vendor/*.gitkeep
+public/vendor/*
+!public/vendor/*.gitkeep
 
 # IDE
 .idea
