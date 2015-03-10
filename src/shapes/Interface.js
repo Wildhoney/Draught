@@ -2,7 +2,7 @@ import Events  from './../helpers/Events.js';
 import utility from './../helpers/Utility.js';
 
 /**
- * @module object
+ * @module Blueprint
  * @submodule Interface
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/object

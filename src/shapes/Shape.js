@@ -1,4 +1,3 @@
-import Interface  from './../helpers/Interface.js';
 import Dispatcher from './../helpers/Dispatcher.js';
 import Events     from './../helpers/Events.js';
 import utility    from './../helpers/Utility.js';
@@ -114,7 +113,7 @@ export default class Shape {
 
         if (this.interface === null) {
 
-            this.interface = new Interface(this.label);
+            this.interface = this.addInterface();
             let dispatcher = new Dispatcher();
             this.interface.setDispatcher(dispatcher);
 
@@ -134,10 +133,6 @@ export default class Shape {
             dispatcher.listen(Events.ATTRIBUTE_GET_ALL,        getAttributes);
             dispatcher.listen(Events.REMOVE, (model)        => this.dispatcher.send(Events.REMOVE, model));
             dispatcher.listen(Events.ATTRIBUTE_SET, (model) => { this.setAttributes(model.attributes); });
-
-            if (_.isFunction(this.addMethods)) {
-                this.interface = _.assign(this.interface, this.addMethods());
-            }
 
         }
 

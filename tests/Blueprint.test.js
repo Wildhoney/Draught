@@ -55,6 +55,16 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to add a specialised interface method;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add('rect');
+
+        expect(rectangle.fill('red').fill()).toEqual('red');
+
+    });
+
     it('Should be able to read attributes from the shape;', function() {
 
         var svg       = document.createElement('svg'),

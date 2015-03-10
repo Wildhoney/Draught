@@ -66,8 +66,8 @@ var blueprint = new Blueprint(svg, {
 All of the shapes in `Blueprint` use hooks to allow for the easy creation of custom shapes.
 
 - [x] `getTag` &mdash; For specifying the root element's tag name;
+- [x] `addInterface` &mdash; For adding the specialised interface;
 - [ ] `addAttributes` &mdash; For applying custom attributes;
-- [ ] `addMethods` &mdash; For adding specialised methods to the interface;
 - [ ] `addElements` &mdash; For appending elements to the group/shape elements;
 
 Shapes can be registered with the `register` method on the `Blueprint` object &ndash; it accepts a name (`string`) and an object (`Shape`).
