@@ -21,7 +21,7 @@ export default class Selectable extends Feature {
         super(shape);
         this.selected = false;
 
-        shape.element.on('click', () => {
+        shape.element.on('mousedown', () => {
 
             if (!registry.keys.multiSelect) {
 
