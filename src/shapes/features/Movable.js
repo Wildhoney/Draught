@@ -27,7 +27,7 @@ export default class Movable extends Feature {
          */
         this.start = { x: 0, y: 0 };
 
-        var dragStart = ['dragstart', () => this.dragStart()],
+        let dragStart = ['dragstart', () => this.dragStart()],
             drag      = ['drag',      () => this.drag()],
             dragEnd   = ['dragend',   () => this.dragEnd()];
 
