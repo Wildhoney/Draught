@@ -163,12 +163,11 @@ class Blueprint {
      */
     addEventListeners() {
 
+        this.dispatcher.listen(Events.REMOVE, (event)  => this.remove(event.interface));
         this.dispatcher.listen(Events.REORDER, (event) => {
             var groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             this.zIndex.reorder(groups, event.group);
         });
-
-        this.dispatcher.listen(Events.REMOVE, (event) => this.remove(event.interface));
 
         // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
         // the `Events.DESELECT` event to deselect all selected shapes.

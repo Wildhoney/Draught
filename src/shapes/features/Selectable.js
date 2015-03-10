@@ -27,12 +27,16 @@ export default class Selectable extends Feature {
 
                 // Deselect all of the shapes including the current one, as this keeps the logic simpler. We will
                 // apply the current shape to be selected in the next step.
-                this.dispatcher.send(Events.DESELECT);
+                this.dispatcher.send(Events.SELECTABLE.DESELECT, {
+                    shape: shape.getInterface()
+                });
 
             }
 
             if (!this.selected) {
-                this.dispatcher.send(Events.SELECT);
+                this.dispatcher.send(Events.SELECTABLE.SELECT, {
+                    shape: shape.getInterface()
+                });
             }
 
         });

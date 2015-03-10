@@ -129,8 +129,8 @@ export default class Shape {
             };
 
             // Listeners that hook up the interface and the shape object.
-            dispatcher.listen(Events.REMOVE, (model) => this.dispatcher.send(Events.REMOVE, model));
-            dispatcher.listen(Events.ATTRIBUTE_GET_ALL, getAttributes);
+            dispatcher.listen(Events.ATTRIBUTE_GET_ALL,        getAttributes);
+            dispatcher.listen(Events.REMOVE, (model)        => this.dispatcher.send(Events.REMOVE, model));
             dispatcher.listen(Events.ATTRIBUTE_SET, (model) => { this.setAttributes(model.attributes); });
 
             if (_.isFunction(this.addMethods)) {
@@ -211,8 +211,14 @@ export default class Shape {
             selectable: new Selectable(this).setDispatcher(dispatcher)
         };
 
-        dispatcher.listen(Events.SELECT, () => this.tryInvokeOnEachFeature('select'));
-        dispatcher.listen(Events.DESELECT, () => this.dispatcher.send(Events.DESELECT));
+        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {
+            this.dispatcher.send(Events.DESELECT, model);
+        });
+
+        dispatcher.listen(Events.SELECTABLE.SELECT, (model) => {
+            this.dispatcher.send(Events.SELECT, model);
+            this.tryInvokeOnEachFeature('select');
+        });
 
     }
 

@@ -268,6 +268,16 @@ describe('Blueprint', function() {
             expect(firstSelectable.selected).toBeTruthy();
             expect(secondSelectable.selected).toBeTruthy();
 
+            // User disables multi-select.
+            Mousetrap.trigger('mod', 'keyup');
+
+            secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeFalsy();
+            expect(secondSelectable.selected).toBeTruthy();
+
         });
 
     });
