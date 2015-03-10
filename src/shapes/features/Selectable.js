@@ -50,10 +50,10 @@ export default class Selectable extends Feature {
     select() {
 
         if (!this.selected) {
-            this.original = this.shape.getInterface().fill();
-            this.shape.getInterface().fill('grey');
+            this.shape.getInterface().opacity(0.5);
             this.selected = true;
         }
+
     }
 
     /**
@@ -63,7 +63,7 @@ export default class Selectable extends Feature {
     deselect() {
 
         if (this.selected) {
-            this.shape.getInterface().fill(this.original);
+            this.shape.getInterface().opacity(1);
             this.original = null;
             this.selected = false;
         }

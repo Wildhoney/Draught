@@ -33,7 +33,7 @@ export default class Interface {
     /**
      * @method x
      * @param {Number} [value=undefined]
-     * @return {Interface}
+     * @return {Interface|Number}
      */
     x(value) {
         return this.attr('x', value);
@@ -42,10 +42,19 @@ export default class Interface {
     /**
      * @method y
      * @param {Number} [value=undefined]
-     * @return {Interface}
+     * @return {Interface|Number}
      */
     y(value) {
         return this.attr('y', value);
+    }
+
+    /**
+     * @method opacity
+     * @param {Number} value
+     * @return {Interface|Number}
+     */
+    opacity(value) {
+        return this.attr('opacity', value);
     }
 
     /**
@@ -59,7 +68,7 @@ export default class Interface {
 
     /**
      * @method bringToFront
-     * @return {*}
+     * @return {Interface|Number}
      */
     bringToFront() {
         return this.attr('z', Infinity);
@@ -67,7 +76,7 @@ export default class Interface {
 
     /**
      * @method sendToBack
-     * @return {*}
+     * @return {Interface|Number}
      */
     sendToBack() {
         return this.attr('z', -Infinity);
@@ -75,7 +84,7 @@ export default class Interface {
 
     /**
      * @method sendBackwards
-     * @return {*}
+     * @return {Interface|Number}
      */
     sendBackwards() {
         return this.attr('z', (this.getAttr().z - 1));
@@ -83,7 +92,7 @@ export default class Interface {
 
     /**
      * @method bringForwards
-     * @return {*}
+     * @return {Interface|Number}
      */
     bringForwards() {
         return this.attr('z', (this.getAttr().z + 1));
@@ -92,7 +101,7 @@ export default class Interface {
     /**
      * @method width
      * @param {Number} [value=undefined]
-     * @return {Interface}
+     * @return {Interface|Number}
      */
     width(value) {
         return this.attr('width', value);
@@ -101,7 +110,7 @@ export default class Interface {
     /**
      * @method height
      * @param {Number} [value=undefined]
-     * @return {Interface}
+     * @return {Interface|Number}
      */
     height(value) {
         return this.attr('height', value);
