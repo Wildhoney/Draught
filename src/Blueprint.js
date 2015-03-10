@@ -54,7 +54,7 @@ class Blueprint {
      */
     add(name) {
 
-        var shape   = this.instantiate(utility.elementName(name)),
+        let shape   = this.instantiate(utility.elementName(name)),
             group   = this.groups.shapes.append('g').attr(this.options.dataAttribute, shape.label),
             element = group.append(shape.getTag()),
             zIndex  = { z: this.index - 1 };
@@ -85,7 +85,7 @@ class Blueprint {
      */
     remove(model) {
 
-        var index = 0,
+        let index = 0,
             item  = _.find(this.shapes, (shape, i) => {
 
                 if (shape.interface === model) {
@@ -165,7 +165,7 @@ class Blueprint {
 
         this.dispatcher.listen(Events.REMOVE, (event)  => this.remove(event.interface));
         this.dispatcher.listen(Events.REORDER, (event) => {
-            var groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
+            let groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             this.zIndex.reorder(groups, event.group);
         });
 

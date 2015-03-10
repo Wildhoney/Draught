@@ -114,16 +114,16 @@ export default class Shape {
         if (this.interface === null) {
 
             this.interface = new Interface(this.label);
-            var dispatcher = new Dispatcher();
+            let dispatcher = new Dispatcher();
             this.interface.setDispatcher(dispatcher);
 
             /**
              * @method getAttributes
              * @return {Object}
              */
-            var getAttributes = () => {
+            let getAttributes = () => {
 
-                var zIndex = { z: d3.select(this.element.node().parentNode).datum().z },
+                let zIndex = { z: d3.select(this.element.node().parentNode).datum().z },
                     model  = _.assign(this.element.datum(), zIndex);
                 return utility.retransformAttributes(model);
 
@@ -161,7 +161,7 @@ export default class Shape {
             // from the `attributes` object, and instead apply it to the shape's group element.
             // Afterwards we'll need to broadcast an event to reorder the elements using D3's magical
             // `sort` method.
-            var group = d3.select(this.element.node().parentNode);
+            let group = d3.select(this.element.node().parentNode);
             group.datum({ z: attributes.z });
             delete attributes.z;
             this.dispatcher.send(Events.REORDER, {
@@ -182,7 +182,7 @@ export default class Shape {
      */
     getAttributes() {
 
-        var attributes = { x: 0, y: 0 };
+        let attributes = { x: 0, y: 0 };
 
         if (_.isFunction(this.addAttributes)) {
             attributes = _.assign(attributes, this.addAttributes());
@@ -206,7 +206,7 @@ export default class Shape {
      */
     addFeatures() {
 
-        var dispatcher = new Dispatcher();
+        let dispatcher = new Dispatcher();
 
         this.features = {
             selectable: new Selectable(this).setDispatcher(dispatcher)
@@ -230,7 +230,7 @@ export default class Shape {
      */
     toString() {
 
-        var tag = this.getTag().charAt(0).toUpperCase() + this.getTag().slice(1);
+        let tag = this.getTag().charAt(0).toUpperCase() + this.getTag().slice(1);
 
         if (this.label) {
             return `[object ${tag}: ${this.label}]`;

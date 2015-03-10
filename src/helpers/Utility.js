@@ -22,7 +22,7 @@ var utility = (function() {
         throwException: (message, exceptionsTitle = '') => {
 
             if (exceptionsTitle) {
-                var link = Constants.EXCEPTIONS_URL.replace(/{(.+?)}/i, () => _.kebabCase(exceptionsTitle));
+                let link = Constants.EXCEPTIONS_URL.replace(/{(.+?)}/i, () => _.kebabCase(exceptionsTitle));
                 throw `Blueprint.js: ${message}. See: ${link}`;
             }
 
@@ -54,7 +54,7 @@ var utility = (function() {
 
             if (attributes.transform) {
 
-                var match = attributes.transform.match(/(\d+)\s*,\s*(\d+)/i),
+                let match = attributes.transform.match(/(\d+)\s*,\s*(\d+)/i),
                     x     = parseInt(match[1]),
                     y     = parseInt(match[2]);
 
@@ -92,7 +92,7 @@ var utility = (function() {
 
             if (attributes.transform) {
 
-                var match = attributes.transform.match(/(\d+)\s*,\s*(\d+)/i);
+                let match = attributes.transform.match(/(\d+)\s*,\s*(\d+)/i);
                 attributes.x = parseInt(match[1]);
                 attributes.y = parseInt(match[2]);
                 delete attributes.transform;
@@ -120,7 +120,7 @@ var utility = (function() {
          */
         kebabifyKeys(model) {
 
-            var transformedModel = {};
+            let transformedModel = {};
 
             _.forIn(model, (value, key) => {
                 transformedModel[_.kebabCase(key)] = value;
@@ -137,7 +137,7 @@ var utility = (function() {
          */
         camelifyKeys(model) {
 
-            var transformedModel = {};
+            let transformedModel = {};
 
             _.forIn(model, (value, key) => {
                 transformedModel[_.camelCase(key)] = value;

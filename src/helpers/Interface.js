@@ -128,7 +128,7 @@ export default class Interface {
             return this.getAttr()[property];
         }
 
-        var model       = {};
+        let model       = {};
         model[property] = value;
         return this.setAttr(model);
 
@@ -155,7 +155,7 @@ export default class Interface {
      */
     getAttr() {
 
-        var result = {};
+        let result = {};
 
         this.dispatcher.send(Events.ATTRIBUTE_GET_ALL, {}, (response) => {
             result = response;

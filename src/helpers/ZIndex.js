@@ -14,7 +14,7 @@ export default class ZIndex {
      */
     reorder(groups, group) {
 
-        var zMax = groups.size();
+        let zMax = groups.size();
 
         // Ensure the maximum Z is above zero and below the maximum.
         if (group.datum().z > zMax) { group.datum().z = zMax; }
@@ -37,7 +37,7 @@ export default class ZIndex {
                 zCurrent++;
             }
 
-            var shape = d3.select(model),
+            let shape = d3.select(model),
                 datum = shape.datum();
             datum.z = zCurrent++;
             shape.datum(datum);

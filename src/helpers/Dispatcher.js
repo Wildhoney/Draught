@@ -25,7 +25,7 @@ export default class Dispatcher {
 
         _.forEach(this.events[name], (callbackFn) => {
 
-            var result = callbackFn(properties);
+            let result = callbackFn(properties);
 
             if (_.isFunction(fn)) {
 
@@ -56,16 +56,6 @@ export default class Dispatcher {
 
         this.events[name].push(fn);
         return true;
-
-    }
-
-    /**
-     * @method unlistenAll
-     * @param {String} name
-     * @param {Function} fn
-     * @return {void}
-     */
-    unlistenAll() {
 
     }
 
