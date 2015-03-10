@@ -54,7 +54,8 @@ export default class Shape {
 
         this.dispatcher = dispatcher;
 
-        this.dispatcher.listen(Events.DESELECT, () => this.tryInvokeOnEachFeature('deselect'));
+        this.dispatcher.listen(Events.SELECT_ALL,   () => this.tryInvokeOnEachFeature('select'));
+        this.dispatcher.listen(Events.DESELECT_ALL, () => this.tryInvokeOnEachFeature('deselect'));
 
     }
 
@@ -211,7 +212,11 @@ export default class Shape {
             selectable: new Selectable(this).setDispatcher(dispatcher)
         };
 
-        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => this.dispatcher.send(Events.DESELECT, model));
+        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {
+            this.dispatcher.send(Events.DESELECT_ALL, model);
+            this.tryInvokeOnEachFeature('deselect');
+        });
+
         dispatcher.listen(Events.SELECTABLE.SELECT, (model)   => {
             this.dispatcher.send(Events.SELECT, model);
             this.tryInvokeOnEachFeature('select');

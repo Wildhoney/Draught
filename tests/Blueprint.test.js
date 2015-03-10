@@ -278,6 +278,26 @@ describe('Blueprint', function() {
             expect(firstSelectable.selected).toBeFalsy();
             expect(secondSelectable.selected).toBeTruthy();
 
+            // With mod+a we should be able to select all of the elements.
+
+            Mousetrap.trigger('mod+a', 'keydown');
+
+            expect(firstSelectable.selected).toBeTruthy();
+            expect(secondSelectable.selected).toBeTruthy();
+
+            svg.dispatchEvent(new MouseEvent('click', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeFalsy();
+            expect(secondSelectable.selected).toBeFalsy();
+
+            Mousetrap.trigger('mod+a', 'keydown');
+
+            expect(firstSelectable.selected).toBeTruthy();
+            expect(secondSelectable.selected).toBeTruthy();
+
+
         });
 
     });

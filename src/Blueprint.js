@@ -171,7 +171,7 @@ class Blueprint {
 
         // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
         // the `Events.DESELECT` event to deselect all selected shapes.
-        this.element.on('click', () => this.dispatcher.send(Events.DESELECT))
+        this.element.on('click', () => this.dispatcher.send(Events.DESELECT_ALL));
 
     }
 
@@ -181,8 +181,9 @@ class Blueprint {
      */
     setupMousetrap() {
 
-        Mousetrap.bind('mod', () => registry.keys.multiSelect = true,  'keydown');
-        Mousetrap.bind('mod', () => registry.keys.multiSelect = false, 'keyup');
+        Mousetrap.bind('mod', ()   => registry.keys.multiSelect = true, 'keydown');
+        Mousetrap.bind('mod', ()   => registry.keys.multiSelect = false, 'keyup');
+        Mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL), 'keydown');
 
     }
 

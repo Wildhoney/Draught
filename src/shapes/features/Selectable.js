@@ -48,9 +48,12 @@ export default class Selectable extends Feature {
      * @return {void}
      */
     select() {
-        this.original = this.shape.getInterface().fill();
-        this.shape.getInterface().fill('grey');
-        this.selected = true;
+
+        if (!this.selected) {
+            this.original = this.shape.getInterface().fill();
+            this.shape.getInterface().fill('grey');
+            this.selected = true;
+        }
     }
 
     /**

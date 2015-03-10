@@ -11,6 +11,8 @@ export default {
     REORDER: 'reorder',
     REMOVE: 'remove',
     SELECT: 'select',
+    SELECT_ALL: 'select-all',
+    DESELECT_ALL: 'deselect-all',
     DESELECT: 'deselect',
     SELECTABLE: {
         SELECT: 'selectable-select',
