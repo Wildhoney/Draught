@@ -90,7 +90,7 @@ rect.remove(); // bye bye.
 
 Each `Shape` has a `Dispatcher` (`this.dispatcher`) which is capable of dispatching events that affect **every** shape, whereas `Feature` and `Interface` objects **only** have dispatchers capable of dispatching events to the `Shape` object &mdash; if an event is intended to be broadcast to all shapes, then it's the responsibility of the `Shape` object to relay the dispatched event to the `Blueprint` object, such as in the case of `Events.DESELECT` from `Selectable`.
 
-![Dispatcher Architecture](http://i.imgur.com/OVVst3q.png)
+<img src="http://i.imgur.com/OVVst3q.png" alt="Dispatcher Architecture" style="width: 540px" />
 
 In the above diagram we can see that `Blueprint` has the main dispatcher that it injects into `Shape` &mdash; each `Interface` and `Feature` have their own dispatchers.
 
