@@ -34,7 +34,7 @@ expect(rectangle.width(value).width()).toEqual(value); // √
 
 **Note:** The `z()` method is for setting the z-index but isn't applied directly to your `rect` shape, it is instead applied to the `g` element that is wrapped around your shape. When you define the z-index for your shape, the `Events.REORDER` event will be dispatched and all elements will be re-ordered using their z-indexes using `d3.sort`. See [Z-Index Management](#z-index-management) for further information.
 
-## Developers: Data Attribute
+## Debugging: Data Attribute
 
 Mostly for debugging purposes, each `Interface` object has a `toString` method which returns the ID of the attribute (`[object Interface: BP5]`) which corresponds to the `data-id` &mdash; which [can be changed](#change-data-attribute) &mdash; attribute on your shape's `g` element: `<g data-id="BP5">...</g>`. Each `Shape` object also has a `toString` method which returns the shape's ID (`[object Rect: BP5]`) which is a nexus between the `Shape` and its `Interface`. You may also return the `Shape` instance &mdash; although it's not recommended &mdash; by taking it from the `blueprint.shapes` array.
 
@@ -90,7 +90,7 @@ rect.remove(); // bye bye.
 
 Each `Shape` has a `Dispatcher` (`this.dispatcher`) which is capable of dispatching events that affect **every** shape, whereas `Feature` and `Interface` objects **only** have dispatchers capable of dispatching events to the `Shape` object &mdash; if an event is intended to be broadcast to all shapes, then it's the responsibility of the `Shape` object to relay the dispatched event to the `Blueprint` object, such as in the case of `Events.DESELECT` from `Selectable`.
 
-<img src="http://i.imgur.com/OVVst3q.png" alt="Dispatcher Architecture" width="540" />
+<img src="http://i.imgur.com/jdm7RDX.png" alt="Dispatcher Architecture" width="540" />
 
 In the above diagram we can see that `Blueprint` has the main dispatcher that it injects into `Shape` &mdash; each `Interface` and `Feature` have their own dispatchers.
 

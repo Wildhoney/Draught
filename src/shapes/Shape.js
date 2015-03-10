@@ -211,25 +211,12 @@ export default class Shape {
             selectable: new Selectable(this).setDispatcher(dispatcher)
         };
 
-        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {
-            this.dispatcher.send(Events.DESELECT, model);
-        });
-
-        dispatcher.listen(Events.SELECTABLE.SELECT, (model) => {
+        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => this.dispatcher.send(Events.DESELECT, model));
+        dispatcher.listen(Events.SELECTABLE.SELECT, (model)   => {
             this.dispatcher.send(Events.SELECT, model);
             this.tryInvokeOnEachFeature('select');
         });
 
-    }
-
-    /**
-     * @method dispatchAttributeEvent
-     * @param {Object} properties = {}
-     * @return {void}
-     */
-    dispatchAttributeEvent(properties = {}) {
-        properties.element = this;
-        this.dispatcher.send(Events.ATTRIBUTE, properties);
     }
 
     /**
