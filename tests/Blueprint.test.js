@@ -200,8 +200,75 @@ describe('Blueprint', function() {
             return 'custom-rect';
         };
 
-        var rectangle = blueprint.add('rect');
+        blueprint.add('rect');
         expect(blueprint.shapes[0].shape.getTag()).toEqual('custom-rect');
+
+    });
+
+    describe('Selectable', function() {
+
+        it('Should be able to select and deselect the element;', function() {
+
+            var svg              = document.createElement('svg'),
+                blueprint        = new Blueprint(svg);
+
+            blueprint.add('rect');
+            blueprint.add('rect');
+
+            var firstShape       = blueprint.shapes[0].shape,
+                secondShape      = blueprint.shapes[1].shape,
+                firstSelectable  = firstShape.features.selectable,
+                secondSelectable = secondShape.features.selectable;
+
+            spyOn(firstShape.dispatcher, 'send').and.callThrough();
+            spyOn(firstSelectable, 'select').and.callThrough();
+            spyOn(firstSelectable, 'deselect').and.callThrough();
+            expect(firstSelectable.selected).toBeFalsy();
+            expect(secondSelectable.selected).toBeFalsy();
+
+            firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstShape.dispatcher.send).toHaveBeenCalled();
+            expect(firstSelectable.select).toHaveBeenCalled();
+            expect(firstSelectable.deselect).toHaveBeenCalled();
+            expect(firstSelectable.selected).toBeTruthy();
+            expect(secondSelectable.selected).toBeFalsy();
+
+            svg.dispatchEvent(new MouseEvent('click', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeFalsy();
+            expect(secondSelectable.selected).toBeFalsy();
+
+            // And what happens when we select two of the elements without multi-select?
+            firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeTruthy();
+            expect(secondSelectable.selected).toBeFalsy();
+
+            secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeFalsy();
+            expect(secondSelectable.selected).toBeTruthy();
+
+            // We'll then click on the first element with multi-select enabled (mod key).
+            Mousetrap.trigger('mod', 'keydown');
+
+            firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(firstSelectable.selected).toBeTruthy();
+            expect(secondSelectable.selected).toBeTruthy();
+
+        });
 
     });
 
