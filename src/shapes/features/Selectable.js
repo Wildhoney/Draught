@@ -50,6 +50,7 @@ export default class Selectable extends Feature {
     select() {
 
         if (!this.selected) {
+            this.shape.group.classed('selected', true);
             this.shape.getInterface().opacity(0.5);
             this.selected = true;
         }
@@ -63,6 +64,7 @@ export default class Selectable extends Feature {
     deselect() {
 
         if (this.selected) {
+            this.shape.group.classed('selected', false);
             this.shape.getInterface().opacity(1);
             this.original = null;
             this.selected = false;

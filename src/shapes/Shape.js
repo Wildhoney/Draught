@@ -5,6 +5,7 @@ import utility    from './../helpers/Utility.js';
 
 // Features.
 import Selectable from './features/Selectable.js';
+import Movable    from './features/Movable.js';
 
 /**
  * @module Blueprint
@@ -209,7 +210,8 @@ export default class Shape {
         let dispatcher = new Dispatcher();
 
         this.features = {
-            selectable: new Selectable(this).setDispatcher(dispatcher)
+            selectable: new Selectable(this).setDispatcher(dispatcher),
+            movable:    new Movable(this).setDispatcher(dispatcher)
         };
 
         dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {

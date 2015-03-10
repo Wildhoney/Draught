@@ -49,7 +49,7 @@ describe('Blueprint', function() {
         var blueprint = new Blueprint('#svg-container'),
             rectangle = blueprint.add(document.createElement('rect')).x(300).y(550);
 
-        expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1  );
+        expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1);
         expect(rectangle.x()).toEqual(300);
         expect(rectangle.y()).toEqual(550);
 
@@ -209,8 +209,8 @@ describe('Blueprint', function() {
 
         it('Should be able to select and deselect the element;', function() {
 
-            var svg              = document.createElement('svg'),
-                blueprint        = new Blueprint(svg);
+            var svg       = document.createElement('svg'),
+                blueprint = new Blueprint(svg);
 
             blueprint.add('rect');
             blueprint.add('rect');
@@ -225,6 +225,8 @@ describe('Blueprint', function() {
             spyOn(firstSelectable, 'deselect').and.callThrough();
             expect(firstSelectable.selected).toBeFalsy();
             expect(secondSelectable.selected).toBeFalsy();
+            expect(firstShape.group.classed('selected')).toBeFalsy();
+            expect(secondShape.group.classed('selected')).toBeFalsy();
 
             firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
                 bubbles: true, cancelable: true
@@ -235,6 +237,8 @@ describe('Blueprint', function() {
             expect(firstSelectable.deselect).toHaveBeenCalled();
             expect(firstSelectable.selected).toBeTruthy();
             expect(secondSelectable.selected).toBeFalsy();
+            expect(firstShape.group.classed('selected')).toBeTruthy();
+            expect(secondShape.group.classed('selected')).toBeFalsy();
 
             svg.dispatchEvent(new MouseEvent('click', {
                 bubbles: true, cancelable: true
@@ -277,6 +281,8 @@ describe('Blueprint', function() {
 
             expect(firstSelectable.selected).toBeFalsy();
             expect(secondSelectable.selected).toBeTruthy();
+            expect(firstShape.group.classed('selected')).toBeFalsy();
+            expect(secondShape.group.classed('selected')).toBeTruthy();
 
             // With mod+a we should be able to select all of the elements.
 
@@ -284,6 +290,8 @@ describe('Blueprint', function() {
 
             expect(firstSelectable.selected).toBeTruthy();
             expect(secondSelectable.selected).toBeTruthy();
+            expect(firstShape.group.classed('selected')).toBeTruthy();
+            expect(secondShape.group.classed('selected')).toBeTruthy();
 
             svg.dispatchEvent(new MouseEvent('click', {
                 bubbles: true, cancelable: true
@@ -294,9 +302,39 @@ describe('Blueprint', function() {
 
             Mousetrap.trigger('mod+a', 'keydown');
 
-            expect(firstSelectable.selected).toBeTruthy();
-            expect(secondSelectable.selected).toBeTruthy();
+            expect(firstShape.group.classed('selected')).toBeTruthy();
+            expect(secondShape.group.classed('selected')).toBeTruthy();
 
+
+        });
+
+    });
+
+    describe('Movable', function() {
+
+        it('Should be able to move an element;', function() {
+
+            var svg       = document.createElement('svg'),
+                blueprint = new Blueprint(svg),
+                rectangle = blueprint.add('rect');
+
+            expect(rectangle.x(250).x()).toEqual(250);
+            expect(rectangle.y(250).y()).toEqual(250);
+
+            var shape = blueprint.shapes[0].shape,
+                movable = shape.features.movable;
+
+            movable.dragStart(95, 191);
+            expect(movable.start).toEqual({ x: 95, y: 191 });
+            expect(shape.group.classed('dragging')).toBeTruthy();
+
+            movable.drag(191, 301, 10);
+            expect(rectangle.x()).toEqual(100);
+            expect(rectangle.y()).toEqual(110);
+            expect(shape.group.classed('dragging')).toBeTruthy();
+
+            movable.dragEnd();
+            expect(shape.group.classed('dragging')).toBeFalsy();
 
         });
 

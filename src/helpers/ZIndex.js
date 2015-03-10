@@ -17,8 +17,8 @@ export default class ZIndex {
         let zMax = groups.size();
 
         // Ensure the maximum Z is above zero and below the maximum.
-        if (group.datum().z > zMax) { group.datum().z = zMax; }
         if (group.datum().z < 1)    { group.datum().z = 1;    }
+        if (group.datum().z > zMax) { group.datum().z = zMax; }
 
         var zTarget = group.datum().z, zCurrent = 1;
 

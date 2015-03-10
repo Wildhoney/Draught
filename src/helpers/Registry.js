@@ -15,6 +15,12 @@ export default {
      */
     keys: {
         multiSelect: false
-    }
+    },
+
+    /**
+     * @property snapGrid
+     * @type {Number}
+     */
+    snapGrid: 10
 
 }
