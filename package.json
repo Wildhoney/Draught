@@ -1,6 +1,6 @@
 {
   "name": "get-blueprint",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Drawing tool for creating diagrams using D3.",
   "main": "dist/blueprint.min.js",
   "scripts": {
