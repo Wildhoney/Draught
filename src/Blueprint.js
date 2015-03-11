@@ -181,9 +181,22 @@ class Blueprint {
      */
     setupMousetrap() {
 
-        Mousetrap.bind('mod', ()   => registry.keys.multiSelect = true, 'keydown');
-        Mousetrap.bind('mod', ()   => registry.keys.multiSelect = false, 'keyup');
-        Mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL), 'keydown');
+        let SMALL_MOVE = 1,
+            LARGE_MOVE = 10;
+
+        Mousetrap.bind('mod',         () => registry.keys.multiSelect = true, 'keydown');
+        Mousetrap.bind('mod',         () => registry.keys.multiSelect = false, 'keyup');
+        Mousetrap.bind('mod+a',       () => this.dispatcher.send(Events.SELECT_ALL));
+
+        Mousetrap.bind('left',        () => this.dispatcher.send(Events.MOVE_LEFT,  { by: SMALL_MOVE }));
+        Mousetrap.bind('right',       () => this.dispatcher.send(Events.MOVE_RIGHT, { by: SMALL_MOVE }));
+        Mousetrap.bind('up',          () => this.dispatcher.send(Events.MOVE_UP,    { by: SMALL_MOVE }));
+        Mousetrap.bind('down',        () => this.dispatcher.send(Events.MOVE_DOWN,  { by: SMALL_MOVE }));
+
+        Mousetrap.bind('shift+left',  () => this.dispatcher.send(Events.MOVE_LEFT,  { by: LARGE_MOVE }));
+        Mousetrap.bind('shift+right', () => this.dispatcher.send(Events.MOVE_RIGHT, { by: LARGE_MOVE }));
+        Mousetrap.bind('shift+up',    () => this.dispatcher.send(Events.MOVE_UP,    { by: LARGE_MOVE }));
+        Mousetrap.bind('shift+down',  () => this.dispatcher.send(Events.MOVE_DOWN,  { by: LARGE_MOVE }));
 
     }
 

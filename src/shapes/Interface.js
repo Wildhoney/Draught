@@ -15,7 +15,8 @@ export default class Interface {
      * @return {Interface}
      */
     constructor(label = '') {
-        this.label = label;
+        this.label    = label;
+        this.selected = false;
     }
 
     /**
@@ -28,6 +29,32 @@ export default class Interface {
             'interface': this
         });
 
+    }
+
+    /**
+     * @method select
+     * @return {Interface}
+     */
+    select() {
+        this.selected = true;
+        return this;
+    }
+
+    /**
+     * @method deselect
+     * @return {Interface}
+     */
+    deselect() {
+        this.selected = false;
+        return this;
+    }
+
+    /**
+     * @method isSelected
+     * @return {Boolean}
+     */
+    isSelected() {
+        return this.selected;
     }
 
     /**
@@ -46,6 +73,26 @@ export default class Interface {
      */
     y(value) {
         return this.attr('y', value);
+    }
+
+    /**
+     * @method transform
+     * @param {Number} [x=null]
+     * @param {Number} [y=null]
+     * @return {Interface}
+     */
+    transform(x = null, y = null) {
+
+        if (!_.isNull(x)) {
+            this.x(x);
+        }
+
+        if (!_.isNull(y)) {
+            this.y(y);
+        }
+
+        return this;
+
     }
 
     /**

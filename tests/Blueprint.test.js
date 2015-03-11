@@ -77,6 +77,18 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to select and deselect shapes', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            rectangle = blueprint.add('rect');
+
+        expect(rectangle.isSelected()).toBeFalsy();
+        expect(rectangle.select().isSelected()).toBeTruthy();
+        expect(rectangle.deselect().isSelected()).toBeFalsy();
+
+    });
+
     it('Should be able to manage the z-indexes;', function() {
 
         var svg       = document.createElement('svg'),
@@ -296,7 +308,7 @@ describe('Blueprint', function() {
 
             // With mod+a we should be able to select all of the elements.
 
-            Mousetrap.trigger('mod+a', 'keydown');
+            Mousetrap.trigger('mod+a');
 
             expect(firstSelectable.selected).toBeTruthy();
             expect(secondSelectable.selected).toBeTruthy();
@@ -310,7 +322,7 @@ describe('Blueprint', function() {
             expect(firstSelectable.selected).toBeFalsy();
             expect(secondSelectable.selected).toBeFalsy();
 
-            Mousetrap.trigger('mod+a', 'keydown');
+            Mousetrap.trigger('mod+a');
 
             expect(firstShape.group.classed('selected')).toBeTruthy();
             expect(secondShape.group.classed('selected')).toBeTruthy();
@@ -345,6 +357,66 @@ describe('Blueprint', function() {
 
             movable.dragEnd();
             expect(shape.group.classed('dragging')).toBeFalsy();
+
+        });
+
+        it('Should be able to move an element by pressing the arrow keys;', function() {
+
+            var svg       = document.createElement('svg'),
+                blueprint = new Blueprint(svg),
+                first     = blueprint.add('rect'),
+                second    = blueprint.add('rect').x(100).y(100);
+
+            expect(first.x(250).x()).toEqual(250);
+            expect(first.y(250).y()).toEqual(250);
+
+            Mousetrap.trigger('left');
+
+            // Shouldn't move because it's not been selected.
+            expect(first.isSelected()).toBeFalsy();
+            expect(first.x(250).x()).toEqual(250);
+            expect(first.y(250).y()).toEqual(250);
+
+            // Element is now selected and should therefore listen to the arrow key events.
+            first.select();
+            Mousetrap.trigger('left');
+            expect(first.isSelected()).toBeTruthy();
+            expect(first.x()).toEqual(249);
+            expect(second.x()).toEqual(100);
+            expect(first.y()).toEqual(250);
+
+            Mousetrap.trigger('right');
+            expect(first.x()).toEqual(250);
+            expect(second.x()).toEqual(100);
+
+            Mousetrap.trigger('up');
+            expect(first.x()).toEqual(250);
+            expect(first.y()).toEqual(249);
+            expect(second.x()).toEqual(100);
+            expect(second.y()).toEqual(100);
+
+            Mousetrap.trigger('down');
+            expect(first.y()).toEqual(250);
+            expect(second.y()).toEqual(100);
+
+        });
+
+        it('Should be able to move in large steps with the shift+arrow keys combination;', function() {
+
+            var svg       = document.createElement('svg'),
+                blueprint = new Blueprint(svg),
+                rectangle = blueprint.add('rect').select().transform(100, 100);
+
+            Mousetrap.trigger('shift+left');
+            expect(rectangle.x()).toEqual(90);
+            Mousetrap.trigger('shift+left');
+            expect(rectangle.x()).toEqual(80);
+
+            Mousetrap.trigger('shift+up');
+            expect(rectangle.x()).toEqual(80);
+            expect(rectangle.y()).toEqual(90);
+            Mousetrap.trigger('shift+down');
+            expect(rectangle.y()).toEqual(100);
 
         });
 

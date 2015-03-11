@@ -54,21 +54,34 @@ export default class Shape {
 
         this.dispatcher = dispatcher;
 
-        this.dispatcher.listen(Events.SELECT_ALL,   () => this.tryInvokeOnEachFeature('select'));
-        this.dispatcher.listen(Events.DESELECT_ALL, () => this.tryInvokeOnEachFeature('deselect'));
+        this.dispatcher.listen(Events.SELECT_ALL,   ()      => this.tryInvokeOnEachFeature('select'));
+        this.dispatcher.listen(Events.DESELECT_ALL, ()      => this.tryInvokeOnEachFeature('deselect'));
+        this.dispatcher.listen(Events.MOVE_LEFT,    (model) => this.tryInvokeOnEachFeature('moveLeft', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_RIGHT,   (model) => this.tryInvokeOnEachFeature('moveRight', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_UP,      (model) => this.tryInvokeOnEachFeature('moveUp', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_DOWN,    (model) => this.tryInvokeOnEachFeature('moveDown', model, 'isSelected'));
 
     }
 
     /**
      * @method tryInvokeOnEachFeature
      * @param {String} methodName
+     * @param {Object} [properties={}]
+     * @param {String} [conditionalFn=null]
+     * @return {void}
      */
-    tryInvokeOnEachFeature(methodName) {
+    tryInvokeOnEachFeature(methodName, properties = {}, conditionalFn = null) {
 
         _.forIn(this.features, (feature) => {
 
             if (_.isFunction(feature[methodName])) {
-                feature[methodName]();
+
+                if (_.isString(conditionalFn) && !this.getInterface()[conditionalFn]()) {
+                    return;
+                }
+
+                feature[methodName](properties);
+
             }
 
         });

@@ -1,5 +1,4 @@
 import Feature  from './../Feature.js';
-//import Events   from './../../helpers/Events.js';
 //import utility  from './../../helpers/Utility.js';
 import registry from './../../helpers/Registry.js';
 
@@ -33,6 +32,42 @@ export default class Movable extends Feature {
 
         shape.element.call(d3.behavior.drag().on(...dragStart).on(...drag).on(...dragEnd));
 
+    }
+
+    /**
+     * @method moveLeft
+     * @param {Object} model
+     * @return {void}
+     */
+    moveLeft(model) {
+        this.shape.getInterface().x(this.shape.getInterface().x() - model.by);
+    }
+
+    /**
+     * @method moveRight
+     * @param {Object} model
+     * @return {void}
+     */
+    moveRight(model) {
+        this.shape.getInterface().x(this.shape.getInterface().x() + model.by);
+    }
+
+    /**
+     * @method moveUp
+     * @param {Object} model
+     * @return {void}
+     */
+    moveUp(model) {
+        this.shape.getInterface().y(this.shape.getInterface().y() - model.by);
+    }
+
+    /**
+     * @method moveDown
+     * @param {Object} model
+     * @return {void}
+     */
+    moveDown(model) {
+        this.shape.getInterface().y(this.shape.getInterface().y() + model.by);
     }
 
     /**

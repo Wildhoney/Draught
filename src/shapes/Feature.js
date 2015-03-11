@@ -21,7 +21,13 @@ export default class Feature {
      * @return {Feature}
      */
     setDispatcher(dispatcher) {
+
         this.dispatcher = dispatcher;
+
+        if (_.isFunction(this.addEvents)) {
+            this.addEvents(dispatcher);
+        }
+
         return this;
     }
 
