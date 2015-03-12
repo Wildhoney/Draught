@@ -14,7 +14,8 @@ export default {
      * @type {Object}
      */
     keys: {
-        multiSelect: false
+        multiSelect: false,
+        aspectRatio: false
     },
 
     /**

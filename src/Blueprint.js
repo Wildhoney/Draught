@@ -184,9 +184,13 @@ class Blueprint {
         let SMALL_MOVE = 1,
             LARGE_MOVE = 10;
 
-        Mousetrap.bind('mod',         () => registry.keys.multiSelect = true, 'keydown');
-        Mousetrap.bind('mod',         () => registry.keys.multiSelect = false, 'keyup');
-        Mousetrap.bind('mod+a',       () => this.dispatcher.send(Events.SELECT_ALL));
+        Mousetrap.bind('mod',   () => registry.keys.multiSelect = true, 'keydown');
+        Mousetrap.bind('mod',   () => registry.keys.multiSelect = false, 'keyup');
+
+        Mousetrap.bind('shift', () => registry.keys.aspectRatio = true, 'keydown');
+        Mousetrap.bind('shift', () => registry.keys.aspectRatio = false, 'keyup');
+
+        Mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL));
 
         /**
          * @method move

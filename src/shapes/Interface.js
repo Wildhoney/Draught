@@ -105,6 +105,40 @@ export default class Interface {
     }
 
     /**
+     * @method stroke
+     * @param {String} value
+     * @return {Interface|String}
+     */
+    stroke(value) {
+        return this.attr('stroke', value);
+    }
+
+    /**
+     * @method strokeWidth
+     * @param {Number} value
+     * @return {Interface|Number}
+     */
+    strokeWidth(value) {
+        return this.attr('stroke-width', value);
+    }
+
+    /**
+     * @method strokeDashArray
+     * @param {Array} value
+     * @return {Interface|Number}
+     */
+    strokeDashArray(value) {
+
+        if (!_.isUndefined(value)) {
+            utility.assert(_.isArray(value), 'Method `strokeDashArray` expects an array value');
+            return this.attr('stroke-dasharray', value.join(','));
+        }
+
+        return this.attr('stroke-dasharray');
+
+    }
+
+    /**
      * @method z
      * @param {Number} [value=undefined]
      * @return {Interface}
@@ -166,12 +200,12 @@ export default class Interface {
     /**
      * @property attr
      * @param {String} property
-     * @param {*} value
+     * @param {*} [value=null]
      * @return {*|void}
      */
-    attr(property, value) {
+    attr(property, value = null) {
 
-        if (_.isUndefined(value)) {
+        if (_.isNull(value)) {
             return this.getAttr()[property];
         }
 
