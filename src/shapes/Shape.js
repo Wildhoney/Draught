@@ -61,14 +61,6 @@ export default class Shape {
         this.dispatcher.listen(Events.MOVE_UP,      (model) => this.tryInvokeOnEachFeature('moveUp', model, 'isSelected'));
         this.dispatcher.listen(Events.MOVE_DOWN,    (model) => this.tryInvokeOnEachFeature('moveDown', model, 'isSelected'));
 
-        this.dispatcher.listen(Events.SELECTED_GET, () => {
-
-            if (this.getInterface().isSelected()) {
-                return this.getInterface();
-            }
-
-        });
-
     }
 
     /**

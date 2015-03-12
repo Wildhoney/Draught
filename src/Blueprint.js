@@ -114,17 +114,7 @@ class Blueprint {
      * @return {Array}
      */
     selected() {
-
-        var selected = [];
-
-        this.dispatcher.send(Events.SELECTED_GET, {}, (shapeInterface) => {
-            selected.push(shapeInterface);
-        });
-
-        return selected.filter((shapeInterface) => {
-            return shapeInterface;
-        });
-
+        return this.all().filter((shapeInterface) => shapeInterface.isSelected());
     }
 
     /**
