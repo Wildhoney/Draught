@@ -364,8 +364,11 @@ describe('Blueprint', function() {
 
             var shape = blueprint.shapes[0].shape,
                 movable = shape.features.movable;
+            spyOn(movable, 'selected');
 
             movable.dragStart(95, 191);
+            expect(movable.selected).toHaveBeenCalled();
+            expect(movable.selected.calls.count()).toEqual(1);
             expect(movable.start).toEqual({ x: 95, y: 191 });
             expect(shape.group.classed('dragging')).toBeTruthy();
 
