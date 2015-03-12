@@ -23,10 +23,10 @@ var utility = (function() {
 
             if (exceptionsTitle) {
                 let link = Constants.EXCEPTIONS_URL.replace(/{(.+?)}/i, () => _.kebabCase(exceptionsTitle));
-                throw `Blueprint.js: ${message}. See: ${link}`;
+                throw new Error(`Blueprint.js: ${message}. See: ${link}`);
             }
 
-            throw `Blueprint.js: ${message}.`;
+            throw new Error(`Blueprint.js: ${message}.`);
 
         },
 
