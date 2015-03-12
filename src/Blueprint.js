@@ -172,6 +172,7 @@ class Blueprint {
     addEventListeners() {
 
         this.dispatcher.listen(Events.REMOVE, (event)  => this.remove(event.interface));
+        this.dispatcher.listen(Events.SELECTED_GET, () => this.dispatcher.send(Events.SELECTED_LIST, this.selected()));
         this.dispatcher.listen(Events.REORDER, (event) => {
             let groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             this.zIndex.reorder(groups, event.group);
