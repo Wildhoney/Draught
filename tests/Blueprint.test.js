@@ -205,8 +205,8 @@ describe('Blueprint', function() {
             blueprint = new Blueprint(svg);
 
         expect(function() {
-            blueprint.register('circle', {});
-        }).toThrow('Blueprint.js: Custom shape must be an instance of `Shape`. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#instance-of-shape');
+            blueprint.register('new-element', {});
+        }).toThrow(new Error('Blueprint.js: Custom shape must be an instance of `Shape`. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#instance-of-shape'));
 
         var Rect = function Rectangle() {};
         Rect.__proto__ = blueprint.getShapePrototype();
@@ -214,7 +214,7 @@ describe('Blueprint', function() {
 
         expect(function() {
             blueprint.register('rect', Rect);
-        }).toThrow('Blueprint.js: Refusing to overwrite existing rect shape without explicit overwrite. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#overwriting-existing-shapes');
+        }).toThrow(new Error('Blueprint.js: Refusing to overwrite existing rect shape without explicit overwrite. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#overwriting-existing-shapes'));
 
         blueprint.register('rect', Rect, true);
         expect(blueprint.map.rect).toEqual(Rect);
