@@ -54,23 +54,26 @@ export default class Shape {
 
         this.dispatcher = dispatcher;
 
-        this.dispatcher.listen(Events.SELECT_ALL,   ()      => this.tryInvokeOnEachFeature('select'));
-        this.dispatcher.listen(Events.DESELECT_ALL, ()      => this.tryInvokeOnEachFeature('deselect'));
-        this.dispatcher.listen(Events.MOVE_LEFT,    (model) => this.tryInvokeOnEachFeature('moveLeft', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_RIGHT,   (model) => this.tryInvokeOnEachFeature('moveRight', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_UP,      (model) => this.tryInvokeOnEachFeature('moveUp', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_DOWN,    (model) => this.tryInvokeOnEachFeature('moveDown', model, 'isSelected'));
+        this.dispatcher.listen(Events.SELECT_ALL,    () => this.invokeEachFeature('select'));
+        this.dispatcher.listen(Events.DESELECT_ALL,  () => this.invokeEachFeature('deselect'));
+        this.dispatcher.listen(Events.SELECTED_LIST, (model) => this.invokeEachFeature('selected', model));
+        this.dispatcher.listen(Events.MOVE_LEFT,     (model) => this.invokeEachFeature('moveLeft', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_RIGHT,    (model) => this.invokeEachFeature('moveRight', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_UP,       (model) => this.invokeEachFeature('moveUp', model, 'isSelected'));
+        this.dispatcher.listen(Events.MOVE_DOWN,     (model) => this.invokeEachFeature('moveDown', model, 'isSelected'));
 
     }
 
     /**
-     * @method tryInvokeOnEachFeature
+     * Responsible for attempting to invoke a specified function on each feature, if the function exists.
+     *
+     * @method invokeEachFeature
      * @param {String} methodName
      * @param {Object} [properties={}]
      * @param {String} [conditionalFn=null]
      * @return {void}
      */
-    tryInvokeOnEachFeature(methodName, properties = {}, conditionalFn = null) {
+    invokeEachFeature(methodName, properties = {}, conditionalFn = null) {
 
         _.forIn(this.features, (feature) => {
 
@@ -224,14 +227,15 @@ export default class Shape {
 
         dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {
             this.dispatcher.send(Events.DESELECT_ALL, model);
-            this.tryInvokeOnEachFeature('deselect');
+            this.invokeEachFeature('deselect');
         });
 
         dispatcher.listen(Events.SELECTABLE.SELECT, (model)   => {
             this.dispatcher.send(Events.SELECT, model);
-            this.tryInvokeOnEachFeature('select');
+            this.invokeEachFeature('select');
         });
 
+        dispatcher.listen(Events.SELECTED_GET, () => this.dispatcher.send(Events.SELECTED_GET));
     }
 
     /**

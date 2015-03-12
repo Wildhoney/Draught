@@ -1,5 +1,6 @@
 import Feature  from './../Feature.js';
 //import utility  from './../../helpers/Utility.js';
+import Events   from './../../helpers/Events.js';
 import registry from './../../helpers/Registry.js';
 
 /**
@@ -32,6 +33,15 @@ export default class Movable extends Feature {
 
         shape.element.call(d3.behavior.drag().on(...dragStart).on(...drag).on(...dragEnd));
 
+    }
+
+    /**
+     * @method selected
+     * @param {Array} shapes
+     * @return {Array|void}
+     */
+    selected(shapes) {
+        return shapes;
     }
 
     /**
@@ -83,6 +93,7 @@ export default class Movable extends Feature {
             y: !_.isNull(y) ? y : d3.event.sourceEvent.clientY - this.shape.getInterface().y()
         };
 
+        this.dispatcher.send(Events.SELECTED_GET);
         this.shape.group.classed('dragging', true);
 
     }
