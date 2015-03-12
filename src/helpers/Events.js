@@ -18,6 +18,7 @@ export default {
     SELECT_ALL: 'select-all',
     DESELECT_ALL: 'deselect-all',
     DESELECT: 'deselect',
+    SELECTED_GET: 'selected-get',
     SELECTABLE: {
         SELECT: 'selectable-select',
         DESELECT: 'selectable-deselect'

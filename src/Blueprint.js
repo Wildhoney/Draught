@@ -110,6 +110,24 @@ class Blueprint {
     }
 
     /**
+     * @method selected
+     * @return {Array}
+     */
+    selected() {
+
+        var selected = [];
+
+        this.dispatcher.send(Events.SELECTED_GET, {}, (shapeInterface) => {
+            selected.push(shapeInterface);
+        });
+
+        return selected.filter((shapeInterface) => {
+            return shapeInterface;
+        });
+
+    }
+
+    /**
      * @method clear
      * @return {void}
      */

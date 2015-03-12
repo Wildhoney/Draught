@@ -40,6 +40,25 @@ describe('Blueprint', function() {
 
     });
 
+    it('Should be able to return the selected shapes;', function() {
+
+        var svg       = document.createElement('svg'),
+            blueprint = new Blueprint(svg),
+            first     = blueprint.add('rect').select(),
+            second    = blueprint.add('rect'),
+            third     = blueprint.add('rect').select();
+
+        expect(blueprint.selected().length).toEqual(2);
+        expect(blueprint.selected()[0]).toEqual(first);
+        expect(blueprint.selected()[1]).toEqual(third);
+
+        second.select();
+        expect(blueprint.selected().length).toEqual(3);
+        first.deselect();
+        expect(blueprint.selected().length).toEqual(2);
+
+    });
+
     it('Should be able to add an element whilst passing in a DOM reference;', function() {
 
         var svgContainer = document.createElement('svg');
