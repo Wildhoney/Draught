@@ -149,11 +149,20 @@ export default class Shape {
             dispatcher.listen(Events.ATTRIBUTE_GET_ALL,        getAttributes);
             dispatcher.listen(Events.REMOVE, (model)        => this.dispatcher.send(Events.REMOVE, model));
             dispatcher.listen(Events.ATTRIBUTE_SET, (model) => { this.setAttributes(model.attributes); });
+            dispatcher.listen(Events.BOUNDING_BOX, () =>       this.getBoundingBox());
 
         }
 
         return this.interface;
 
+    }
+
+    /**
+     * @method getBoundingBox
+     * @return {Object}
+     */
+    getBoundingBox() {
+        return this.group.node().getBBox();
     }
 
     /**

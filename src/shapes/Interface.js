@@ -148,6 +148,22 @@ export default class Interface {
     }
 
     /**
+     * @method boundingBox
+     * @return {Object}
+     */
+    boundingBox() {
+
+        let result = {};
+
+        this.dispatcher.send(Events.BOUNDING_BOX, {}, (response) => {
+            result = response;
+        });
+
+        return result;
+
+    }
+
+    /**
      * @method bringToFront
      * @return {Interface|Number}
      */

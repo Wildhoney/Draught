@@ -27,6 +27,14 @@ export default class Movable extends Feature {
          */
         this.start = { x: 0, y: 0 };
 
+        /**
+         * Bounding box of the element(s) that are currently being dragged.
+         *
+         * @property boundingBox
+         * @type {{width: number, height: number}}
+         */
+        this.boundingBox = { width: 0, height: 0 };
+
         let dragStart = ['dragstart', () => this.dragStart()],
             drag      = ['drag',      () => this.drag()],
             dragEnd   = ['dragend',   () => this.dragEnd()];
@@ -41,7 +49,43 @@ export default class Movable extends Feature {
      * @return {Array|void}
      */
     selected(shapes) {
-        return shapes;
+
+        var model = { minX: Number.MAX_VALUE, minY: Number.MAX_VALUE,
+                      maxX: Number.MIN_VALUE, maxY: Number.MIN_VALUE };
+
+        /**
+         * Responsible for computing the collective bounding box, based on all of the bounding boxes
+         * from the current selected shapes.
+         *
+         * @method compute
+         * @param {Array} bBoxes
+         * @return {void}
+         */
+        let compute = (bBoxes) => {
+            model.minX = Math.min(...bBoxes.map((d) => d.x));
+            model.minY = Math.min(...bBoxes.map((d) => d.y));
+            model.maxX = Math.max(...bBoxes.map((d) => d.x + d.width));
+            model.maxY = Math.max(...bBoxes.map((d) => d.y + d.height));
+        };
+
+        // Compute the collective bounding box.
+        compute(shapes.map((shape) => shape.boundingBox()));
+
+        console.log('Here');
+
+        d3.select(document.querySelector('svg'))
+          .append('rect')
+          .datum(model)
+          .classed('dragBox', true)
+          .attr('pointer-events', 'none')
+          .attr('x',      ((d) => d.minX))
+          .attr('y',      ((d) => d.minY))
+          .attr('width',  ((d) => d.maxX - d.minX))
+          .attr('height', ((d) => d.maxY - d.minY))
+          .attr('fill', 'transparent')
+          .attr('stroke', 'black')
+          .attr('stroke-dasharray', [3,3]);
+
     }
 
     /**
