@@ -29,6 +29,17 @@ export default class Feature {
         }
 
         return this;
+
+    }
+
+    /**
+     * @method setAccessor
+     * @param {Object} accessor
+     * @return {Feature}
+     */
+    setAccessor(accessor) {
+        this.accessor = accessor;
+        return this;
     }
 
 }

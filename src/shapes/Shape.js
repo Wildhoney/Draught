@@ -51,44 +51,16 @@ export default class Shape {
      * @return {void}
      */
     setDispatcher(dispatcher) {
-
         this.dispatcher = dispatcher;
-
-        this.dispatcher.listen(Events.SELECT_ALL,    () => this.invokeEachFeature('select'));
-        this.dispatcher.listen(Events.DESELECT_ALL,  () => this.invokeEachFeature('deselect'));
-        this.dispatcher.listen(Events.SELECTED_LIST, (model) => this.invokeEachFeature('selected', model));
-        this.dispatcher.listen(Events.MOVE_LEFT,     (model) => this.invokeEachFeature('moveLeft', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_RIGHT,    (model) => this.invokeEachFeature('moveRight', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_UP,       (model) => this.invokeEachFeature('moveUp', model, 'isSelected'));
-        this.dispatcher.listen(Events.MOVE_DOWN,     (model) => this.invokeEachFeature('moveDown', model, 'isSelected'));
-
     }
 
     /**
-     * Responsible for attempting to invoke a specified function on each feature, if the function exists.
-     *
-     * @method invokeEachFeature
-     * @param {String} methodName
-     * @param {Object} [properties={}]
-     * @param {String} [conditionalFn=null]
+     * @method setAccessor
+     * @param {Object} accessor
      * @return {void}
      */
-    invokeEachFeature(methodName, properties = {}, conditionalFn = null) {
-
-        _.forIn(this.features, (feature) => {
-
-            if (_.isFunction(feature[methodName])) {
-
-                if (_.isString(conditionalFn) && !this.getInterface()[conditionalFn]()) {
-                    return;
-                }
-
-                feature[methodName](properties);
-
-            }
-
-        });
-
+    setAccessor(accessor) {
+        this.accessor = accessor;
     }
 
     /**
@@ -149,7 +121,7 @@ export default class Shape {
             dispatcher.listen(Events.ATTRIBUTE_GET_ALL,        getAttributes);
             dispatcher.listen(Events.REMOVE, (model)        => this.dispatcher.send(Events.REMOVE, model));
             dispatcher.listen(Events.ATTRIBUTE_SET, (model) => { this.setAttributes(model.attributes); });
-            dispatcher.listen(Events.BOUNDING_BOX, () =>       this.getBoundingBox());
+            dispatcher.listen(Events.GET_BOUNDING_BOX, () =>       this.getBoundingBox());
 
         }
 
@@ -203,7 +175,7 @@ export default class Shape {
      */
     getAttributes() {
 
-        let attributes = { x: 0, y: 0 };
+        let attributes = {};
 
         if (_.isFunction(this.addAttributes)) {
             attributes = _.assign(attributes, this.addAttributes());
@@ -227,24 +199,15 @@ export default class Shape {
      */
     addFeatures() {
 
-        let dispatcher = new Dispatcher();
-
         this.features = {
-            selectable: new Selectable(this).setDispatcher(dispatcher),
-            movable:    new Movable(this).setDispatcher(dispatcher)
+            selectable: new Selectable(this)
+                            .setDispatcher(this.dispatcher)
+                            .setAccessor(this.accessor),
+            movable:    new Movable(this)
+                            .setDispatcher(this.dispatcher)
+                            .setAccessor(this.accessor)
         };
 
-        dispatcher.listen(Events.SELECTABLE.DESELECT, (model) => {
-            this.dispatcher.send(Events.DESELECT_ALL, model);
-            this.invokeEachFeature('deselect');
-        });
-
-        dispatcher.listen(Events.SELECTABLE.SELECT, (model)   => {
-            this.dispatcher.send(Events.SELECT, model);
-            this.invokeEachFeature('select');
-        });
-
-        dispatcher.listen(Events.SELECTED_GET, () => this.dispatcher.send(Events.SELECTED_GET));
     }
 
     /**

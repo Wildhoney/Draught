@@ -1,5 +1,24 @@
 describe('Blueprint', function() {
 
+    var mockBBox = function(blueprint, shapeInterface) {
+
+        var shape = blueprint.shapes.filter(function(model) {
+            return model.interface === shapeInterface;
+        }).map(function(model) {
+            return model.shape;
+        })[0];
+
+        spyOn(shape, 'getBoundingBox').and.callFake(function() {
+            return { x: shapeInterface.x(),
+                     y: shapeInterface.y(),
+                     height: shapeInterface.height(),
+                     width: shapeInterface.width() };
+        });
+
+        return shapeInterface;
+
+    };
+
     it('Should be able to initialise the module;', function() {
 
         var svg       = document.createElement('svg'),
@@ -253,8 +272,8 @@ describe('Blueprint', function() {
             var svg       = document.createElement('svg'),
                 blueprint = new Blueprint(svg);
 
-            blueprint.add('rect');
-            blueprint.add('rect');
+            mockBBox(blueprint, blueprint.add('rect'));
+            mockBBox(blueprint, blueprint.add('rect'));
 
             var firstShape       = blueprint.shapes[0].shape,
                 secondShape      = blueprint.shapes[1].shape,
@@ -275,7 +294,6 @@ describe('Blueprint', function() {
 
             expect(firstShape.dispatcher.send).toHaveBeenCalled();
             expect(firstSelectable.select).toHaveBeenCalled();
-            expect(firstSelectable.deselect).toHaveBeenCalled();
             expect(firstSelectable.selected).toBeTruthy();
             expect(secondSelectable.selected).toBeFalsy();
             expect(firstShape.group.classed('selected')).toBeTruthy();
@@ -305,7 +323,6 @@ describe('Blueprint', function() {
 
             // We'll then click on the first element with multi-select enabled (mod key).
             Mousetrap.trigger('mod', 'keydown');
-
             firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
                 bubbles: true, cancelable: true
             }));
@@ -315,7 +332,6 @@ describe('Blueprint', function() {
 
             // User disables multi-select.
             Mousetrap.trigger('mod', 'keyup');
-
             secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', {
                 bubbles: true, cancelable: true
             }));
@@ -346,6 +362,32 @@ describe('Blueprint', function() {
             expect(firstShape.group.classed('selected')).toBeTruthy();
             expect(secondShape.group.classed('selected')).toBeTruthy();
 
+        });
+
+        it('Should be able to deselect a shape when you mod+click on it;', function() {
+
+            var svg         = document.createElement('svg'),
+                blueprint   = new Blueprint(svg),
+                first       = mockBBox(blueprint, blueprint.add('rect')),
+                second      = mockBBox(blueprint, blueprint.add('rect')),
+                third       = mockBBox(blueprint, blueprint.add('rect')),
+                firstShape  = blueprint.shapes[0].shape,
+                secondShape = blueprint.shapes[1].shape,
+                thirdShape  = blueprint.shapes[2].shape;
+
+            expect(blueprint.selected().length).toEqual(0);
+
+            var opts = { bubbles: true, cancelable: true };
+            Mousetrap.trigger('mod', 'keydown');
+            firstShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
+            secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
+            thirdShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
+            Mousetrap.trigger('mod', 'keyup');
+            expect(blueprint.selected().length).toEqual(3);
+
+            secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
+
+            Mousetrap.trigger('mod', 'keydown');
 
         });
 
@@ -357,18 +399,19 @@ describe('Blueprint', function() {
 
             var svg       = document.createElement('svg'),
                 blueprint = new Blueprint(svg),
-                rectangle = blueprint.add('rect');
+                rectangle = mockBBox(blueprint, blueprint.add('rect'));
 
             expect(rectangle.x(250).x()).toEqual(250);
             expect(rectangle.y(250).y()).toEqual(250);
 
-            var shape = blueprint.shapes[0].shape,
+            var shape   = blueprint.shapes[0].shape,
                 movable = shape.features.movable;
-            spyOn(movable, 'selected');
+            spyOn(movable.dispatcher, 'send').and.callThrough();
+            rectangle.select();
 
             movable.dragStart(95, 191);
-            expect(movable.selected).toHaveBeenCalled();
-            expect(movable.selected.calls.count()).toEqual(1);
+            expect(movable.dispatcher.send).toHaveBeenCalled();
+            expect(movable.dispatcher.send.calls.count()).toEqual(1);
             expect(movable.start).toEqual({ x: 95, y: 191 });
             expect(shape.group.classed('dragging')).toBeTruthy();
 
@@ -379,6 +422,39 @@ describe('Blueprint', function() {
 
             movable.dragEnd();
             expect(shape.group.classed('dragging')).toBeFalsy();
+
+        });
+
+        it('Should be able to draw a collective bounding box for dragging;', function() {
+
+            var svg         = document.createElement('svg'),
+                blueprint   = new Blueprint(svg),
+                first       = mockBBox(blueprint, blueprint.add('rect').x(100).y(400).height(250).width(250)),
+                second      = mockBBox(blueprint, blueprint.add('rect').x(50).y(200).height(125).width(125)),
+                firstShape  = blueprint.shapes[0].shape,
+                secondShape = blueprint.shapes[1].shape,
+                movable     = firstShape.features.movable;
+
+            spyOn(blueprint, 'createBoundingBox').and.callThrough();
+
+            movable.dragStart(250, 350);
+            expect(blueprint.createBoundingBox).not.toHaveBeenCalled();
+            expect(svg.querySelectorAll('rect.drag-box').length).toEqual(0);
+
+            first.select();
+            second.select();
+            movable.dragStart(250, 350);
+            expect(blueprint.createBoundingBox).toHaveBeenCalled();
+            expect(blueprint.createBoundingBox.calls.count()).toEqual(1);
+            expect(svg.querySelectorAll('rect.drag-box').length).toEqual(1);
+
+            var box   = blueprint.boundingBox.element,
+                datum = box.datum();
+            expect(datum).toEqual({ minX: 50, minY: 200, maxX: 350, maxY: 650 });
+            expect(box.attr('x')).toEqual(String(datum.minX));
+            expect(box.attr('y')).toEqual(String(datum.minY));
+            expect(box.attr('width')).toEqual(String(datum.maxX - datum.minX));
+            expect(box.attr('height')).toEqual(String(datum.maxY - datum.minY));
 
         });
 
@@ -439,6 +515,36 @@ describe('Blueprint', function() {
             expect(rectangle.y()).toEqual(90);
             Mousetrap.trigger('shift+down');
             expect(rectangle.y()).toEqual(100);
+
+        });
+
+        it('Should be able to draw a bounding box around selected element(s);', function() {
+
+            var svg       = document.createElement('svg'),
+                blueprint = new Blueprint(svg);
+
+            mockBBox(blueprint, blueprint.add('rect').x(100).y(100).select());
+            mockBBox(blueprint, blueprint.add('rect').x(200).y(200).select());
+
+            var first   = blueprint.shapes[0].interface,
+                second  = blueprint.shapes[1].interface,
+                movable = blueprint.shapes[0].shape.features.movable;
+
+            movable.dragStart(300, 300);
+            var boundingBox = svg.querySelector('.drag-box');
+
+            expect(parseInt(boundingBox.getAttribute('height'))).toEqual(200);
+            expect(parseInt(boundingBox.getAttribute('width'))).toEqual(200);
+            expect(parseInt(boundingBox.getAttribute('y'))).toEqual(100);
+            expect(parseInt(boundingBox.getAttribute('x'))).toEqual(100);
+
+            second.deselect();
+            movable.dragStart(300, 300);
+            boundingBox = svg.querySelector('.drag-box');
+            expect(parseInt(boundingBox.getAttribute('height'))).toEqual(100);
+            expect(parseInt(boundingBox.getAttribute('width'))).toEqual(100);
+            expect(parseInt(boundingBox.getAttribute('y'))).toEqual(100);
+            expect(parseInt(boundingBox.getAttribute('x'))).toEqual(100);
 
         });
 

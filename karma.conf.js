@@ -13,7 +13,7 @@ module.exports = function(config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,
-        //browsers: ['Chrome', 'Safari', 'ChromeCanary', 'Firefox'],
+        //browsers: ['Chrome', 'Opera', 'Safari', 'ChromeCanary', 'Firefox'],
         browsers: ['Firefox'],
         singleRun: false
 

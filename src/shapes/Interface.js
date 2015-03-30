@@ -155,7 +155,7 @@ export default class Interface {
 
         let result = {};
 
-        this.dispatcher.send(Events.BOUNDING_BOX, {}, (response) => {
+        this.dispatcher.send(Events.GET_BOUNDING_BOX, {}, (response) => {
             result = response;
         });
 

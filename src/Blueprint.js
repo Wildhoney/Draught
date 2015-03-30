@@ -8,6 +8,7 @@ import utility    from './helpers/Utility.js';
 // Shapes.
 import Shape      from './shapes/Shape.js';
 import Rectangle  from './shapes/types/Rectangle.js';
+import Circle     from './shapes/types/Circle.js';
 
 /**
  * @module Blueprint
@@ -24,21 +25,28 @@ class Blueprint {
      */
     constructor(element, options = {}) {
 
-        this.options    = _.assign(this.defaultOptions(), options);
-        this.element    = d3.select(utility.elementReference(element))
+        this.options     = _.assign(this.defaultOptions(), options);
+        this.element     = d3.select(utility.elementReference(element))
                             .attr('width', this.options.documentWidth)
                             .attr('height', this.options.documentHeight);
-        this.shapes     = [];
-        this.index      = 1;
+        this.shapes      = [];
+        this.index       = 1;
+        this.boundingBox = { selected: false, element: { remove: () => {}} };
 
         // Helpers required by Blueprint and the rest of the system.
-        this.dispatcher = new Dispatcher();
-        this.zIndex     = new ZIndex();
-        this.groups     = new Groups().addTo(this.element);
+        this.dispatcher  = new Dispatcher();
+        this.zIndex      = new ZIndex();
+        this.groups      = new Groups().addTo(this.element);
 
         // Register our default components.
         this.map = {
-            rect: Rectangle
+            rect:   Rectangle,
+            circle: Circle
+        };
+
+        // Configure our interface for each shape object.
+        this.accessor = {
+            getCount: () => this.selected().length
         };
 
         // Add the event listeners, and setup Mousetrap to listen for keyboard events.
@@ -62,6 +70,7 @@ class Blueprint {
         // Set all of the essential objects that the shape requires.
         shape.setOptions(this.options);
         shape.setDispatcher(this.dispatcher);
+        shape.setAccessor(this.accessor);
         shape.setElement(element);
         shape.setGroup(group);
         shape.setAttributes(_.assign(zIndex, shape.getAttributes()));
@@ -172,7 +181,8 @@ class Blueprint {
     addEventListeners() {
 
         this.dispatcher.listen(Events.REMOVE, (event)  => this.remove(event.interface));
-        this.dispatcher.listen(Events.SELECTED_GET, () => this.dispatcher.send(Events.SELECTED_LIST, this.selected()));
+        this.dispatcher.listen(Events.CREATE_BOUNDING_BOX, () => this.createBoundingBox());
+        this.dispatcher.listen(Events.SELECTED_COUNT, () => this.selected().length);
         this.dispatcher.listen(Events.REORDER, (event) => {
             let groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
             this.zIndex.reorder(groups, event.group);
@@ -180,7 +190,62 @@ class Blueprint {
 
         // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
         // the `Events.DESELECT` event to deselect all selected shapes.
-        this.element.on('click', () => this.dispatcher.send(Events.DESELECT_ALL));
+        this.element.on('click', () => {
+
+            if (!this.boundingBox.selected) {
+                this.dispatcher.send(Events.DESELECT_ALL);
+                this.boundingBox.element.remove();
+            }
+
+            this.boundingBox.selected = false;
+
+        });
+
+    }
+
+    /**
+     * @method createBoundingBox
+     * @return {void}
+     */
+    createBoundingBox() {
+
+        let model = { minX: Number.MAX_VALUE, minY: Number.MAX_VALUE,
+                      maxX: Number.MIN_VALUE, maxY: Number.MIN_VALUE };
+
+        /**
+         * Responsible for computing the collective bounding box, based on all of the bounding boxes
+         * from the current selected shapes.
+         *
+         * @method compute
+         * @param {Array} bBoxes
+         * @return {void}
+         */
+        let compute = (bBoxes) => {
+            model.minX = Math.min(...bBoxes.map((d) => d.x));
+            model.minY = Math.min(...bBoxes.map((d) => d.y));
+            model.maxX = Math.max(...bBoxes.map((d) => d.x + d.width));
+            model.maxY = Math.max(...bBoxes.map((d) => d.y + d.height));
+        };
+
+        // Compute the collective bounding box.
+        compute(this.selected().map((shape) => shape.boundingBox()));
+
+        this.boundingBox.element.remove();
+        this.boundingBox.element = this.groups.handles
+                                       .append('rect')
+                                       .datum(model)
+                                       .classed('drag-box', true)
+                                       .attr('pointer-events', 'none')
+                                       .attr('x',      ((d) => d.minX))
+                                       .attr('y',      ((d) => d.minY))
+                                       .attr('width',  ((d) => d.maxX - d.minX))
+                                       .attr('height', ((d) => d.maxY - d.minY))
+                                       .attr('fill', 'transparent')
+                                       .attr('stroke', 'red')
+                                       .attr('stroke-dasharray', [3, 3])
+                                       .on('mouseup', () => {
+                                           this.boundingBox.selected = true;
+                                       });
 
     }
 
@@ -189,9 +254,6 @@ class Blueprint {
      * @return {void}
      */
     setupMousetrap() {
-
-        let SMALL_MOVE = 1,
-            LARGE_MOVE = 10;
 
         Mousetrap.bind('mod',   () => registry.keys.multiSelect = true, 'keydown');
         Mousetrap.bind('mod',   () => registry.keys.multiSelect = false, 'keyup');
@@ -212,15 +274,15 @@ class Blueprint {
             return false;
         };
 
-        Mousetrap.bind('left',  () => move(Events.MOVE_LEFT, SMALL_MOVE));
-        Mousetrap.bind('right', () => move(Events.MOVE_RIGHT, SMALL_MOVE));
-        Mousetrap.bind('up',    () => move(Events.MOVE_UP, SMALL_MOVE));
-        Mousetrap.bind('down',  () => move(Events.MOVE_DOWN, SMALL_MOVE));
+        Mousetrap.bind('left',  () => move(Events.MOVE_LEFT, this.options.moveSmall));
+        Mousetrap.bind('right', () => move(Events.MOVE_RIGHT, this.options.moveSmall));
+        Mousetrap.bind('up',    () => move(Events.MOVE_UP, this.options.moveSmall));
+        Mousetrap.bind('down',  () => move(Events.MOVE_DOWN, this.options.moveSmall));
 
-        Mousetrap.bind('shift+left',  () => move(Events.MOVE_LEFT, LARGE_MOVE));
-        Mousetrap.bind('shift+right', () => move(Events.MOVE_RIGHT, LARGE_MOVE));
-        Mousetrap.bind('shift+up',    () => move(Events.MOVE_UP, LARGE_MOVE));
-        Mousetrap.bind('shift+down',  () => move(Events.MOVE_DOWN, LARGE_MOVE));
+        Mousetrap.bind('shift+left',  () => move(Events.MOVE_LEFT, this.options.moveLarge));
+        Mousetrap.bind('shift+right', () => move(Events.MOVE_RIGHT, this.options.moveLarge));
+        Mousetrap.bind('shift+up',    () => move(Events.MOVE_UP, this.options.moveLarge));
+        Mousetrap.bind('shift+down',  () => move(Events.MOVE_DOWN, this.options.moveLarge));
 
     }
 
@@ -233,7 +295,9 @@ class Blueprint {
         return {
             dataAttribute: 'data-id',
             documentHeight: '100%',
-            documentWidth: '100%'
+            documentWidth: '100%',
+            moveSmall: 1,
+            moveLarge: 10
         };
 
     }

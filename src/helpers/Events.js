@@ -18,11 +18,8 @@ export default {
     SELECT_ALL: 'select-all',
     DESELECT_ALL: 'deselect-all',
     DESELECT: 'deselect',
-    BOUNDING_BOX: 'bounding-box',
-    SELECTED_GET: 'selected-get',
-    SELECTED_LIST: 'selected-list',
-    SELECTABLE: {
-        SELECT: 'selectable-select',
-        DESELECT: 'selectable-deselect'
-    }
+    GET_BOUNDING_BOX: 'get-bounding-box',
+    CREATE_BOUNDING_BOX: 'create-bounding-box',
+    SELECTED_COUNT: 'selected-count',
+    SELECTED_LIST: 'selected-list'
 }

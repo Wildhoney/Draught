@@ -16,7 +16,7 @@ var utility = (function() {
          * @method throwException
          * @param {String} message
          * @param {String} [exceptionsTitle='']
-         * @throws Exception
+         * @throws Error
          * @return {void}
          */
         throwException: (message, exceptionsTitle = '') => {

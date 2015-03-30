@@ -9,7 +9,7 @@
 
         blueprint.add('rect').fill('lightpink');
         blueprint.add('rect').fill('lightblue').x(160).y(100);
-        blueprint.add('rect').fill('lightgreen').x(190).y(50);
+        blueprint.add('circle').fill('lightgreen').x(390).y(150);
 
     });
 

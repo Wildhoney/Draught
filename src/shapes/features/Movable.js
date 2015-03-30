@@ -44,47 +44,30 @@ export default class Movable extends Feature {
     }
 
     /**
-     * @method selected
-     * @param {Array} shapes
-     * @return {Array|void}
+     * @method addEvents
+     * @param {Dispatcher} dispatcher
+     * @return {void}
      */
-    selected(shapes) {
-
-        var model = { minX: Number.MAX_VALUE, minY: Number.MAX_VALUE,
-                      maxX: Number.MIN_VALUE, maxY: Number.MIN_VALUE };
+    addEvents(dispatcher) {
 
         /**
-         * Responsible for computing the collective bounding box, based on all of the bounding boxes
-         * from the current selected shapes.
-         *
-         * @method compute
-         * @param {Array} bBoxes
+         * @method invokeIfSelected
+         * @param {Function} fn
+         * @param {Object} model
          * @return {void}
          */
-        let compute = (bBoxes) => {
-            model.minX = Math.min(...bBoxes.map((d) => d.x));
-            model.minY = Math.min(...bBoxes.map((d) => d.y));
-            model.maxX = Math.max(...bBoxes.map((d) => d.x + d.width));
-            model.maxY = Math.max(...bBoxes.map((d) => d.y + d.height));
+        let invokeIfSelected = (fn, model) => {
+
+            if (this.shape.getInterface().isSelected()) {
+                fn.apply(this, [model]);
+            }
+
         };
 
-        // Compute the collective bounding box.
-        compute(shapes.map((shape) => shape.boundingBox()));
-
-        console.log('Here');
-
-        d3.select(document.querySelector('svg'))
-          .append('rect')
-          .datum(model)
-          .classed('dragBox', true)
-          .attr('pointer-events', 'none')
-          .attr('x',      ((d) => d.minX))
-          .attr('y',      ((d) => d.minY))
-          .attr('width',  ((d) => d.maxX - d.minX))
-          .attr('height', ((d) => d.maxY - d.minY))
-          .attr('fill', 'transparent')
-          .attr('stroke', 'black')
-          .attr('stroke-dasharray', [3,3]);
+        dispatcher.listen(Events.MOVE_LEFT,  (model) => invokeIfSelected(this.moveLeft, model));
+        dispatcher.listen(Events.MOVE_RIGHT, (model) => invokeIfSelected(this.moveRight, model));
+        dispatcher.listen(Events.MOVE_UP,    (model) => invokeIfSelected(this.moveUp, model));
+        dispatcher.listen(Events.MOVE_DOWN,  (model) => invokeIfSelected(this.moveDown, model));
 
     }
 
@@ -132,12 +115,16 @@ export default class Movable extends Feature {
      */
     dragStart(x = null, y = null) {
 
+        if (!this.shape.getInterface().isSelected()) {
+            return;
+        }
+
         this.start = {
             x: !_.isNull(x) ? x : d3.event.sourceEvent.clientX - this.shape.getInterface().x(),
             y: !_.isNull(y) ? y : d3.event.sourceEvent.clientY - this.shape.getInterface().y()
         };
 
-        this.dispatcher.send(Events.SELECTED_GET);
+        this.dispatcher.send(Events.CREATE_BOUNDING_BOX);
         this.shape.group.classed('dragging', true);
 
     }

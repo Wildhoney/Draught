@@ -23,24 +23,40 @@ export default class Selectable extends Feature {
 
         shape.element.on('mousedown', () => {
 
+            let isSelected = this.selected;
+
             if (!registry.keys.multiSelect) {
 
                 // Deselect all of the shapes including the current one, as this keeps the logic simpler. We will
                 // apply the current shape to be selected in the next step.
-                this.dispatcher.send(Events.SELECTABLE.DESELECT, {
-                    shape: shape.getInterface()
-                });
+                this.dispatcher.send(Events.DESELECT_ALL);
 
             }
 
-            if (!this.selected) {
-                this.dispatcher.send(Events.SELECTABLE.SELECT, {
-                    shape: shape.getInterface()
-                });
+            if (!isSelected || this.accessor.getCount() === 0) {
+
+                // Simply select the element.
+                this.select();
+                return;
+
+            }
+
+            if (this.accessor.getCount() === 1) {
+                this.dispatcher.send(Events.DESELECT_ALL);
             }
 
         });
 
+    }
+
+    /**
+     * @method addEvents
+     * @param {Dispatcher} dispatcher
+     * @return {void}
+     */
+    addEvents(dispatcher) {
+        dispatcher.listen(Events.SELECT_ALL,   () => this.select());
+        dispatcher.listen(Events.DESELECT_ALL, () => this.deselect());
     }
 
     /**
@@ -52,7 +68,7 @@ export default class Selectable extends Feature {
         if (!this.selected) {
             this.shape.group.classed('selected', true);
             this.shape.getInterface().select();
-            this.shape.getInterface().stroke('black').strokeWidth(1).strokeDashArray([3, 3]);
+            this.shape.getInterface().stroke('#333').strokeWidth(1);
             this.selected = true;
         }
 
