@@ -18,28 +18,31 @@ export default class Facade {
 
     /**
      * @method select
-     * @return {void}
+     * @return {Facade}
      */
     select() {
         this.shape.features.selectable.select();
         this.selected = true;
+        return this;
     }
 
     /**
      * @method deselect
-     * @return {void}
+     * @return {Facade}
      */
     deselect() {
         this.shape.features.selectable.deselect();
         this.selected = false;
+        return this;
     }
 
     /**
      * @method invert
-     * @return {void}
+     * @return {Facade}
      */
     invert() {
         this.selected = !this.selected;
+        return this;
     }
 
     /**

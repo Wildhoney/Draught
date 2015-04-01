@@ -20,8 +20,6 @@ export default class Selectable {
      * @return {void}
      */
     select() {
-        console.log('Here');
-        //console.log(this.shape);
         this.shape.selected = true;
     }
 

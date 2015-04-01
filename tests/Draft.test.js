@@ -45,7 +45,7 @@ describe('Draft', function() {
                 selectable = facade.shape.features.selectable;
 
             expect(facade.isSelected()).toBeFalsy();
-            spyOn(selectable, 'select');
+            spyOn(selectable, 'select').and.callThrough();
             Mousetrap.trigger('mod+a');
             expect(selectable.select).toHaveBeenCalled();
             expect(selectable.shape.accessor.getSelected().length).toEqual(1);
@@ -54,6 +54,29 @@ describe('Draft', function() {
             expect(draft.getSelected().length).toEqual(1);
             facade.invert();
             expect(facade.isSelected()).toBeFalsy();
+            expect(draft.getSelected().length).toEqual(0);
+
+        });
+
+    });
+
+    describe('Behaviour:', function() {
+
+        it('Should be able to deselect all elements when clicking on the SVG element;', function() {
+
+            var svg        = document.createElement('svg'),
+                draft      = new Draft(svg),
+                facade     = draft.add('rect').select(),
+                selectable = facade.shape.features.selectable;
+
+            spyOn(selectable, 'deselect').and.callThrough();
+            expect(draft.getSelected().length).toEqual(1);
+
+            svg.dispatchEvent(new MouseEvent('click', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(selectable.deselect).toHaveBeenCalled();
             expect(draft.getSelected().length).toEqual(0);
 
         });
