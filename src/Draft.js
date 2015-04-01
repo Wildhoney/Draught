@@ -318,6 +318,6 @@ class Draft {
 
     // Kalinka, kalinka, kalinka moya!
     // V sadu yagoda malinka, malinka moya!
-    $window.draft = Draft;
+    $window.Draft = Draft;
 
 })(window);

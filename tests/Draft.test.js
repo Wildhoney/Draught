@@ -21,7 +21,7 @@ describe('Draft', function() {
 
     it('Should be able to initialise the module;', function() {
 
-        var svg       = document.createElement('svg'),
+        var svg   = document.createElement('svg'),
             draft = new Draft(svg);
 
         expect(draft.element.node()).toEqual(svg);
@@ -42,7 +42,7 @@ describe('Draft', function() {
     it('Should be able to add an element;', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
@@ -61,11 +61,11 @@ describe('Draft', function() {
 
     it('Should be able to return the selected shapes;', function() {
 
-        var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
-            first     = draft.add('rect').select(),
-            second    = draft.add('rect'),
-            third     = draft.add('rect').select();
+        var svg    = document.createElement('svg'),
+            draft  = new Draft(svg),
+            first  = draft.add('rect').select(),
+            second = draft.add('rect'),
+            third  = draft.add('rect').select();
 
         expect(draft.selected().length).toEqual(2);
         expect(draft.selected()[0]).toEqual(first);
@@ -84,7 +84,7 @@ describe('Draft', function() {
         svgContainer.setAttribute('id', 'svg-container');
         document.body.appendChild(svgContainer);
 
-        var draft = new Draft('#svg-container'),
+        var draft     = new Draft('#svg-container'),
             rectangle = draft.add(document.createElement('rect')).x(300).y(550);
 
         expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1);
@@ -96,7 +96,7 @@ describe('Draft', function() {
     it('Should be able to add a specialised interface method;', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect');
 
         expect(rectangle.fill('red').fill()).toEqual('red');
@@ -106,7 +106,7 @@ describe('Draft', function() {
     it('Should be able to read attributes from the shape;', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect').x(250).y(250).setAttr({ strokeWidth: 10 });
 
         expect(rectangle.getAttr().x).toEqual(250);
@@ -118,7 +118,7 @@ describe('Draft', function() {
     it('Should be able to select and deselect shapes', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect');
 
         expect(rectangle.isSelected()).toBeFalsy();
@@ -129,11 +129,11 @@ describe('Draft', function() {
 
     it('Should be able to manage the z-indexes;', function() {
 
-        var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
-            first     = draft.add('rect'),
-            second    = draft.add('rect'),
-            third     = draft.add('rect');
+        var svg    = document.createElement('svg'),
+            draft  = new Draft(svg),
+            first  = draft.add('rect'),
+            second = draft.add('rect'),
+            third  = draft.add('rect');
 
         expect(second.z(3).z()).toEqual(3);
         expect(first.z()).toEqual(1);
@@ -159,7 +159,7 @@ describe('Draft', function() {
     it('Should be able to set the zIndex of the shapes;', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect'),
             group     = d3.select(svg.querySelector('g[data-id]')),
             element   = d3.select(svg.querySelector('rect'));
@@ -195,11 +195,11 @@ describe('Draft', function() {
 
     it('Should be able to remove shapes from the canvas;', function() {
 
-        var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
-            first     = draft.add('rect'),
-            second    = draft.add('rect'),
-            third     = draft.add('rect');
+        var svg    = document.createElement('svg'),
+            draft  = new Draft(svg),
+            first  = draft.add('rect'),
+            second = draft.add('rect'),
+            third  = draft.add('rect');
 
         var mapLabels = function() {
             return draft.all().map(function(d) {
@@ -226,7 +226,7 @@ describe('Draft', function() {
     it('Should be able to use the `attr` accessor to set/get', function() {
 
         var svg       = document.createElement('svg'),
-            draft = new Draft(svg),
+            draft     = new Draft(svg),
             rectangle = draft.add('rect');
 
         expect(rectangle.x(125).x()).toEqual(125);
@@ -239,7 +239,7 @@ describe('Draft', function() {
 
     it('Should be able to register a custom shape;', function() {
 
-        var svg       = document.createElement('svg'),
+        var svg   = document.createElement('svg'),
             draft = new Draft(svg);
 
         expect(function() {
@@ -269,7 +269,7 @@ describe('Draft', function() {
 
         it('Should be able to select and deselect the element;', function() {
 
-            var svg       = document.createElement('svg'),
+            var svg   = document.createElement('svg'),
                 draft = new Draft(svg);
 
             mockBBox(draft, draft.add('rect'));
@@ -367,7 +367,7 @@ describe('Draft', function() {
         it('Should be able to deselect a shape when you mod+click on it;', function() {
 
             var svg         = document.createElement('svg'),
-                draft   = new Draft(svg),
+                draft       = new Draft(svg),
                 first       = mockBBox(draft, draft.add('rect')),
                 second      = mockBBox(draft, draft.add('rect')),
                 third       = mockBBox(draft, draft.add('rect')),
@@ -398,7 +398,7 @@ describe('Draft', function() {
         it('Should be able to move an element;', function() {
 
             var svg       = document.createElement('svg'),
-                draft = new Draft(svg),
+                draft     = new Draft(svg),
                 rectangle = mockBBox(draft, draft.add('rect'));
 
             expect(rectangle.x(250).x()).toEqual(250);
@@ -428,7 +428,7 @@ describe('Draft', function() {
         it('Should be able to draw a collective bounding box for dragging;', function() {
 
             var svg         = document.createElement('svg'),
-                draft   = new Draft(svg),
+                draft       = new Draft(svg),
                 first       = mockBBox(draft, draft.add('rect').x(100).y(400).height(250).width(250)),
                 second      = mockBBox(draft, draft.add('rect').x(50).y(200).height(125).width(125)),
                 firstShape  = draft.shapes[0].shape,
@@ -460,10 +460,10 @@ describe('Draft', function() {
 
         it('Should be able to move an element by pressing the arrow keys;', function() {
 
-            var svg       = document.createElement('svg'),
-                draft = new Draft(svg),
-                first     = draft.add('rect'),
-                second    = draft.add('rect').x(100).y(100);
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                first  = draft.add('rect'),
+                second = draft.add('rect').x(100).y(100);
 
             expect(first.x(250).x()).toEqual(250);
             expect(first.y(250).y()).toEqual(250);
@@ -502,7 +502,7 @@ describe('Draft', function() {
         it('Should be able to move in large steps with the shift+arrow keys combination;', function() {
 
             var svg       = document.createElement('svg'),
-                draft = new Draft(svg),
+                draft     = new Draft(svg),
                 rectangle = draft.add('rect').select().transform(100, 100);
 
             Mousetrap.trigger('shift+left');
@@ -520,7 +520,7 @@ describe('Draft', function() {
 
         it('Should be able to draw a bounding box around selected element(s);', function() {
 
-            var svg       = document.createElement('svg'),
+            var svg   = document.createElement('svg'),
                 draft = new Draft(svg);
 
             mockBBox(draft, draft.add('rect').x(100).y(100).select());

@@ -3,7 +3,7 @@
     var gulp       = require('gulp'),
         jshint     = require('gulp-jshint'),
         uglify     = require('gulp-uglify'),
-        clean      = require('gulp-clean'),
+        rimraf     = require('gulp-rimraf'),
         karma      = require('gulp-karma'),
         rename     = require('gulp-rename'),
         sass       = require('gulp-sass'),
@@ -28,25 +28,12 @@
      */
     var buildTo = function(destPath) {
 
-        var b = browserify('./src/Draft.js', {basedir: './'});
-        return b.bundle().pipe(gulp.dest('./dist'));
-
-        return browserify(entryFile, { basedir: '.' })
-                    //.transform(babelify)
-                    .bundle()
-                    .on('error', function (error) {
-                        console.log('Error: ' + error.message);
-                    }).
-                    pipe(gulp.dest(destPath));
-
-        //return browserify({ debug: true, basedir: '.' })
-        //        .transform(babelify)
-        //        .require(entryFile, { entry: true })
-        //        .bundle()
-        //        .on('error', function (error) {
-        //            console.log('Error: ' + error.message);
-        //        })
-        //        .pipe(fs.createWriteStream(destPath));
+        return browserify({ debug: true })
+            .transform(babelify)
+            .require(entryFile, { entry: true })
+            .bundle()
+            .on('error', function (model) { console.error(['Error:', model.message].join(' ')); })
+            .pipe(fs.createWriteStream(destPath));
 
     };
 
@@ -57,17 +44,17 @@
     gulp.task('sass', function () {
 
         return gulp.src('./public/scss/*.scss')
-                   .pipe(sass())
-                   .pipe(gulp.dest('./public/css'));
+            .pipe(sass())
+            .pipe(gulp.dest('./public/css'));
 
     });
 
     gulp.task('minify', ['compile'], function() {
 
-        return gulp.src(prodPath)
-                   .pipe(uglify())
-                   .pipe(rename(config.gulp.names.prod))
-                   .pipe(gulp.dest(config.gulp.directories.dist));
+        return gulp.src(devPath)
+            .pipe(uglify())
+            .pipe(rename(config.gulp.names.prod))
+            .pipe(gulp.dest(config.gulp.directories.dist));
 
     });
 
@@ -76,18 +63,18 @@
         var devName = config.gulp.names.dev;
 
         return gulp.src(devPath)
-                   .pipe(rename(devName))
-                   .pipe(gulp.dest(config.gulp.directories.vendor));
+            .pipe(rename(devName))
+            .pipe(gulp.dest(config.gulp.directories.vendor));
 
     });
 
     gulp.task('lint', function() {
 
         return gulp.src(allFiles)
-                   .pipe(jshint())
-                   .pipe(jshint.reporter('default', {
-                       verbose: true
-                   }));
+            .pipe(jshint())
+            .pipe(jshint.reporter('default', {
+                verbose: true
+            }));
 
     });
 
@@ -98,18 +85,21 @@
     gulp.task('karma', ['karma-prepare'], function() {
 
         return gulp.src(config.gulp.dependencies.concat(['tests/*.test.js', config.gulp.tests.temp]))
-                   .pipe(karma({
-                        configFile: 'karma.conf.js',
-                        action: 'run'
-                   }))
-                   .on('error', function(error) {
-                        throw error;
-                   });
+            .pipe(karma({
+                configFile: 'karma.conf.js',
+                action: 'run'
+            }))
+            .on('error', function(error) {
+                throw error;
+            });
 
     });
 
     gulp.task('karma-clean', ['karma'], function () {
-        return gulp.src(config.gulp.tests.temp, { read: false }).pipe(clean());
+
+        return gulp.src(config.gulp.tests.temp, { read: false })
+                   .pipe(rimraf());
+
     });
 
     gulp.task('test', ['lint', 'karma-prepare', 'karma', 'karma-clean']);
