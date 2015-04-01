@@ -28,12 +28,25 @@
      */
     var buildTo = function(destPath) {
 
-        return browserify({ debug: true })
-                .transform(babelify)
-                .require(entryFile, { entry: true })
-                .bundle()
-                .on('error', function (model) { console.error(['Error:', model.message].join(' ')); })
-                .pipe(fs.createWriteStream(destPath));
+        var b = browserify('./src/Draft.js', {basedir: './'});
+        return b.bundle().pipe(gulp.dest('./dist'));
+
+        return browserify(entryFile, { basedir: '.' })
+                    //.transform(babelify)
+                    .bundle()
+                    .on('error', function (error) {
+                        console.log('Error: ' + error.message);
+                    }).
+                    pipe(gulp.dest(destPath));
+
+        //return browserify({ debug: true, basedir: '.' })
+        //        .transform(babelify)
+        //        .require(entryFile, { entry: true })
+        //        .bundle()
+        //        .on('error', function (error) {
+        //            console.log('Error: ' + error.message);
+        //        })
+        //        .pipe(fs.createWriteStream(destPath));
 
     };
 
