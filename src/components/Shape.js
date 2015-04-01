@@ -1,6 +1,11 @@
 import Selectable from './shape/feature/Selectable.js';
 import Events     from './../dispatcher/Events.js';
-
+/**
+ * @module Draft
+ * @submodule Shape
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Draft
+ */
 export default class Shape {
 
     /**

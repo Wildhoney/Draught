@@ -3,6 +3,11 @@ import Events     from './dispatcher/Events.js';
 import Rectangle  from './components/shape/Rectangle.js';
 import zed        from './helpers/Zed.js';
 
+/**
+ * @module Draft
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Draft
+ */
 class Draft {
 
     /**

@@ -1,5 +1,11 @@
 import Facade from './../Facade.js';
 
+/**
+ * @module Draft
+ * @submodule Rectangle
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Draft
+ */
 export default class Rectangle extends Facade {
 
     /**

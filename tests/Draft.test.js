@@ -44,10 +44,17 @@ describe('Draft', function() {
                 facade     = draft.add('rect'),
                 selectable = facade.shape.features.selectable;
 
+            expect(facade.isSelected()).toBeFalsy();
             spyOn(selectable, 'select');
             Mousetrap.trigger('mod+a');
             expect(selectable.select).toHaveBeenCalled();
             expect(selectable.shape.accessor.getSelected().length).toEqual(1);
+            expect(facade.isSelected()).toBeTruthy();
+
+            expect(draft.getSelected().length).toEqual(1);
+            facade.invert();
+            expect(facade.isSelected()).toBeFalsy();
+            expect(draft.getSelected().length).toEqual(0);
 
         });
 

@@ -1,3 +1,9 @@
+/**
+ * @module Draft
+ * @submodule Facade
+ * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Draft
+ */
 export default class Facade {
 
     /**
