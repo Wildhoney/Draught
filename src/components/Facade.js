@@ -23,6 +23,7 @@ export default class Facade {
     select() {
         this.shape.features.selectable.select();
         this.selected = true;
+        this.shape.accessor.hasSelected();
         return this;
     }
 
@@ -33,6 +34,7 @@ export default class Facade {
     deselect() {
         this.shape.features.selectable.deselect();
         this.selected = false;
+        this.shape.accessor.hasSelected();
         return this;
     }
 
@@ -42,6 +44,7 @@ export default class Facade {
      */
     invert() {
         this.selected = !this.selected;
+        this.shape.accessor.hasSelected();
         return this;
     }
 

@@ -18,6 +18,24 @@ describe('Draft', function() {
 
         });
 
+        it('Should be able to invoke the callback when shapes are selected;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                facade = draft.add('rect');
+
+            var callback = { fn: function(event) {
+                expect(event.shapes.length).toEqual(1);
+            }};
+
+            spyOn(callback, 'fn').and.callThrough();
+            draft.on('selected', callback.fn);
+            facade.select();
+
+            expect(callback.fn).toHaveBeenCalled();
+
+        });
+
     });
 
     describe('Utility:', function() {
@@ -79,6 +97,8 @@ describe('Draft', function() {
             }));
 
             expect(draft.getSelected().length).toEqual(1);
+            expect(first.isSelected()).toBeTruthy();
+            expect(second.isSelected()).toBeFalsy();
 
         });
 

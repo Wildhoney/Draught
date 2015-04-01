@@ -17,15 +17,16 @@ export default class Dispatcher {
     /**
      * @method send
      * @param {String} eventName
+     * @param {Object} properties
      * @return {void}
      */
-    send(eventName) {
+    send(eventName, properties) {
 
         if (!this.events.hasOwnProperty(eventName)) {
             return;
         }
 
-        this.events[eventName].forEach((fn) => fn());
+        this.events[eventName].forEach((fn) => fn(properties));
 
     }
 

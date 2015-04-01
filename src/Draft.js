@@ -72,6 +72,16 @@ class Draft {
     }
 
     /**
+     * @method on
+     * @param {String} eventName
+     * @param {Function} fn
+     * @return {void}
+     */
+    on(eventName, fn) {
+        this.dispatcher.on(eventName, fn);
+    }
+
+    /**
      * @method remove
      * @param facade {Facade}
      * @return {void}
@@ -100,6 +110,9 @@ class Draft {
             getSelected:            this.getSelected.bind(this),
             groups:                 this.groups,
             keyboard:               this.keyboard,
+            hasSelected: ()      => this.dispatcher.send(Events.SELECTED, {
+                                        shapes: this.getSelected()
+                                    }),
             selectAll:   ()      => this.dispatcher.send(Events.SELECT_ALL),
             deselectAll: ()      => this.dispatcher.send(Events.DESELECT_ALL),
             reorder:     (group) => {
