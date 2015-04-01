@@ -62,7 +62,7 @@ describe('Draft', function() {
 
     describe('Behaviour:', function() {
 
-        it('Should be able to deselect all elements when clicking on the SVG element;', function() {
+        it('Should be able to deselect all elements when clicking on SVGElement;', function() {
 
             var svg        = document.createElement('svg'),
                 draft      = new Draft(svg),
