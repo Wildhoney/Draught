@@ -99,6 +99,7 @@ class Draft {
         return {
             getSelected:            this.getSelected.bind(this),
             groups:                 this.groups,
+            keyboard:               this.keyboard,
             selectAll:   ()      => this.dispatcher.send(Events.SELECT_ALL),
             deselectAll: ()      => this.dispatcher.send(Events.DESELECT_ALL),
             reorder:     (group) => {

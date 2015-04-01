@@ -12,7 +12,24 @@ export default class Selectable {
      * @return {Selectable}
      */
     constructor(shape) {
-        this.shape = shape;
+
+        this.shape   = shape;
+        let element  = shape.element,
+            keyboard = shape.accessor.keyboard,
+            facade   = shape.getFacade();
+
+        element.on('click', () => {
+
+            if (keyboard.multiSelect) {
+                facade.invert();
+                return;
+            }
+
+            this.shape.accessor.deselectAll();
+            facade.select();
+
+        });
+
     }
 
     /**

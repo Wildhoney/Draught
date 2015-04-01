@@ -9,18 +9,6 @@ import Events     from './../dispatcher/Events.js';
 export default class Shape {
 
     /**
-     * @constructor
-     * @return {Rectangle}
-     */
-    constructor() {
-
-        this.features = {
-            selectable: new Selectable(this)
-        };
-
-    }
-
-    /**
      * @method getName
      * @return {String}
      */
@@ -38,6 +26,10 @@ export default class Shape {
 
         this.group   = insertionPoint.append('g').attr('class', `shape ${this.getName()}`).datum({ z: zValue });
         this.element = this.group.append(this.getTag()).datum({ transform: 'translate(0,0)' });
+
+        this.features = {
+            selectable: new Selectable(this)
+        };
 
     }
 

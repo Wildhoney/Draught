@@ -60,6 +60,50 @@ describe('Draft', function() {
 
     });
 
+    describe('Selectable:', function() {
+
+        it('Should be able to toggle shape selected with multiSelect;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                first  = draft.add('rect'),
+                second = draft.add('rect');
+
+            expect(draft.keyboard.multiSelect).toBeFalsy();
+            expect(draft.getSelected().length).toEqual(0);
+
+            Mousetrap.trigger('mod', 'keydown');
+
+            first.shape.element.node().dispatchEvent(new MouseEvent('click', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(draft.getSelected().length).toEqual(1);
+
+        });
+
+        it('Should be able to select an element exclusively when clicked on;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                first  = draft.add('rect').select(),
+                second = draft.add('rect').select();
+
+            expect(draft.keyboard.multiSelect).toBeFalsy();
+            expect(draft.getSelected().length).toEqual(2);
+
+            second.shape.element.node().dispatchEvent(new MouseEvent('click', {
+                bubbles: true, cancelable: true
+            }));
+
+            expect(draft.getSelected().length).toEqual(1);
+            expect(first.isSelected()).toBeFalsy();
+            expect(second.isSelected()).toBeTruthy();
+
+        });
+
+    });
+
     describe('Behaviour:', function() {
 
         it('Should be able to deselect all elements when clicking on SVGElement;', function() {
