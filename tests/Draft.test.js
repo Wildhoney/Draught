@@ -20,6 +20,21 @@ describe('Draft', function() {
 
     });
 
+    describe('Utility:', function() {
+
+        it('Should be able to parse `transform` properties;', function() {
+
+            var svg        = document.createElement('svg'),
+                draft      = new Draft(svg),
+                facade     = draft.add('rect');
+
+            expect(facade.parseTranslate('translate(65,90)')).toEqual({ x: 65, y: 90 });
+            expect(facade.parseTranslate('translate(100, 150)')).toEqual({ x: 100, y: 150 });
+
+        });
+
+    });
+
     describe('Mousetrap:', function() {
 
         it('Should be able to select all of the elements;', function() {
