@@ -59,6 +59,24 @@ describe('Draft', function() {
 
         });
 
+        it('Should be able to modify the Z index of the shape groups;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                first  = draft.add('rect').fill('red'),
+                second = draft.add('rect').fill('green'),
+                third  = draft.add('rect').fill('blue');
+
+            expect(first.z()).toEqual(1);
+            expect(second.z()).toEqual(2);
+            expect(third.z()).toEqual(3);
+
+            expect(first.bringToFront().z()).toEqual(3);
+            expect(second.z()).toEqual(1);
+            expect(third.z()).toEqual(2);
+
+        });
+
     });
 
 });

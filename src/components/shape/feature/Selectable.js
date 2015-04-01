@@ -18,13 +18,13 @@ export default class Selectable {
         //console.log(this.shape);
         this.shape.selected = true;
     }
-    //
-    ///**
-    // * @method deselect
-    // * @return {void}
-    // */
-    //deselect() {
-    //    this.shape.selected = false;
-    //}
+
+    /**
+     * @method deselect
+     * @return {void}
+     */
+    deselect() {
+        this.shape.selected = false;
+    }
 
 }

@@ -44,6 +44,14 @@ export default class Facade {
      */
     attribute(property, value = null) {
 
+        if (property === 'z') {
+
+            // Special behaviour must be applied to the `z` property, because it is applied
+            // to the group element, rather than directly to the shape element.
+            return this.z(value);
+
+        }
+
         if (value === null) {
             return this.shape.element.datum()[property];
         }
@@ -86,6 +94,16 @@ export default class Facade {
     }
 
     /**
+     * @method z
+     * @param {Number} z
+     * @return {*}
+     */
+    z(z = null) {
+        return (z === null) ? this.shape.group.datum().z
+                            : this.shape.group.datum().z = z;
+    }
+
+    /**
      * @method dimension
      * @param {Number} [height=null]
      * @param {Number} [width=null]
@@ -98,20 +116,60 @@ export default class Facade {
 
     /**
      * @method height
-     * @param {Number} [height]
+     * @param {Number} [height=null]
      * @return {*}
      */
-    height(height) {
+    height(height = null) {
         return this.attribute('height', height);
     }
 
     /**
      * @method width
-     * @param {Number} [width]
+     * @param {Number} [width=null]
      * @return {*}
      */
-    width(width) {
+    width(width = null) {
         return this.attribute('width', width);
+    }
+
+    /**
+     * @method bringToFront
+     * @return {Facade}
+     */
+    bringToFront() {
+        this.attribute('z', Infinity);
+        this.shape.accessor.reorder(this.shape.group);
+        return this;
+    }
+
+    /**
+     * @method bringForwards
+     * @return {Facade}
+     */
+    bringForwards() {
+        this.attribute('z', this.attribute('z') + 1);
+        this.shape.accessor.reorder(this.shape.group);
+        return this;
+    }
+
+    /**
+     * @method sendToBack
+     * @return {Facade}
+     */
+    sendToBack() {
+        this.attribute('z', -Infinity);
+        this.shape.accessor.reorder(this.shape.group);
+        return this;
+    }
+
+    /**
+     * @method sendBackwards
+     * @return {Facade}
+     */
+    sendBackwards() {
+        this.attribute('z', this.attribute('z') - 1);
+        this.shape.accessor.reorder(this.shape.group);
+        return this;
     }
 
     /**

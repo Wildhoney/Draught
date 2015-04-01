@@ -1,7 +1,7 @@
 import Dispatcher from './dispatcher/Dispatcher.js';
 import Events     from './dispatcher/Events.js';
 import Rectangle  from './components/shape/Rectangle.js';
-//import Zed        from './helpers/Zed.js';
+import zed        from './helpers/Zed.js';
 
 class Draft {
 
@@ -14,6 +14,7 @@ class Draft {
     constructor(element, options) {
 
         this.shapes     = [];
+        this.index      = 1;
         this.keyboard   = { multiSelect: false, aspectRatio: false };
         //this.options    = Object.assign(this.getOptions(), options);
         this.options    = this.getOptions();
@@ -27,12 +28,12 @@ class Draft {
             mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL));
 
             // Multi-selecting shapes.
-            mousetrap.bind('mod',   () => this.keys.multiSelect = true, 'keydown');
-            mousetrap.bind('mod',   () => this.keys.multiSelect = false, 'keyup');
+            mousetrap.bind('mod',   () => this.keyboard.multiSelect = true, 'keydown');
+            mousetrap.bind('mod',   () => this.keyboard.multiSelect = false, 'keyup');
 
             // Maintain aspect ratios when resizing.
-            mousetrap.bind('shift', () => this.keys.aspectRatio = true, 'keydown');
-            mousetrap.bind('shift', () => this.keys.aspectRatio = false, 'keyup');
+            mousetrap.bind('shift', () => this.keyboard.aspectRatio = true, 'keydown');
+            mousetrap.bind('shift', () => this.keyboard.aspectRatio = false, 'keyup');
 
         })(Mousetrap || { bind: () => {} });
 
@@ -91,10 +92,14 @@ class Draft {
     getAccessor() {
 
         return {
-            getSelected:       this.getSelected.bind(this),
-            groups:            this.groups,
-            selectAll:   () => this.dispatcher.send(Events.SELECT_ALL),
-            deselectAll: () => this.dispatcher.send(Events.DESELECT_ALL)
+            getSelected:            this.getSelected.bind(this),
+            groups:                 this.groups,
+            selectAll:   ()      => this.dispatcher.send(Events.SELECT_ALL),
+            deselectAll: ()      => this.dispatcher.send(Events.DESELECT_ALL),
+            reorder:     (group) => {
+                let groups = this.svg.selectAll('g.shapes g');
+                zed.reorder(groups, group);
+            }
         }
 
     }
@@ -114,7 +119,7 @@ class Draft {
         let shape = new map[name.toLowerCase()]();
         shape.setAccessor(this.getAccessor());
         shape.setDispatcher(this.dispatcher);
-        shape.insert(this.groups.shapes);
+        shape.insert(this.groups.shapes, this.index++);
         return shape;
 
     }

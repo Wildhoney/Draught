@@ -1,4 +1,4 @@
-export default class Zed {
+export default {
 
     /**
      * @method reorder
@@ -7,6 +7,8 @@ export default class Zed {
      * @return {Object}
      */
     reorder(groups, group) {
+
+        "use strict";
 
         let zMax = groups.size();
 

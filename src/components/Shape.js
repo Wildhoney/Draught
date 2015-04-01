@@ -25,13 +25,15 @@ export default class Shape {
 
     /**
      * @method insert
-     * @param {Object} group
+     * @param {Object} insertionPoint
+     * @param {Number} [zValue=0]
      * @return {void}
      */
-    insert(group) {
-        this.element = group.append(this.getTag()).datum({
-            transform: 'translate(0,0)'
-        });
+    insert(insertionPoint, zValue = 0) {
+
+        this.group   = insertionPoint.append('g').attr('class', `shape ${this.getName()}`).datum({ z: zValue });
+        this.element = this.group.append(this.getTag()).datum({ transform: 'translate(0,0)' });
+
     }
 
     /**
