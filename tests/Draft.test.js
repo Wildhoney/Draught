@@ -70,7 +70,7 @@ describe('Draft', function() {
             expect(facade.isSelected()).toBeTruthy();
 
             expect(draft.getSelected().length).toEqual(1);
-            facade.invert();
+            facade.selectInvert();
             expect(facade.isSelected()).toBeFalsy();
             expect(draft.getSelected().length).toEqual(0);
 

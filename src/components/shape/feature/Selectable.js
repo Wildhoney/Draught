@@ -21,7 +21,7 @@ export default class Selectable {
         element.on('click', () => {
 
             if (keyboard.multiSelect) {
-                facade.invert();
+                facade.selectInvert();
                 return;
             }
 

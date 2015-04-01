@@ -39,13 +39,20 @@ export default class Facade {
     }
 
     /**
-     * @method invert
+     * @method selectInvert
      * @return {Facade}
      */
-    invert() {
-        this.selected = !this.selected;
+    selectInvert() {
+
+        if (this.selected) {
+            this.deselect();
+        } else {
+            this.select();
+        }
+
         this.shape.accessor.hasSelected();
         return this;
+
     }
 
     /**
