@@ -1,313 +1,136 @@
-import Dispatcher from './helpers/Dispatcher.js';
-import Groups     from './helpers/Groups.js';
-import Events     from './helpers/Events.js';
-import ZIndex     from './helpers/ZIndex.js';
-import registry   from './helpers/Registry.js';
-import utility    from './helpers/Utility.js';
+import Dispatcher from './dispatcher/Dispatcher.js';
+import Events     from './dispatcher/Events.js';
+import Rectangle  from './components/shape/Rectangle.js';
+//import Zed        from './helpers/Zed.js';
 
-// Shapes.
-import Shape      from './shapes/Shape.js';
-import Rectangle  from './shapes/types/Rectangle.js';
-import Circle     from './shapes/types/Circle.js';
-
-/**
- * @module Draft
- * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Draft
- */
 class Draft {
 
     /**
-     * @method constructor
+     * @constructor
      * @param {SVGElement|String} element
-     * @param {Object} [options={}]
-     * @return {void}
+     * @param {Object} options
+     * @return {Draft}
      */
-    constructor(element, options = {}) {
+    constructor(element, options) {
 
-        this.options     = _.assign(this.defaultOptions(), options);
-        this.element     = d3.select(utility.elementReference(element))
-                            .attr('width', this.options.documentWidth)
-                            .attr('height', this.options.documentHeight);
-        this.shapes      = [];
-        this.index       = 1;
-        this.boundingBox = { selected: false, element: { remove: () => {}} };
+        this.shapes     = [];
+        this.keyboard   = { multiSelect: false, aspectRatio: false };
+        //this.options    = Object.assign(this.getOptions(), options);
+        this.options    = this.getOptions();
+        this.dispatcher = new Dispatcher();
 
-        // Helpers required by Draft and the rest of the system.
-        this.dispatcher  = new Dispatcher();
-        this.zIndex      = new ZIndex();
-        this.groups      = new Groups().addTo(this.element);
+        // Responsible for setting up Mousetrap events, if it's available, otherwise all attached
+        // events will be ghost events.
+        ((mousetrap) => {
 
-        // Register our default components.
-        this.map = {
-            rect:   Rectangle,
-            circle: Circle
+            // Select all of the available shapes.
+            mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL));
+
+            // Multi-selecting shapes.
+            mousetrap.bind('mod',   () => this.keys.multiSelect = true, 'keydown');
+            mousetrap.bind('mod',   () => this.keys.multiSelect = false, 'keyup');
+
+            // Maintain aspect ratios when resizing.
+            mousetrap.bind('shift', () => this.keys.aspectRatio = true, 'keydown');
+            mousetrap.bind('shift', () => this.keys.aspectRatio = false, 'keyup');
+
+        })(Mousetrap || { bind: () => {} });
+
+        // Voila...
+        this.svg = d3.select(typeof element === 'string' ? document.querySelector(element) : element)
+                     .attr('width', this.options.documentWidth)
+                     .attr('height', this.options.documentHeight)
+                     .on('click', () => this.dispatcher.send(Events.DESELECT_ALL));
+
+        // Add groups to the SVG element.
+        this.groups = {
+            shapes:  this.svg.append('g').attr('class', 'shapes').on('click', () => d3.event.stopPropagation()),
+            handles: this.svg.append('g').attr('class', 'handles').on('click', () => d3.event.stopPropagation())
         };
-
-        // Configure our interface for each shape object.
-        this.accessor = {
-            getCount: () => this.selected().length
-        };
-
-        // Add the event listeners, and setup Mousetrap to listen for keyboard events.
-        this.addEventListeners();
-        this.setupMousetrap();
 
     }
 
     /**
      * @method add
-     * @param {String|HTMLElement} name
-     * @return {Interface}
+     * @param {String} name
+     * @return {Facade}
      */
     add(name) {
 
-        let shape   = this.instantiate(utility.elementName(name)),
-            group   = this.groups.shapes.append('g').attr(this.options.dataAttribute, shape.label),
-            element = group.append(shape.getTag()),
-            zIndex  = { z: this.index - 1 };
+        let shape  = this.getInstance(name),
+            facade = shape.getFacade();
 
-        // Set all of the essential objects that the shape requires.
-        shape.setOptions(this.options);
-        shape.setDispatcher(this.dispatcher);
-        shape.setAccessor(this.accessor);
-        shape.setElement(element);
-        shape.setGroup(group);
-        shape.setAttributes(_.assign(zIndex, shape.getAttributes()));
-
-        // Last chance to define any further elements for the group, and the application of the
-        // features which a shape should have, such as being draggable, selectable, resizeable, etc...
-        shape.addElements();
-        shape.addFeatures();
-
-        // Create a mapping from the actual shape object, to the interface object that the developer
-        // interacts with.
-        this.shapes.push({ shape: shape, interface: shape.getInterface()});
-        return shape.getInterface();
+        this.shapes.push(facade);
+        return facade;
 
     }
 
     /**
      * @method remove
-     * @param {Interface} model
+     * @param facade {Facade}
+     * @return {void}
+     */
+    remove(facade) {
+        facade.remove();
+    }
+
+    /**
+     * @method getSelected
      * @return {Array}
      */
-    remove(model) {
-
-        let index = 0,
-            item  = _.find(this.shapes, (shape, i) => {
-
-                if (shape.interface === model) {
-                    index = i;
-                    return model;
-                }
-
-            });
-
-        item.shape.element.remove();
-        this.shapes.splice(index, 1);
-        return this.all();
-
+    getSelected() {
+        return this.shapes.filter((shape) => shape.isSelected());
     }
 
     /**
-     * @method all
-     * @return {Shape[]}
-     */
-    all() {
-        return this.shapes.map((model) => model.interface);
-    }
-
-    /**
-     * @method selected
-     * @return {Array}
-     */
-    selected() {
-        return this.all().filter((shapeInterface) => shapeInterface.isSelected());
-    }
-
-    /**
-     * @method clear
-     * @return {void}
-     */
-    clear() {
-        _.forEach(this.shapes, (shape) => this.remove(shape));
-    }
-
-    /**
-     * @method ident
-     * @return {String}
-     */
-    ident() {
-        return ['BP', this.index++].join('');
-    }
-
-    /**
-     * @method register
-     * @param {String} name
-     * @param {Shape} shape
-     * @param {Boolean} [overwrite=false]
-     * @return {void}
-     */
-    register(name, shape, overwrite = false) {
-
-        // Ensure the shape is a valid instance.
-        utility.assert(Object.getPrototypeOf(shape) === Shape, 'Custom shape must be an instance of `Shape`', 'Instance of Shape');
-
-        if (!overwrite && this.map.hasOwnProperty(name)) {
-
-            // Existing shapes cannot be overwritten.
-            utility.throwException(`Refusing to overwrite existing ${name} shape without explicit overwrite`, 'Overwriting Existing Shapes');
-
-        }
-
-        this.map[name] = shape;
-
-    }
-
-    /**
-     * @method instantiate
-     * @param {String} name
-     * @return {Shape}
-     */
-    instantiate(name) {
-        return new this.map[name.toLowerCase()](this.ident());
-    }
-
-    /**
-     * @method addEventListeners
-     * @return {void}
-     */
-    addEventListeners() {
-
-        this.dispatcher.listen(Events.REMOVE, (event)  => this.remove(event.interface));
-        this.dispatcher.listen(Events.CREATE_BOUNDING_BOX, () => this.createBoundingBox());
-        this.dispatcher.listen(Events.SELECTED_COUNT, () => this.selected().length);
-        this.dispatcher.listen(Events.REORDER, (event) => {
-            let groups = this.element.selectAll(`g[${this.options.dataAttribute}]`);
-            this.zIndex.reorder(groups, event.group);
-        });
-
-        // When the user clicks on the SVG layer that isn't a part of the shape group, then we'll emit
-        // the `Events.DESELECT` event to deselect all selected shapes.
-        this.element.on('click', () => {
-
-            if (!this.boundingBox.selected) {
-                this.dispatcher.send(Events.DESELECT_ALL);
-                this.boundingBox.element.remove();
-            }
-
-            this.boundingBox.selected = false;
-
-        });
-
-    }
-
-    /**
-     * @method createBoundingBox
-     * @return {void}
-     */
-    createBoundingBox() {
-
-        let model = { minX: Number.MAX_VALUE, minY: Number.MAX_VALUE,
-                      maxX: Number.MIN_VALUE, maxY: Number.MIN_VALUE };
-
-        /**
-         * Responsible for computing the collective bounding box, based on all of the bounding boxes
-         * from the current selected shapes.
-         *
-         * @method compute
-         * @param {Array} bBoxes
-         * @return {void}
-         */
-        let compute = (bBoxes) => {
-            model.minX = Math.min(...bBoxes.map((d) => d.x));
-            model.minY = Math.min(...bBoxes.map((d) => d.y));
-            model.maxX = Math.max(...bBoxes.map((d) => d.x + d.width));
-            model.maxY = Math.max(...bBoxes.map((d) => d.y + d.height));
-        };
-
-        // Compute the collective bounding box.
-        compute(this.selected().map((shape) => shape.boundingBox()));
-
-        this.boundingBox.element.remove();
-        this.boundingBox.element = this.groups.handles
-                                       .append('rect')
-                                       .datum(model)
-                                       .classed('drag-box', true)
-                                       .attr('pointer-events', 'none')
-                                       .attr('x',      ((d) => d.minX))
-                                       .attr('y',      ((d) => d.minY))
-                                       .attr('width',  ((d) => d.maxX - d.minX))
-                                       .attr('height', ((d) => d.maxY - d.minY))
-                                       .attr('fill', 'transparent')
-                                       .attr('stroke', 'red')
-                                       .attr('stroke-dasharray', [3, 3])
-                                       .on('mouseup', () => {
-                                           this.boundingBox.selected = true;
-                                       });
-
-    }
-
-    /**
-     * @method setupMousetrap
-     * @return {void}
-     */
-    setupMousetrap() {
-
-        Mousetrap.bind('mod',   () => registry.keys.multiSelect = true, 'keydown');
-        Mousetrap.bind('mod',   () => registry.keys.multiSelect = false, 'keyup');
-
-        Mousetrap.bind('shift', () => registry.keys.aspectRatio = true, 'keydown');
-        Mousetrap.bind('shift', () => registry.keys.aspectRatio = false, 'keyup');
-
-        Mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL));
-
-        /**
-         * @method move
-         * @param {String} name
-         * @param {Number} value
-         * @return {Boolean}
-         */
-        let move = (name, value) => {
-            this.dispatcher.send(name, { by: value });
-            return false;
-        };
-
-        Mousetrap.bind('left',  () => move(Events.MOVE_LEFT, this.options.moveSmall));
-        Mousetrap.bind('right', () => move(Events.MOVE_RIGHT, this.options.moveSmall));
-        Mousetrap.bind('up',    () => move(Events.MOVE_UP, this.options.moveSmall));
-        Mousetrap.bind('down',  () => move(Events.MOVE_DOWN, this.options.moveSmall));
-
-        Mousetrap.bind('shift+left',  () => move(Events.MOVE_LEFT, this.options.moveLarge));
-        Mousetrap.bind('shift+right', () => move(Events.MOVE_RIGHT, this.options.moveLarge));
-        Mousetrap.bind('shift+up',    () => move(Events.MOVE_UP, this.options.moveLarge));
-        Mousetrap.bind('shift+down',  () => move(Events.MOVE_DOWN, this.options.moveLarge));
-
-    }
-
-    /**
-     * @method defaultOptions
+     * Accessors that are accessible by the shapes and their associated facades.
+     *
+     * @method getAccessor
      * @return {Object}
      */
-    defaultOptions() {
+    getAccessor() {
 
         return {
-            dataAttribute: 'data-id',
-            documentHeight: '100%',
-            documentWidth: '100%',
-            moveSmall: 1,
-            moveLarge: 10
-        };
+            getSelected:       this.getSelected.bind(this),
+            groups:            this.groups,
+            selectAll:   () => this.dispatcher.send(Events.SELECT_ALL),
+            deselectAll: () => this.dispatcher.send(Events.DESELECT_ALL)
+        }
 
     }
 
     /**
-     * @method getShapePrototype
+     * @method getInstance
+     * @param {String} name
      * @return {Shape}
      */
-    getShapePrototype() {
-        return Shape;
+    getInstance(name) {
+
+        let map = {
+            rect: Rectangle
+        };
+
+        // Instantiate the shape object, and inject the accessor and listener.
+        let shape = new map[name.toLowerCase()]();
+        shape.setAccessor(this.getAccessor());
+        shape.setDispatcher(this.dispatcher);
+        shape.insert(this.groups.shapes);
+        return shape;
+
+    }
+
+    /**
+     * @method getOptions
+     * @return {Object}
+     */
+    getOptions() {
+
+        return {
+            documentHeight: '100%',
+            documentWidth: '100%',
+            gridSize: 10
+        };
+
     }
 
 }

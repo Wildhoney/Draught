@@ -4,7 +4,7 @@ import utility    from './../helpers/Utility.js';
 
 // Features.
 import Selectable from './features/Selectable.js';
-import Movable    from './features/Movable.js';
+//import Movable    from './features/Movable.js';
 
 /**
  * @module Draft
@@ -202,10 +202,10 @@ export default class Shape {
         this.features = {
             selectable: new Selectable(this)
                             .setDispatcher(this.dispatcher)
-                            .setAccessor(this.accessor),
-            movable:    new Movable(this)
-                            .setDispatcher(this.dispatcher)
                             .setAccessor(this.accessor)
+            //movable:    new Movable(this)
+            //                .setDispatcher(this.dispatcher)
+            //                .setAccessor(this.accessor)
         };
 
     }

@@ -1,6 +1,5 @@
 import Feature  from './../Feature.js';
 import Events   from './../../helpers/Events.js';
-import registry from './../../helpers/Registry.js';
 
 /**
  * @module Draft
@@ -135,7 +134,7 @@ export default class Movable extends Feature {
      * @param {Number} [multipleOf=registry.snapGrid]
      * @return {void}
      */
-    drag(x = null, y = null, multipleOf = registry.snapGrid) {
+    drag(x = null, y = null, multipleOf = this.accessor.getSnapGrid()) {
 
         x = !_.isNull(x) ? x : d3.event.sourceEvent.clientX;
         y = !_.isNull(y) ? y : d3.event.sourceEvent.clientY;

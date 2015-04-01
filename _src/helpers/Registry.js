@@ -16,12 +16,6 @@ export default {
     keys: {
         multiSelect: false,
         aspectRatio: false
-    },
-
-    /**
-     * @property snapGrid
-     * @type {Number}
-     */
-    snapGrid: 10
+    }
 
 }
