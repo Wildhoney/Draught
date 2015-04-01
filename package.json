@@ -1,6 +1,6 @@
 {
   "name": "draft-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Drawing tool for creating diagrams using D3.",
   "main": "dist/draft.min.js",
   "scripts": {
