@@ -17,6 +17,15 @@ export default class Facade {
     }
 
     /**
+     * @method remove
+     * @return {void}
+     */
+    remove() {
+        this.shape.group.remove();
+        this.shape.accessor.remove(this);
+    }
+
+    /**
      * @method select
      * @return {Facade}
      */

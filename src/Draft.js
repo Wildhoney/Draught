@@ -110,12 +110,16 @@ class Draft {
             getSelected:            this.getSelected.bind(this),
             groups:                 this.groups,
             keyboard:               this.keyboard,
-            hasSelected: ()      => this.dispatcher.send(Events.SELECTED, {
+            hasSelected: ()       => this.dispatcher.send(Events.SELECTED, {
                                         shapes: this.getSelected()
                                     }),
-            selectAll:   ()      => this.dispatcher.send(Events.SELECT_ALL),
-            deselectAll: ()      => this.dispatcher.send(Events.DESELECT_ALL),
-            reorder:     (group) => {
+            selectAll:   ()       => this.dispatcher.send(Events.SELECT_ALL),
+            deselectAll: ()       => this.dispatcher.send(Events.DESELECT_ALL),
+            remove:      (facade) => {
+                let index = this.shapes.indexOf(facade);
+                this.shapes.splice(index, 1);
+            },
+            reorder:     (group)  => {
                 let groups = this.svg.selectAll('g.shapes g');
                 zed.reorder(groups, group);
             }

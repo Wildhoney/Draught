@@ -18,6 +18,25 @@ describe('Draft', function() {
 
         });
 
+        it('Should be able to remove a shape from the SVGElement;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                facade = draft.add('rect');
+
+            expect(draft.shapes.length).toEqual(1);
+            expect(svg.querySelectorAll('g.shape').length).toEqual(1);
+
+            spyOn(facade, 'remove').and.callThrough();
+            draft.remove(facade);
+            expect(facade.remove).toHaveBeenCalled();
+
+
+            expect(draft.shapes.length).toEqual(0);
+            expect(svg.querySelectorAll('g.shape').length).toEqual(0);
+
+        });
+
         it('Should be able to invoke the callback when shapes are selected;', function() {
 
             var svg    = document.createElement('svg'),
