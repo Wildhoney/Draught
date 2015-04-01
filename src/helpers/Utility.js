@@ -1,10 +1,10 @@
 import Constants from './Constants.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Utility
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 var utility = (function() {
 
@@ -23,10 +23,10 @@ var utility = (function() {
 
             if (exceptionsTitle) {
                 let link = Constants.EXCEPTIONS_URL.replace(/{(.+?)}/i, () => _.kebabCase(exceptionsTitle));
-                throw new Error(`Blueprint.js: ${message}. See: ${link}`);
+                throw new Error(`Draft.js: ${message}. See: ${link}`);
             }
 
-            throw new Error(`Blueprint.js: ${message}.`);
+            throw new Error(`Draft.js: ${message}.`);
 
         },
 

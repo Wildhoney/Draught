@@ -3,10 +3,10 @@ import Events   from './../../helpers/Events.js';
 import registry from './../../helpers/Registry.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Selectable
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class Selectable extends Feature {
 

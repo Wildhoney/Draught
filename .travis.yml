@@ -20,6 +20,6 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: A9Lxru9uzHXIZ7m0odZLUw2XCmQmnonicvyzubR3ONowf2HK75qeoozCkNiElT0AUYHKGw/tQi2eE0iyUVKfUKa7+BzUFlcNCTO8J9tmW7pfWspmD1ll3BuxdcorPkd2nbxs9xmhBG9NDLui2YUT5YHQvFshucLFaoq1+VVXLC8=
-  app: getblueprint
+  app: app-draft
   on:
-    repo: Wildhoney/Blueprint
+    repo: Wildhoney/Draft

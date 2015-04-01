@@ -1,12 +1,12 @@
 {
-  "name": "blueprint",
+  "name": "draft-app",
   "version": "0.2.2",
-  "homepage": "https://github.com/Wildhoney/Blueprint",
+  "homepage": "https://github.com/Wildhoney/Draft",
   "authors": [
     "Adam Timberlake <adam.timberlake@gmail.com>"
   ],
   "description": "Drawing tool for creating diagrams using D3.",
-  "main": "dist/blueprint.min.js",
+  "main": "dist/draft.min.js",
   "keywords": [
     "drawing",
     "svg",

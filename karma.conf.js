@@ -6,7 +6,7 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
         files: [
             { pattern: 'tests/*.test.js', included: false },
-            { pattern: 'dist/blueprint.js', included: false }
+            { pattern: 'dist/draft.js', included: false }
         ],
         reporters: ['progress'],
         port: 9876,

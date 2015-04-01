@@ -11,11 +11,11 @@ import Rectangle  from './shapes/types/Rectangle.js';
 import Circle     from './shapes/types/Circle.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
-class Blueprint {
+class Draft {
 
     /**
      * @method constructor
@@ -33,7 +33,7 @@ class Blueprint {
         this.index       = 1;
         this.boundingBox = { selected: false, element: { remove: () => {}} };
 
-        // Helpers required by Blueprint and the rest of the system.
+        // Helpers required by Draft and the rest of the system.
         this.dispatcher  = new Dispatcher();
         this.zIndex      = new ZIndex();
         this.groups      = new Groups().addTo(this.element);
@@ -318,6 +318,6 @@ class Blueprint {
 
     // Kalinka, kalinka, kalinka moya!
     // V sadu yagoda malinka, malinka moya!
-    $window.Blueprint = Blueprint;
+    $window.Draft = Draft;
 
 })(window);

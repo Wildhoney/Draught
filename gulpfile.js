@@ -13,7 +13,7 @@
         babelify   = require('babelify');
 
     // Load the YAML configuration file.
-    var config = yaml.safeLoad(fs.readFileSync('./.blueprint.yml', 'utf8'));
+    var config = yaml.safeLoad(fs.readFileSync('./.draft.yml', 'utf8'));
 
     // Common entry values.
     var entryFile = config.gulp.entry,

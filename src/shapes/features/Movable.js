@@ -1,13 +1,12 @@
 import Feature  from './../Feature.js';
-//import utility  from './../../helpers/Utility.js';
 import Events   from './../../helpers/Events.js';
 import registry from './../../helpers/Registry.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Movable
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class Movable extends Feature {
 

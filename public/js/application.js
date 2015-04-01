@@ -5,11 +5,11 @@
     $document.addEventListener('DOMContentLoaded', function DOMContentLoaded() {
 
         var svgElement = $document.querySelector('svg'),
-            blueprint  = new Blueprint(svgElement);
+            draft      = new Draft(svgElement);
 
-        blueprint.add('rect').fill('lightpink');
-        blueprint.add('rect').fill('lightblue').x(160).y(100);
-        blueprint.add('circle').fill('lightgreen').x(390).y(150);
+        draft.add('rect').fill('lightpink');
+        draft.add('rect').fill('lightblue').x(160).y(100);
+        draft.add('circle').fill('lightgreen').x(390).y(150);
 
     });
 

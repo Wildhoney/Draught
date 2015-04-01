@@ -1,8 +1,8 @@
-describe('Blueprint', function() {
+describe('Draft', function() {
 
-    var mockBBox = function(blueprint, shapeInterface) {
+    var mockBBox = function(draft, shapeInterface) {
 
-        var shape = blueprint.shapes.filter(function(model) {
+        var shape = draft.shapes.filter(function(model) {
             return model.interface === shapeInterface;
         }).map(function(model) {
             return model.shape;
@@ -22,28 +22,28 @@ describe('Blueprint', function() {
     it('Should be able to initialise the module;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg);
+            draft = new Draft(svg);
 
-        expect(blueprint.element.node()).toEqual(svg);
-        expect(Array.isArray(blueprint.shapes)).toBeTruthy();
-        expect(typeof blueprint.options).toBe('object');
-        expect(typeof blueprint.dispatcher.send).toBe('function');
-        expect(blueprint.groups.shapes.node().nodeName).toEqual('G');
-        expect(blueprint.groups.handles.node().nodeName).toEqual('G');
-        expect(blueprint.map.rect).toBeDefined();
+        expect(draft.element.node()).toEqual(svg);
+        expect(Array.isArray(draft.shapes)).toBeTruthy();
+        expect(typeof draft.options).toBe('object');
+        expect(typeof draft.dispatcher.send).toBe('function');
+        expect(draft.groups.shapes.node().nodeName).toEqual('G');
+        expect(draft.groups.handles.node().nodeName).toEqual('G');
+        expect(draft.map.rect).toBeDefined();
 
-        blueprint = new Blueprint(svg, { dataAttribute: 'data-blueprint-id' });
-        blueprint.add('rect');
+        draft = new Draft(svg, { dataAttribute: 'data-draft-id' });
+        draft.add('rect');
         var group = svg.querySelector('rect').parentNode;
-        expect(group.getAttribute('data-blueprint-id')).toEqual('BP1');
+        expect(group.getAttribute('data-draft-id')).toEqual('BP1');
 
     });
 
     it('Should be able to add an element;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
+            draft = new Draft(svg),
+            rectangle = draft.add('rect').x(100).y(100).setAttr({ strokeWidth: 10 }),
             element   = d3.select(svg.querySelector('rect'));
 
         expect(rectangle.toString()).toEqual('[object Interface: BP1]');
@@ -62,19 +62,19 @@ describe('Blueprint', function() {
     it('Should be able to return the selected shapes;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            first     = blueprint.add('rect').select(),
-            second    = blueprint.add('rect'),
-            third     = blueprint.add('rect').select();
+            draft = new Draft(svg),
+            first     = draft.add('rect').select(),
+            second    = draft.add('rect'),
+            third     = draft.add('rect').select();
 
-        expect(blueprint.selected().length).toEqual(2);
-        expect(blueprint.selected()[0]).toEqual(first);
-        expect(blueprint.selected()[1]).toEqual(third);
+        expect(draft.selected().length).toEqual(2);
+        expect(draft.selected()[0]).toEqual(first);
+        expect(draft.selected()[1]).toEqual(third);
 
         second.select();
-        expect(blueprint.selected().length).toEqual(3);
+        expect(draft.selected().length).toEqual(3);
         first.deselect();
-        expect(blueprint.selected().length).toEqual(2);
+        expect(draft.selected().length).toEqual(2);
 
     });
 
@@ -84,8 +84,8 @@ describe('Blueprint', function() {
         svgContainer.setAttribute('id', 'svg-container');
         document.body.appendChild(svgContainer);
 
-        var blueprint = new Blueprint('#svg-container'),
-            rectangle = blueprint.add(document.createElement('rect')).x(300).y(550);
+        var draft = new Draft('#svg-container'),
+            rectangle = draft.add(document.createElement('rect')).x(300).y(550);
 
         expect(svgContainer.querySelectorAll('g[data-id="BP1"]').length).toEqual(1);
         expect(rectangle.x()).toEqual(300);
@@ -96,8 +96,8 @@ describe('Blueprint', function() {
     it('Should be able to add a specialised interface method;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect');
+            draft = new Draft(svg),
+            rectangle = draft.add('rect');
 
         expect(rectangle.fill('red').fill()).toEqual('red');
 
@@ -106,8 +106,8 @@ describe('Blueprint', function() {
     it('Should be able to read attributes from the shape;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect').x(250).y(250).setAttr({ strokeWidth: 10 });
+            draft = new Draft(svg),
+            rectangle = draft.add('rect').x(250).y(250).setAttr({ strokeWidth: 10 });
 
         expect(rectangle.getAttr().x).toEqual(250);
         expect(rectangle.getAttr().y).toEqual(250);
@@ -118,8 +118,8 @@ describe('Blueprint', function() {
     it('Should be able to select and deselect shapes', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect');
+            draft = new Draft(svg),
+            rectangle = draft.add('rect');
 
         expect(rectangle.isSelected()).toBeFalsy();
         expect(rectangle.select().isSelected()).toBeTruthy();
@@ -130,10 +130,10 @@ describe('Blueprint', function() {
     it('Should be able to manage the z-indexes;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            first     = blueprint.add('rect'),
-            second    = blueprint.add('rect'),
-            third     = blueprint.add('rect');
+            draft = new Draft(svg),
+            first     = draft.add('rect'),
+            second    = draft.add('rect'),
+            third     = draft.add('rect');
 
         expect(second.z(3).z()).toEqual(3);
         expect(first.z()).toEqual(1);
@@ -159,15 +159,15 @@ describe('Blueprint', function() {
     it('Should be able to set the zIndex of the shapes;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect'),
+            draft = new Draft(svg),
+            rectangle = draft.add('rect'),
             group     = d3.select(svg.querySelector('g[data-id]')),
             element   = d3.select(svg.querySelector('rect'));
 
         // Add some more rectangles so that the `sort` method is invoked.
-        blueprint.add('rect');
-        blueprint.add('rect');
-        blueprint.add('rect');
+        draft.add('rect');
+        draft.add('rect');
+        draft.add('rect');
 
         var secondGroup = d3.select(svg.querySelectorAll('g[data-id]')[1]);
         expect(secondGroup.datum().z).toEqual(2);
@@ -186,7 +186,7 @@ describe('Blueprint', function() {
         expect(element.datum().z).toBeUndefined();
         expect(group.datum().z).toEqual(3);
 
-        var fifth      = blueprint.add('rect'),
+        var fifth      = draft.add('rect'),
             fifthGroup = d3.select(svg.querySelectorAll('g[data-id]')[4]);
         expect(fifthGroup.datum().z).toEqual(5);
         fifth.z(-201);
@@ -196,29 +196,29 @@ describe('Blueprint', function() {
     it('Should be able to remove shapes from the canvas;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            first     = blueprint.add('rect'),
-            second    = blueprint.add('rect'),
-            third     = blueprint.add('rect');
+            draft = new Draft(svg),
+            first     = draft.add('rect'),
+            second    = draft.add('rect'),
+            third     = draft.add('rect');
 
         var mapLabels = function() {
-            return blueprint.all().map(function(d) {
+            return draft.all().map(function(d) {
                 return d.label;
             });
         };
 
-        expect(blueprint.all().length).toEqual(3);
+        expect(draft.all().length).toEqual(3);
 
         first.remove();
-        expect(blueprint.all().length).toEqual(2);
+        expect(draft.all().length).toEqual(2);
         expect(mapLabels()).toEqual(['BP2', 'BP3']);
 
         third.remove();
-        expect(blueprint.all().length).toEqual(1);
+        expect(draft.all().length).toEqual(1);
         expect(mapLabels()).toEqual(['BP2']);
 
         second.remove();
-        expect(blueprint.all().length).toEqual(0);
+        expect(draft.all().length).toEqual(0);
         expect(mapLabels()).toEqual([]);
 
     });
@@ -226,8 +226,8 @@ describe('Blueprint', function() {
     it('Should be able to use the `attr` accessor to set/get', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg),
-            rectangle = blueprint.add('rect');
+            draft = new Draft(svg),
+            rectangle = draft.add('rect');
 
         expect(rectangle.x(125).x()).toEqual(125);
         expect(rectangle.z(1).z()).toEqual(1);
@@ -240,28 +240,28 @@ describe('Blueprint', function() {
     it('Should be able to register a custom shape;', function() {
 
         var svg       = document.createElement('svg'),
-            blueprint = new Blueprint(svg);
+            draft = new Draft(svg);
 
         expect(function() {
-            blueprint.register('new-element', {});
-        }).toThrow(new Error('Blueprint.js: Custom shape must be an instance of `Shape`. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#instance-of-shape'));
+            draft.register('new-element', {});
+        }).toThrow(new Error('Draft.js: Custom shape must be an instance of `Shape`. See: https://github.com/Wildhoney/Draft/blob/master/EXCEPTIONS.md#instance-of-shape'));
 
         var Rect = function Rectangle() {};
-        Rect.__proto__ = blueprint.getShapePrototype();
-        Rect.prototype = blueprint.getShapePrototype().prototype;
+        Rect.__proto__ = draft.getShapePrototype();
+        Rect.prototype = draft.getShapePrototype().prototype;
 
         expect(function() {
-            blueprint.register('rect', Rect);
-        }).toThrow(new Error('Blueprint.js: Refusing to overwrite existing rect shape without explicit overwrite. See: https://github.com/Wildhoney/Blueprint/blob/master/EXCEPTIONS.md#overwriting-existing-shapes'));
+            draft.register('rect', Rect);
+        }).toThrow(new Error('Draft.js: Refusing to overwrite existing rect shape without explicit overwrite. See: https://github.com/Wildhoney/Draft/blob/master/EXCEPTIONS.md#overwriting-existing-shapes'));
 
-        blueprint.register('rect', Rect, true);
-        expect(blueprint.map.rect).toEqual(Rect);
+        draft.register('rect', Rect, true);
+        expect(draft.map.rect).toEqual(Rect);
         Rect.prototype.getTag = function getTag() {
             return 'custom-rect';
         };
 
-        blueprint.add('rect');
-        expect(blueprint.shapes[0].shape.getTag()).toEqual('custom-rect');
+        draft.add('rect');
+        expect(draft.shapes[0].shape.getTag()).toEqual('custom-rect');
 
     });
 
@@ -270,13 +270,13 @@ describe('Blueprint', function() {
         it('Should be able to select and deselect the element;', function() {
 
             var svg       = document.createElement('svg'),
-                blueprint = new Blueprint(svg);
+                draft = new Draft(svg);
 
-            mockBBox(blueprint, blueprint.add('rect'));
-            mockBBox(blueprint, blueprint.add('rect'));
+            mockBBox(draft, draft.add('rect'));
+            mockBBox(draft, draft.add('rect'));
 
-            var firstShape       = blueprint.shapes[0].shape,
-                secondShape      = blueprint.shapes[1].shape,
+            var firstShape       = draft.shapes[0].shape,
+                secondShape      = draft.shapes[1].shape,
                 firstSelectable  = firstShape.features.selectable,
                 secondSelectable = secondShape.features.selectable;
 
@@ -367,15 +367,15 @@ describe('Blueprint', function() {
         it('Should be able to deselect a shape when you mod+click on it;', function() {
 
             var svg         = document.createElement('svg'),
-                blueprint   = new Blueprint(svg),
-                first       = mockBBox(blueprint, blueprint.add('rect')),
-                second      = mockBBox(blueprint, blueprint.add('rect')),
-                third       = mockBBox(blueprint, blueprint.add('rect')),
-                firstShape  = blueprint.shapes[0].shape,
-                secondShape = blueprint.shapes[1].shape,
-                thirdShape  = blueprint.shapes[2].shape;
+                draft   = new Draft(svg),
+                first       = mockBBox(draft, draft.add('rect')),
+                second      = mockBBox(draft, draft.add('rect')),
+                third       = mockBBox(draft, draft.add('rect')),
+                firstShape  = draft.shapes[0].shape,
+                secondShape = draft.shapes[1].shape,
+                thirdShape  = draft.shapes[2].shape;
 
-            expect(blueprint.selected().length).toEqual(0);
+            expect(draft.selected().length).toEqual(0);
 
             var opts = { bubbles: true, cancelable: true };
             Mousetrap.trigger('mod', 'keydown');
@@ -383,7 +383,7 @@ describe('Blueprint', function() {
             secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
             thirdShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
             Mousetrap.trigger('mod', 'keyup');
-            expect(blueprint.selected().length).toEqual(3);
+            expect(draft.selected().length).toEqual(3);
 
             secondShape.element.node().dispatchEvent(new MouseEvent('mousedown', opts));
 
@@ -398,13 +398,13 @@ describe('Blueprint', function() {
         it('Should be able to move an element;', function() {
 
             var svg       = document.createElement('svg'),
-                blueprint = new Blueprint(svg),
-                rectangle = mockBBox(blueprint, blueprint.add('rect'));
+                draft = new Draft(svg),
+                rectangle = mockBBox(draft, draft.add('rect'));
 
             expect(rectangle.x(250).x()).toEqual(250);
             expect(rectangle.y(250).y()).toEqual(250);
 
-            var shape   = blueprint.shapes[0].shape,
+            var shape   = draft.shapes[0].shape,
                 movable = shape.features.movable;
             spyOn(movable.dispatcher, 'send').and.callThrough();
             rectangle.select();
@@ -428,27 +428,27 @@ describe('Blueprint', function() {
         it('Should be able to draw a collective bounding box for dragging;', function() {
 
             var svg         = document.createElement('svg'),
-                blueprint   = new Blueprint(svg),
-                first       = mockBBox(blueprint, blueprint.add('rect').x(100).y(400).height(250).width(250)),
-                second      = mockBBox(blueprint, blueprint.add('rect').x(50).y(200).height(125).width(125)),
-                firstShape  = blueprint.shapes[0].shape,
-                secondShape = blueprint.shapes[1].shape,
+                draft   = new Draft(svg),
+                first       = mockBBox(draft, draft.add('rect').x(100).y(400).height(250).width(250)),
+                second      = mockBBox(draft, draft.add('rect').x(50).y(200).height(125).width(125)),
+                firstShape  = draft.shapes[0].shape,
+                secondShape = draft.shapes[1].shape,
                 movable     = firstShape.features.movable;
 
-            spyOn(blueprint, 'createBoundingBox').and.callThrough();
+            spyOn(draft, 'createBoundingBox').and.callThrough();
 
             movable.dragStart(250, 350);
-            expect(blueprint.createBoundingBox).not.toHaveBeenCalled();
+            expect(draft.createBoundingBox).not.toHaveBeenCalled();
             expect(svg.querySelectorAll('rect.drag-box').length).toEqual(0);
 
             first.select();
             second.select();
             movable.dragStart(250, 350);
-            expect(blueprint.createBoundingBox).toHaveBeenCalled();
-            expect(blueprint.createBoundingBox.calls.count()).toEqual(1);
+            expect(draft.createBoundingBox).toHaveBeenCalled();
+            expect(draft.createBoundingBox.calls.count()).toEqual(1);
             expect(svg.querySelectorAll('rect.drag-box').length).toEqual(1);
 
-            var box   = blueprint.boundingBox.element,
+            var box   = draft.boundingBox.element,
                 datum = box.datum();
             expect(datum).toEqual({ minX: 50, minY: 200, maxX: 350, maxY: 650 });
             expect(box.attr('x')).toEqual(String(datum.minX));
@@ -461,9 +461,9 @@ describe('Blueprint', function() {
         it('Should be able to move an element by pressing the arrow keys;', function() {
 
             var svg       = document.createElement('svg'),
-                blueprint = new Blueprint(svg),
-                first     = blueprint.add('rect'),
-                second    = blueprint.add('rect').x(100).y(100);
+                draft = new Draft(svg),
+                first     = draft.add('rect'),
+                second    = draft.add('rect').x(100).y(100);
 
             expect(first.x(250).x()).toEqual(250);
             expect(first.y(250).y()).toEqual(250);
@@ -502,8 +502,8 @@ describe('Blueprint', function() {
         it('Should be able to move in large steps with the shift+arrow keys combination;', function() {
 
             var svg       = document.createElement('svg'),
-                blueprint = new Blueprint(svg),
-                rectangle = blueprint.add('rect').select().transform(100, 100);
+                draft = new Draft(svg),
+                rectangle = draft.add('rect').select().transform(100, 100);
 
             Mousetrap.trigger('shift+left');
             expect(rectangle.x()).toEqual(90);
@@ -521,14 +521,14 @@ describe('Blueprint', function() {
         it('Should be able to draw a bounding box around selected element(s);', function() {
 
             var svg       = document.createElement('svg'),
-                blueprint = new Blueprint(svg);
+                draft = new Draft(svg);
 
-            mockBBox(blueprint, blueprint.add('rect').x(100).y(100).select());
-            mockBBox(blueprint, blueprint.add('rect').x(200).y(200).select());
+            mockBBox(draft, draft.add('rect').x(100).y(100).select());
+            mockBBox(draft, draft.add('rect').x(200).y(200).select());
 
-            var first   = blueprint.shapes[0].interface,
-                second  = blueprint.shapes[1].interface,
-                movable = blueprint.shapes[0].shape.features.movable;
+            var first   = draft.shapes[0].interface,
+                second  = draft.shapes[1].interface,
+                movable = draft.shapes[0].shape.features.movable;
 
             movable.dragStart(300, 300);
             var boundingBox = svg.querySelector('.drag-box');

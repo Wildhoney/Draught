@@ -1,7 +1,7 @@
 import Interface from './../Interface.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Rectangle
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/object

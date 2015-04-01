@@ -3,10 +3,10 @@ import Interface from './../interfaces/Circle.js';
 import utility   from './../../helpers/Utility.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Circle
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class Circle extends Shape {
 

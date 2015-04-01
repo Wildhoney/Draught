@@ -1,8 +1,8 @@
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule ZIndex
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class ZIndex {
 

@@ -2,10 +2,10 @@ import Shape     from './../Shape.js';
 import Interface from './../interfaces/Rectangle.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Rectangle
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class Rectangle extends Shape {
 

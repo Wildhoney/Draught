@@ -1,12 +1,12 @@
 gulp:
-  entry: ./src/Blueprint.js
+  entry: ./src/Draft.js
 
   directories:
     dist: dist
-    vendor: public/vendor/blueprint
+    vendor: public/vendor/draft
 
   tests:
-    temp: tests/build/blueprint.js
+    temp: tests/build/draft.js
 
   dependencies:
     - public/vendor/d3/d3.js
@@ -14,8 +14,8 @@ gulp:
     - public/vendor/mousetrap/mousetrap.js
 
   names:
-    dev: blueprint.js
-    prod: blueprint.min.js
+    dev: draft.js
+    prod: draft.min.js
 
   all:
     - ./src/*.js

@@ -7,10 +7,10 @@ import Selectable from './features/Selectable.js';
 import Movable    from './features/Movable.js';
 
 /**
- * @module Blueprint
+ * @module Draft
  * @submodule Shape
  * @author Adam Timberlake
- * @link https://github.com/Wildhoney/Blueprint
+ * @link https://github.com/Wildhoney/Draft
  */
 export default class Shape {
 
