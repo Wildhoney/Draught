@@ -38,4 +38,27 @@ describe('Draft', function() {
 
     });
 
+    describe('Properties:', function() {
+
+        it('Should be able to modify properties on the created shape;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg),
+                facade = draft.add('rect').fill('red').height(200).width(100).x(150).y(200);
+
+            expect(facade.fill()).toEqual('red');
+            expect(facade.width()).toEqual(100);
+            expect(facade.height()).toEqual(200);
+            expect(facade.x()).toEqual(150);
+            expect(facade.y()).toEqual(200);
+            expect(facade.transform()).toEqual([150, 200]);
+            expect(facade.dimension()).toEqual([200, 100]);
+
+            expect(facade.transform(100, 200).transform()).toEqual([100, 200]);
+            expect(facade.dimension(300, 400).dimension()).toEqual([300, 400]);
+
+        });
+
+    });
+
 });

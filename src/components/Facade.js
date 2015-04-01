@@ -45,7 +45,7 @@ export default class Facade {
     attribute(property, value = null) {
 
         if (value === null) {
-            return this.shape.element.attr(property);
+            return this.shape.element.datum()[property];
         }
 
         this.shape.element.datum()[property] = value;
@@ -56,12 +56,13 @@ export default class Facade {
 
     /**
      * @method transform
-     * @param {Number} x
-     * @param {Number} y
+     * @param {Number} [x=null]
+     * @param {Number} [y=null]
      * @return {*}
      */
-    transform(x, y) {
-        return this.attribute('transform', `translate(${x}, ${y})`);
+    transform(x = null, y = null) {
+        return (x === null && y === null) ? [this.x(), this.y()]
+                                          : this.attribute('transform', `translate(${x}, ${y})`);
     }
 
     /**
@@ -70,13 +71,8 @@ export default class Facade {
      * @return {*}
      */
     x(x = null) {
-
-        if (x === null) {
-            return this.parseTranslate(this.shape.element.datum().transform).x;
-        }
-
-        return this.transform(x, this.y());
-
+        return (x === null) ? this.parseTranslate(this.shape.element.datum().transform).x
+                            : this.transform(x, this.y());
     }
 
     /**
@@ -85,23 +81,19 @@ export default class Facade {
      * @return {*}
      */
     y(y = null) {
-
-        if (y === null) {
-            return this.parseTranslate(this.shape.element.datum().transform).y;
-        }
-
-        return this.transform(this.x(), y);
-
+        return (y === null) ? this.parseTranslate(this.shape.element.datum().transform).y
+                            : this.transform(this.x(), y);
     }
 
     /**
      * @method dimension
-     * @param {Number} height
-     * @param {Number} width
+     * @param {Number} [height=null]
+     * @param {Number} [width=null]
      * @return {*}
      */
-    dimension(height, width) {
-        return this.height(height).width(width);
+    dimension(height = null, width = null) {
+        return (height === null && width === null) ? [this.height(), this.width()]
+                                                   : this.height(height).width(width);
     }
 
     /**
@@ -137,7 +129,7 @@ export default class Facade {
      */
     parseTranslate(transform) {
         let result = String(transform).match(/translate\(([0-9]+)\s*,\s*([0-9]+)/i);
-        return { x: result[1], y: result[2] };
+        return { x: parseInt(result[1]), y: parseInt(result[2]) };
     }
 
     /**
