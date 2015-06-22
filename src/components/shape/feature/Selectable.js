@@ -18,7 +18,12 @@ export default class Selectable {
             keyboard = shape.accessor.keyboard,
             facade   = shape.getFacade();
 
-        element.on('click', () => {
+        element.on('mousedown', () => {
+
+            if (this.clickDisabled) {
+                this.clickDisabled = false;
+                return;
+            }
 
             if (keyboard.multiSelect) {
                 facade.selectInvert();
@@ -30,6 +35,11 @@ export default class Selectable {
 
         });
 
+        shape.element.call(d3.behavior.drag().on('drag', () => {
+            this.clickDisabled = true;
+            facade.shape.accessor.dragBBox();
+        }));
+
     }
 
     /**
@@ -37,7 +47,9 @@ export default class Selectable {
      * @return {void}
      */
     select() {
-        this.shape.selected = true;
+        this.shape.getFacade().selected = true;
+        this.shape.getFacade().fill('green');
+        this.shape.accessor.createBBox();
     }
 
     /**
@@ -45,7 +57,9 @@ export default class Selectable {
      * @return {void}
      */
     deselect() {
-        this.shape.selected = false;
+        this.shape.getFacade().selected = false;
+        this.shape.getFacade().fill('lightgrey');
+        this.shape.accessor.createBBox();
     }
 
 }

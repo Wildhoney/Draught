@@ -1,7 +1,8 @@
-import Dispatcher from './dispatcher/Dispatcher.js';
-import Events     from './dispatcher/Events.js';
-import Rectangle  from './components/shape/Rectangle.js';
-import zed        from './helpers/Zed.js';
+import Dispatcher  from './dispatcher/Dispatcher.js';
+import Events      from './dispatcher/Events.js';
+import Rectangle   from './components/shape/Rectangle.js';
+import zed         from './helpers/Zed.js';
+import BoundingBox from './helpers/BoundingBox.js';
 
 /**
  * @module Draft
@@ -18,12 +19,13 @@ class Draft {
      */
     constructor(element, options) {
 
-        this.shapes     = [];
-        this.index      = 1;
-        this.keyboard   = { multiSelect: false, aspectRatio: false };
-        //this.options    = Object.assign(this.getOptions(), options);
-        this.options    = this.getOptions();
-        this.dispatcher = new Dispatcher();
+        this.shapes      = [];
+        this.index       = 1;
+        this.keyboard    = { multiSelect: false, aspectRatio: false };
+        this.options     = Object.assign(this.getOptions(), options);
+        this.dispatcher  = new Dispatcher();
+        this.boundingBox = new BoundingBox();
+        this.boundingBox.setAccessor(this.getAccessor());
 
         // Responsible for setting up Mousetrap events, if it's available, otherwise all attached
         // events will be ghost events.
@@ -46,7 +48,9 @@ class Draft {
         this.svg = d3.select(typeof element === 'string' ? document.querySelector(element) : element)
                      .attr('width', this.options.documentWidth)
                      .attr('height', this.options.documentHeight)
-                     .on('click', () => this.dispatcher.send(Events.DESELECT_ALL));
+                     .on('click', () => {
+                         //this.dispatcher.send(Events.DESELECT_ALL);
+                     });
 
         // Add groups to the SVG element.
         this.groups = {
@@ -107,9 +111,11 @@ class Draft {
     getAccessor() {
 
         return {
-            getSelected:            this.getSelected.bind(this),
-            groups:                 this.groups,
-            keyboard:               this.keyboard,
+            getSelected:             this.getSelected.bind(this),
+            groups:                  this.groups,
+            dragBBox:    ()       => this.boundingBox.dragStart(),
+            createBBox:  ()       => this.boundingBox.create(this.getSelected(), this.groups.handles),
+            keyboard:                this.keyboard,
             hasSelected: ()       => this.dispatcher.send(Events.SELECTED, {
                                         shapes: this.getSelected()
                                     }),
@@ -162,6 +168,30 @@ class Draft {
     }
 
 }
+
+/**
+ * @property Object.assign
+ * @type {Function}
+ * @see https://github.com/sindresorhus/object-assign
+ */
+Object.assign = Object.assign || function assign(target, source) {
+
+    "use strict";
+
+    let from, keys, to = Object(target);
+
+    for (let s = 1; s < arguments.length; s++) {
+        from = arguments[s];
+        keys = Object.keys(Object(from));
+
+        for (let i = 0; i < keys.length; i++) {
+            to[keys[i]] = from[keys[i]];
+        }
+    }
+
+    return to;
+
+};
 
 (function main($window) {
 

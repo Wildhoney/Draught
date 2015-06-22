@@ -16,3 +16,6 @@ tests/build/*.js
 # CSS
 public/css/*
 !public/css/.gitkeep
+
+# Temporary
+_src

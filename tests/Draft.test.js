@@ -55,6 +55,17 @@ describe('Draft', function() {
 
         });
 
+        it('Should be able to override options upon instantiation;', function() {
+
+            var svg    = document.createElement('svg'),
+                draft  = new Draft(svg, { documentWidth: '50%' });
+
+            expect(draft.options.documentHeight).toEqual('100%');
+            expect(draft.options.documentWidth).toEqual('50%');
+            expect(draft.options.gridSize).toEqual(10);
+
+        });
+
     });
 
     describe('Utility:', function() {
@@ -199,7 +210,10 @@ describe('Draft', function() {
             expect(second.z()).toEqual(2);
             expect(third.z()).toEqual(3);
 
+            expect(svg.querySelector('g.shape rect').getAttribute('fill')).toEqual('red');
             expect(first.bringToFront().z()).toEqual(3);
+            expect(svg.querySelector('g.shape rect').getAttribute('fill')).toEqual('green');
+
             expect(second.z()).toEqual(1);
             expect(third.z()).toEqual(2);
 
