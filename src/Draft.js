@@ -1,3 +1,5 @@
+import symbols from 'helpers/Symbols.js';
+
 /**
  * @module Draft
  * @author Adam Timberlake
@@ -7,10 +9,20 @@ export default class Draft {
 
     /**
      * @constructor
+     * @param {HTMLElement} element
+     * @param {Object} [options={}]
      * @return {Draft}
      */
-    constructor() {
-        this.shapes = [];
+    constructor(element, options = {}) {
+
+        this[symbols.shapes]  = [];
+        this[symbols.options] = Object.assign(this.getOptions(), options);
+
+        // Render the SVG component using the defined options.
+        const width  = this[symbols.options].documentWidth;
+        const height = this[symbols.options].documentHeight;
+        this[symbols.svg] = d3.select(element).attr('width', width).attr('height', height);
+
     }
 
     /**
@@ -18,7 +30,7 @@ export default class Draft {
      * @param {Shape} shape
      */
     addShape(shape) {
-        this.shapes.push(shape);
+        this[symbols.shapes].push(shape);
         return shape;
     }
 
@@ -28,19 +40,35 @@ export default class Draft {
      * @return {Number}
      */
     removeShape(shape) {
-        const index = this.shapes.indexOf(shape);
-        this.shapes.splice(index, 1);
-        return this.shapes.length;
+        const shapes = this[symbols.shapes];
+        const index  = shapes.indexOf(shape);
+        shapes.splice(index, 1);
+        return shapes.length;
+    }
+
+    /**
+     * @method getShapes
+     * @return {Array}
+     */
+    getShapes() {
+        return this[symbols.shapes];
+    }
+
+    /**
+     * @method getOptions
+     * @return {Object}
+     */
+    getOptions() {
+
+        return this[symbols.options] || {
+            documentHeight: '100%',
+            documentWidth: '100%',
+            gridSize: 10
+        };
+
     }
 
 }
-
-
-//import Dispatcher  from './dispatcher/Dispatcher.js';
-//import Events      from './dispatcher/Events.js';
-//import Rectangle   from './components/shape/Rectangle.js';
-//import zed         from './helpers/Zed.js';
-//import BoundingBox from './helpers/BoundingBox.js';
 //
 ///**
 // * @module Draft
