@@ -1,3 +1,4 @@
+import Facade from 'helpers/Facade.js';
 import symbols from 'helpers/Symbols.js';
 
 /**
@@ -17,6 +18,7 @@ export default class Draft {
 
         this[symbols.shapes]  = [];
         this[symbols.options] = Object.assign(this.getOptions(), options);
+        this[symbols.facade]  = new Facade(this);
 
         // Render the SVG component using the defined options.
         const width  = this[symbols.options].documentWidth;
@@ -40,10 +42,16 @@ export default class Draft {
      * @return {Number}
      */
     removeShape(shape) {
+
         const shapes = this[symbols.shapes];
         const index  = shapes.indexOf(shape);
         shapes.splice(index, 1);
+
+        // Put the interface for interacting with Draft into the shape object.
+        shape[symbols.facade] = this[symbols.facade];
+
         return shapes.length;
+
     }
 
     /**
