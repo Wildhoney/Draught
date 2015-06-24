@@ -14,7 +14,7 @@ export default class Middleman {
      * @return {Facade}
      */
     constructor(draft) {
-        this[symbols.draft] = draft;
+        this[symbols.DRAFT] = draft;
     }
 
     /**
@@ -22,7 +22,7 @@ export default class Middleman {
      * @return {Array}
      */
     getShapes() {
-        return this[symbols.draft].getShapes();
+        return this[symbols.DRAFT].getShapes();
     }
 
 }
