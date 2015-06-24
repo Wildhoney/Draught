@@ -1,5 +1,6 @@
-import Facade from 'helpers/Facade.js';
-import symbols from 'helpers/Symbols.js';
+import Middleman      from './helpers/Middleman.js';
+import Symbols        from './helpers/Symbols.js';
+import {objectAssign} from './helpers/Polyfills.js';
 
 /**
  * @module Draft
@@ -16,14 +17,14 @@ export default class Draft {
      */
     constructor(element, options = {}) {
 
-        this[symbols.shapes]  = [];
-        this[symbols.options] = Object.assign(this.getOptions(), options);
-        this[symbols.facade]  = new Facade(this);
+        this[Symbols.shapes]    = [];
+        this[Symbols.options]   = (Object.assign || objectAssign)(this.getOptions(), options);
+        this[Symbols.middleman] = new Middleman(this);
 
         // Render the SVG component using the defined options.
-        const width  = this[symbols.options].documentWidth;
-        const height = this[symbols.options].documentHeight;
-        this[symbols.svg] = d3.select(element).attr('width', width).attr('height', height);
+        const width       = this[Symbols.options].documentWidth;
+        const height      = this[Symbols.options].documentHeight;
+        this[Symbols.svg] = d3.select(element).attr('width', width).attr('height', height);
 
     }
 
@@ -32,7 +33,7 @@ export default class Draft {
      * @param {Shape} shape
      */
     addShape(shape) {
-        this[symbols.shapes].push(shape);
+        this[Symbols.shapes].push(shape);
         return shape;
     }
 
@@ -43,12 +44,12 @@ export default class Draft {
      */
     removeShape(shape) {
 
-        const shapes = this[symbols.shapes];
+        const shapes = this[Symbols.shapes];
         const index  = shapes.indexOf(shape);
         shapes.splice(index, 1);
 
         // Put the interface for interacting with Draft into the shape object.
-        shape[symbols.facade] = this[symbols.facade];
+        shape[Symbols.middleman] = this[Symbols.middleman];
 
         return shapes.length;
 
@@ -59,7 +60,7 @@ export default class Draft {
      * @return {Array}
      */
     getShapes() {
-        return this[symbols.shapes];
+        return this[Symbols.shapes];
     }
 
     /**
@@ -68,7 +69,7 @@ export default class Draft {
      */
     getOptions() {
 
-        return this[symbols.options] || {
+        return this[Symbols.options] || {
             documentHeight: '100%',
             documentWidth: '100%',
             gridSize: 10
@@ -77,202 +78,3 @@ export default class Draft {
     }
 
 }
-//
-///**
-// * @module Draft
-// * @author Adam Timberlake
-// * @link https://github.com/Wildhoney/Draft
-// */
-//class Draft {
-//
-//    /**
-//     * @constructor
-//     * @param {SVGElement|String} element
-//     * @param {Object} options
-//     * @return {Draft}
-//     */
-//    constructor(element, options) {
-//
-//        this.shapes      = [];
-//        this.index       = 1;
-//        this.keyboard    = { multiSelect: false, aspectRatio: false };
-//        this.options     = Object.assign(this.getOptions(), options);
-//        this.dispatcher  = new Dispatcher();
-//        this.boundingBox = new BoundingBox();
-//        this.boundingBox.setAccessor(this.getAccessor());
-//
-//        // Responsible for setting up Mousetrap events, if it's available, otherwise all attached
-//        // events will be ghost events.
-//        ((mousetrap) => {
-//
-//            // Select all of the available shapes.
-//            mousetrap.bind('mod+a', () => this.dispatcher.send(Events.SELECT_ALL));
-//
-//            // Multi-selecting shapes.
-//            mousetrap.bind('mod',   () => this.keyboard.multiSelect = true, 'keydown');
-//            mousetrap.bind('mod',   () => this.keyboard.multiSelect = false, 'keyup');
-//
-//            // Maintain aspect ratios when resizing.
-//            mousetrap.bind('shift', () => this.keyboard.aspectRatio = true, 'keydown');
-//            mousetrap.bind('shift', () => this.keyboard.aspectRatio = false, 'keyup');
-//
-//        })(Mousetrap || { bind: () => {} });
-//
-//        // Voila...
-//        this.svg = d3.select(typeof element === 'string' ? document.querySelector(element) : element)
-//                     .attr('width', this.options.documentWidth)
-//                     .attr('height', this.options.documentHeight)
-//                     .on('click', () => {
-//                         //this.dispatcher.send(Events.DESELECT_ALL);
-//                     });
-//
-//        // Add groups to the SVG element.
-//        this.groups = {
-//            shapes:  this.svg.append('g').attr('class', 'shapes').on('click', () => d3.event.stopPropagation()),
-//            handles: this.svg.append('g').attr('class', 'handles').on('click', () => d3.event.stopPropagation())
-//        };
-//
-//    }
-//
-//    /**
-//     * @method add
-//     * @param {String} name
-//     * @return {Facade}
-//     */
-//    add(name) {
-//
-//        let shape  = this.getInstance(name),
-//            facade = shape.getFacade();
-//
-//        this.shapes.push(facade);
-//        return facade;
-//
-//    }
-//
-//    /**
-//     * @method on
-//     * @param {String} eventName
-//     * @param {Function} fn
-//     * @return {void}
-//     */
-//    on(eventName, fn) {
-//        this.dispatcher.on(eventName, fn);
-//    }
-//
-//    /**
-//     * @method remove
-//     * @param facade {Facade}
-//     * @return {void}
-//     */
-//    remove(facade) {
-//        facade.remove();
-//    }
-//
-//    /**
-//     * @method getSelected
-//     * @return {Array}
-//     */
-//    getSelected() {
-//        return this.shapes.filter((shape) => shape.isSelected());
-//    }
-//
-//    /**
-//     * Accessors that are accessible by the shapes and their associated facades.
-//     *
-//     * @method getAccessor
-//     * @return {Object}
-//     */
-//    getAccessor() {
-//
-//        return {
-//            getSelected:             this.getSelected.bind(this),
-//            groups:                  this.groups,
-//            dragBBox:    ()       => this.boundingBox.dragStart(),
-//            createBBox:  ()       => this.boundingBox.create(this.getSelected(), this.groups.handles),
-//            keyboard:                this.keyboard,
-//            hasSelected: ()       => this.dispatcher.send(Events.SELECTED, {
-//                                        shapes: this.getSelected()
-//                                    }),
-//            selectAll:   ()       => this.dispatcher.send(Events.SELECT_ALL),
-//            deselectAll: ()       => this.dispatcher.send(Events.DESELECT_ALL),
-//            remove:      (facade) => {
-//                let index = this.shapes.indexOf(facade);
-//                this.shapes.splice(index, 1);
-//            },
-//            reorder:     (group)  => {
-//                let groups = this.svg.selectAll('g.shapes g');
-//                zed.reorder(groups, group);
-//            }
-//        }
-//
-//    }
-//
-//    /**
-//     * @method getInstance
-//     * @param {String} name
-//     * @return {Shape}
-//     */
-//    getInstance(name) {
-//
-//        let map = {
-//            rect: Rectangle
-//        };
-//
-//        // Instantiate the shape object, and inject the accessor and listener.
-//        let shape = new map[name.toLowerCase()]();
-//        shape.setAccessor(this.getAccessor());
-//        shape.setDispatcher(this.dispatcher);
-//        shape.insert(this.groups.shapes, this.index++);
-//        return shape;
-//
-//    }
-//
-//    /**
-//     * @method getOptions
-//     * @return {Object}
-//     */
-//    getOptions() {
-//
-//        return {
-//            documentHeight: '100%',
-//            documentWidth: '100%',
-//            gridSize: 10
-//        };
-//
-//    }
-//
-//}
-//
-///**
-// * @property Object.assign
-// * @type {Function}
-// * @see https://github.com/sindresorhus/object-assign
-// */
-//Object.assign = Object.assign || function assign(target, source) {
-//
-//    "use strict";
-//
-//    let from, keys, to = Object(target);
-//
-//    for (let s = 1; s < arguments.length; s++) {
-//        from = arguments[s];
-//        keys = Object.keys(Object(from));
-//
-//        for (let i = 0; i < keys.length; i++) {
-//            to[keys[i]] = from[keys[i]];
-//        }
-//    }
-//
-//    return to;
-//
-//};
-//
-//(function main($window) {
-//
-//    "use strict";
-//
-//    // Kalinka, kalinka, kalinka moya!
-//    // V sadu yagoda malinka, malinka moya!
-//    $window.Draft = Draft;
-//
-//})(window);

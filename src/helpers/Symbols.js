@@ -7,6 +7,7 @@
 export default {
     draft: Symbol('draft'),
     svg: Symbol('svg'),
+    middleman: Symbol('middleman'),
     shapes: Symbol('shapes'),
     options: Symbol('options')
 }

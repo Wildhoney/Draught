@@ -1,90 +1,16 @@
 (function main() {
 
     var gulp       = require('gulp'),
-        jshint     = require('gulp-jshint'),
-        uglify     = require('gulp-uglify'),
-        rimraf     = require('gulp-rimraf'),
         karma      = require('gulp-karma'),
-        rename     = require('gulp-rename'),
-        sass       = require('gulp-sass'),
         fs         = require('fs'),
-        yaml       = require('js-yaml'),
-        browserify = require('browserify'),
-        babelify   = require('babelify');
+        yaml       = require('js-yaml');
 
     // Load the YAML configuration file.
-    var config = yaml.safeLoad(fs.readFileSync('./.draft.yml', 'utf8'));
+    var config = yaml.safeLoad(fs.readFileSync('./draft.yml', 'utf8'));
 
-    // Common entry values.
-    var entryFile = config.gulp.entry,
-        allFiles  = config.gulp.all,
-        prodPath  = config.gulp.directories.dist + '/' + config.gulp.names.prod,
-        devPath   = config.gulp.directories.dist + '/' + config.gulp.names.dev;
+    gulp.task('karma', function() {
 
-    /**
-     * @method buildTo
-     * @param {String} destPath
-     * @return Object
-     */
-    var buildTo = function(destPath) {
-
-        return browserify({ debug: true })
-            .transform(babelify)
-            .require(entryFile, { entry: true })
-            .bundle()
-            .on('error', function (model) { console.error(['Error:', model.message].join(' ')); })
-            .pipe(fs.createWriteStream(destPath));
-
-    };
-
-    gulp.task('compile', function() {
-        return buildTo(devPath);
-    });
-
-    gulp.task('sass', function () {
-
-        return gulp.src('./public/scss/*.scss')
-            .pipe(sass())
-            .pipe(gulp.dest('./public/css'));
-
-    });
-
-    gulp.task('minify', ['compile'], function() {
-
-        return gulp.src(devPath)
-            .pipe(uglify())
-            .pipe(rename(config.gulp.names.prod))
-            .pipe(gulp.dest(config.gulp.directories.dist));
-
-    });
-
-    gulp.task('vendorify', ['compile'], function() {
-
-        var devName = config.gulp.names.dev;
-
-        return gulp.src(devPath)
-            .pipe(rename(devName))
-            .pipe(gulp.dest(config.gulp.directories.vendor));
-
-    });
-
-    gulp.task('lint', function() {
-
-        return gulp.src(allFiles)
-            .pipe(jshint())
-            .pipe(jshint.reporter('default', {
-                verbose: true
-            }));
-
-    });
-
-    gulp.task('karma-prepare', function() {
-        return buildTo(config.gulp.tests.temp);
-    });
-
-    gulp.task('karma', ['karma-prepare'], function() {
-
-        return gulp.src(config.gulp.dependencies.concat(['tests/*.test.js', config.gulp.tests.temp]))
+        return gulp.src(['tests/*.test.js', 'src/*.js', 'src/**/*.js'].concat(config.gulp.polyfills))
             .pipe(karma({
                 configFile: 'karma.conf.js',
                 action: 'run'
@@ -95,21 +21,7 @@
 
     });
 
-    gulp.task('karma-clean', ['karma'], function () {
-
-        return gulp.src(config.gulp.tests.temp, { read: false })
-                   .pipe(rimraf());
-
-    });
-
-    gulp.task('test', ['lint', 'karma-prepare', 'karma', 'karma-clean']);
-    gulp.task('build', ['sass', 'compile', 'minify', 'vendorify']);
-    gulp.task('default', ['test', 'build']);
-    gulp.task('watch', function watch() {
-
-        var sassFiles = ['public/scss/*.scss', 'public/scss/**/*.scss'];
-        gulp.watch(allFiles.concat(sassFiles), ['build']);
-
-    });
+    gulp.task('test', ['karma']);
+    gulp.task('default', ['test']);
 
 })();

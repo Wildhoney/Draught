@@ -1,12 +1,12 @@
-import symbols from 'Symbols.js';
+import symbols from './Symbols.js';
 
 /**
  * @module Draft
- * @submodule Facade
+ * @submodule Middleman
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Draft
  */
-export default class Facade {
+export default class Middleman {
 
     /**
      * @constructor

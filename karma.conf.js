@@ -3,10 +3,12 @@ module.exports = function(config) {
     config.set({
 
         basePath: '',
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'browserify'],
         files: [
-            { pattern: 'tests/*.test.js', included: false },
-            { pattern: 'dist/draft.js', included: false }
+            'tests/*.test.js',
+            'src/*.js',
+            'src/**/*.js',
+            'public/vendor/d3/d3.js'
         ],
         reporters: ['progress'],
         port: 9876,
@@ -14,8 +16,17 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         autoWatch: false,
         //browsers: ['Chrome', 'Opera', 'Safari', 'ChromeCanary', 'Firefox'],
-        browsers: ['Firefox'],
-        singleRun: false
+        browsers: ['Chrome'],
+        singleRun: false,
+        preprocessors: {
+            'src/*.js': ['browserify'],
+            'src/**/*.js': ['browserify'],
+            'tests/*.test.js': ['browserify']
+        },
+        browserify: {
+            debug: true,
+            transform: ['babelify']
+        }
 
     });
 
