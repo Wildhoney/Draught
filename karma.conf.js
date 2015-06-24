@@ -21,7 +21,8 @@ module.exports = function(config) {
         preprocessors: {
             'src/*.js': ['browserify'],
             'src/**/*.js': ['browserify'],
-            'tests/*.test.js': ['browserify']
+            'tests/*.test.js': ['browserify'],
+            'tests/**/*.test.js': ['browserify']
         },
         browserify: {
             debug: true,
