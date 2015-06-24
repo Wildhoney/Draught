@@ -24,7 +24,7 @@ export default class Draft {
         // Render the SVG component using the defined options.
         const width       = this[Symbols.OPTIONS].documentWidth;
         const height      = this[Symbols.OPTIONS].documentHeight;
-        this[Symbols.svg] = d3.select(element).attr('width', width).attr('height', height);
+        this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
 
     }
 

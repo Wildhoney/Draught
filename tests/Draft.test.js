@@ -11,6 +11,16 @@ describe('Draft', () => {
         expect(getDraft() instanceof Draft).toBeTruthy();
     });
 
+    it('Should be able to setup the D3 using the passed in element;', () => {
+
+        const draft = getDraft();
+        expect(mockSVGElement.getAttribute('width')).toEqual('100%');
+        expect(mockSVGElement.getAttribute('height')).toEqual('100%');
+        expect(Array.isArray(draft[Symbols.SVG])).toBeTruthy();
+        expect(draft[Symbols.SVG][0][0]).toEqual(mockSVGElement);
+
+    });
+
     it('Should be able to pass in options that override the defaults;', () => {
 
         const draft   = getDraft({ documentHeight: '50%', gridSize: 5 });
