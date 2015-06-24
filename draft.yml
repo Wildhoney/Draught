@@ -1,4 +1,10 @@
-gulp:
+polyfills:
+  - public/vendor/d3/d3.js
 
-  polyfills:
-    - public/vendor/d3/d3.js
+src:
+  - src/*.js
+  - src/**/*.js
+
+tests:
+  - tests/*.test.js
+  - tests/**/*.test.js
