@@ -1,6 +1,7 @@
 import Draft     from '../src/Draft.js';
 import Symbols   from '../src/helpers/Symbols.js';
 import Middleman from '../src/helpers/Middleman.js';
+import Rectangle from '../src/shapes/Rectangle.js';
 
 describe('Draft', () => {
 
@@ -35,7 +36,7 @@ describe('Draft', () => {
     it('Should be able to manage shapes with add, remove, clear, list;', () => {
 
         const draft  = getDraft();
-        const shapes = { first: {}, second: {} };
+        const shapes = { first: new Rectangle(), second: new Rectangle() };
 
         expect(draft.getShapes().length).toEqual(0);
         draft.addShape(shapes.first);
@@ -57,7 +58,7 @@ describe('Draft', () => {
     it('Should be able to add the middleman object to each added shape;', () => {
 
         const draft = getDraft();
-        const shape = {};
+        const shape = new Rectangle();
 
         expect(draft.addShape(shape)).toEqual(shape);
         expect(shape[Symbols.MIDDLEMAN] instanceof Middleman).toBeTruthy();
