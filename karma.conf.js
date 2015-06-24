@@ -8,7 +8,8 @@ module.exports = function(config) {
             'tests/*.test.js',
             'src/*.js',
             'src/**/*.js',
-            'public/vendor/d3/d3.js'
+            'public/vendor/d3/d3.js',
+            'public/vendor/mousetrap/mousetrap.js'
         ],
         reporters: ['progress'],
         port: 9876,
