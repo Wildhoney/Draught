@@ -21,4 +21,20 @@ describe('Draft', () => {
 
     });
 
+    it('Should be able to manage shapes with add, remove, list;', () => {
+
+        const draft  = getDraft();
+        const shapes = { first: {}, second: {} };
+
+        expect(draft.getShapes().length).toEqual(0);
+        draft.addShape(shapes.first);
+        draft.addShape(shapes.second);
+        expect(draft.getShapes().length).toEqual(2);
+        draft.removeShape(shapes.first);
+        expect(draft.getShapes().length).toEqual(1);
+        draft.removeShape(shapes.second);
+        expect(draft.getShapes().length).toEqual(0);
+
+    });
+
 });
