@@ -58,6 +58,15 @@ export default class Draft {
     }
 
     /**
+     * @method clearShapes
+     * @return {Number}
+     */
+    clearShapes() {
+        this[Symbols.SHAPES].length = 0;
+        return this[Symbols.SHAPES].length;
+    }
+
+    /**
      * @method getShapes
      * @return {Array}
      */
