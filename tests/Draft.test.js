@@ -1,5 +1,6 @@
-import Draft   from '../src/Draft.js';
-import Symbols from '../src/helpers/Symbols.js';
+import Draft     from '../src/Draft.js';
+import Symbols   from '../src/helpers/Symbols.js';
+import Middleman from '../src/helpers/Middleman.js';
 
 describe('Draft', () => {
 
@@ -13,7 +14,7 @@ describe('Draft', () => {
     it('Should be able to pass in options that override the defaults;', () => {
 
         const draft   = getDraft({ documentHeight: '50%', gridSize: 5 });
-        const options = draft[Symbols.options];
+        const options = draft[Symbols.OPTIONS];
 
         expect(options.documentHeight).toEqual('50%');
         expect(options.documentWidth).toEqual('100%');
@@ -34,6 +35,16 @@ describe('Draft', () => {
         expect(draft.getShapes().length).toEqual(1);
         draft.removeShape(shapes.second);
         expect(draft.getShapes().length).toEqual(0);
+
+    });
+
+    it('Should be able to add the middleman object to each added shape;', () => {
+
+        const draft = getDraft();
+        const shape = {};
+
+        expect(draft.addShape(shape)).toEqual(shape);
+        expect(shape[Symbols.MIDDLEMAN] instanceof Middleman).toBeTruthy();
 
     });
 

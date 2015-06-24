@@ -5,9 +5,9 @@
  * @link https://github.com/Wildhoney/Draft
  */
 export default {
-    draft: Symbol('draft'),
-    svg: Symbol('svg'),
-    middleman: Symbol('middleman'),
-    shapes: Symbol('shapes'),
-    options: Symbol('options')
+    DRAFT:     Symbol('draft'),
+    SVG:       Symbol('svg'),
+    MIDDLEMAN: Symbol('middleman'),
+    SHAPES:    Symbol('shapes'),
+    OPTIONS:   Symbol('options')
 }

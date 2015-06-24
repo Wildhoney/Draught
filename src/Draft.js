@@ -17,13 +17,13 @@ export default class Draft {
      */
     constructor(element, options = {}) {
 
-        this[Symbols.shapes]    = [];
-        this[Symbols.options]   = (Object.assign || objectAssign)(this.getOptions(), options);
-        this[Symbols.middleman] = new Middleman(this);
+        this[Symbols.SHAPES]    = [];
+        this[Symbols.OPTIONS]   = (Object.assign || objectAssign)(this.getOptions(), options);
+        this[Symbols.MIDDLEMAN] = new Middleman(this);
 
         // Render the SVG component using the defined options.
-        const width       = this[Symbols.options].documentWidth;
-        const height      = this[Symbols.options].documentHeight;
+        const width       = this[Symbols.OPTIONS].documentWidth;
+        const height      = this[Symbols.OPTIONS].documentHeight;
         this[Symbols.svg] = d3.select(element).attr('width', width).attr('height', height);
 
     }
@@ -33,8 +33,14 @@ export default class Draft {
      * @param {Shape} shape
      */
     addShape(shape) {
-        this[Symbols.shapes].push(shape);
+
+        this[Symbols.SHAPES].push(shape);
+
+        // Put the interface for interacting with Draft into the shape object.
+        shape[Symbols.MIDDLEMAN] = this[Symbols.MIDDLEMAN];
+
         return shape;
+
     }
 
     /**
@@ -44,13 +50,9 @@ export default class Draft {
      */
     removeShape(shape) {
 
-        const shapes = this[Symbols.shapes];
+        const shapes = this[Symbols.SHAPES];
         const index  = shapes.indexOf(shape);
         shapes.splice(index, 1);
-
-        // Put the interface for interacting with Draft into the shape object.
-        shape[Symbols.middleman] = this[Symbols.middleman];
-
         return shapes.length;
 
     }
@@ -60,7 +62,7 @@ export default class Draft {
      * @return {Array}
      */
     getShapes() {
-        return this[Symbols.shapes];
+        return this[Symbols.SHAPES];
     }
 
     /**
@@ -69,7 +71,7 @@ export default class Draft {
      */
     getOptions() {
 
-        return this[Symbols.options] || {
+        return this[Symbols.OPTIONS] || {
             documentHeight: '100%',
             documentWidth: '100%',
             gridSize: 10
