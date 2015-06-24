@@ -1,3 +1,5 @@
+release: draft.js
+
 polyfills:
   - public/vendor/d3/d3.js
 

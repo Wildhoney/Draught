@@ -15,8 +15,7 @@ module.exports = function(config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,
-        //browsers: ['Chrome', 'Opera', 'Safari', 'ChromeCanary', 'Firefox'],
-        browsers: ['Chrome'],
+        browsers: ['Firefox'],
         singleRun: false,
         preprocessors: {
             'src/*.js': ['browserify'],
