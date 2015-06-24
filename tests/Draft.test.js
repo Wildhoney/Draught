@@ -38,6 +38,9 @@ describe('Draft', () => {
         const draft  = getDraft();
         const shapes = { first: new Rectangle(), second: new Rectangle() };
 
+        spyOn(shapes.first, 'remove').and.callThrough();
+        spyOn(shapes.second, 'remove').and.callThrough();
+
         expect(draft.getShapes().length).toEqual(0);
         draft.addShape(shapes.first);
         draft.addShape(shapes.second);
@@ -52,6 +55,9 @@ describe('Draft', () => {
         expect(draft.getShapes().length).toEqual(2);
         draft.clearShapes();
         expect(draft.getShapes().length).toEqual(0);
+
+        expect(shapes.first.remove.calls.count()).toEqual(2);
+        expect(shapes.second.remove.calls.count()).toEqual(2);
 
     });
 

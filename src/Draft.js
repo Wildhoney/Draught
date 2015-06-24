@@ -52,6 +52,7 @@ export default class Draft {
 
         const shapes = this[Symbols.SHAPES];
         const index  = shapes.indexOf(shape);
+        shape.remove();
         shapes.splice(index, 1);
         return shapes.length;
 
@@ -62,8 +63,12 @@ export default class Draft {
      * @return {Number}
      */
     clearShapes() {
-        this[Symbols.SHAPES].length = 0;
-        return this[Symbols.SHAPES].length;
+
+        const shapes = this[Symbols.SHAPES];
+        shapes.forEach((shape) => shape.remove());
+        shapes.length = 0;
+        return shapes.length;
+
     }
 
     /**

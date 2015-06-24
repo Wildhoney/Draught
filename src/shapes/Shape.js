@@ -6,4 +6,12 @@
  */
 export default class Shape {
 
+    /**
+     * @method remove
+     * @return {void}
+     */
+    remove() {
+
+    }
+
 }
