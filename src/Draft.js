@@ -32,17 +32,20 @@ export default class Draft {
     /**
      * @method addShape
      * @param {Shape} shape
+     * @return {Number}
      */
     addShape(shape) {
 
+        const shapes = this[Symbols.SHAPES];
+
         invocator.will('add', shape);
-        this[Symbols.SHAPES].push(shape);
+        shapes.push(shape);
         invocator.did('add', shape);
 
         // Put the interface for interacting with Draft into the shape object.
         shape[Symbols.MIDDLEMAN] = this[Symbols.MIDDLEMAN];
 
-        return shape;
+        return shapes.length;
 
     }
 
