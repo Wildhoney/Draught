@@ -92,6 +92,24 @@ export default class Draft {
     }
 
     /**
+     * @method selectShapes
+     * @param {Array} [shapes=this.getShapes()]
+     * @return {void}
+     */
+    selectShapes(shapes = this.getShapes()) {
+        shapes.forEach((shape) => invocator.did('select', shape));
+    }
+
+    /**
+     * @method deselectShapes
+     * @param {Array} [shapes=this.getShapes()]
+     * @return {void}
+     */
+    deselectShapes(shapes = this.getShapes()) {
+        shapes.forEach((shape) => invocator.did('deselect', shape));
+    }
+
+    /**
      * @method getOptions
      * @return {Object}
      */
