@@ -16,4 +16,16 @@ export default class Rectangle extends Shape {
         return 'rect';
     }
 
+    /**
+     * @method getDefaultAttributes
+     * @return {Object}
+     */
+    getDefaultAttributes() {
+
+        return {
+            fill: 'blue'
+        };
+
+    }
+
 }

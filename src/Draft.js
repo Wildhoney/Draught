@@ -74,6 +74,7 @@ export default class Draft {
         const shapes = this[Symbols.SHAPES];
         invocator.did('remove', shapes);
         shapes.length = 0;
+
         return shapes.length;
 
     }

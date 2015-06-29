@@ -30,4 +30,17 @@ describe('Shape', () => {
 
     });
 
+    it('Should be able to overwrite default shape options and set options once instantiated;', () => {
+
+        const rectangle = new Rectangle({ fill: 'red' });
+        expect(rectangle.attribute('fill')).toEqual('red');
+
+        rectangle.attribute('fill', 'green');
+        expect(rectangle.attribute('fill')).toEqual('green');
+
+        rectangle.setAttribute('opacity', 0.5);
+        expect(rectangle.getAttribute('opacity')).toEqual(0.5);
+
+    });
+
 });
