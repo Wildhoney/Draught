@@ -90,4 +90,21 @@ describe('Draft', () => {
 
     });
 
+    it('Should be able to invoke the select/deselect invocator hooks;', () => {
+
+        const draft = getDraft();
+        const shape = new Rectangle();
+        draft.addShape(shape);
+
+        spyOn(shape, 'didSelect').and.callThrough();
+        spyOn(shape, 'didDeselect').and.callThrough();
+
+        draft.selectShapes();
+        expect(shape.didSelect.calls.count()).toEqual(1);
+
+        draft.deselectShapes();
+        expect(shape.didDeselect.calls.count()).toEqual(1);
+
+    });
+
 });

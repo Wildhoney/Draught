@@ -18,4 +18,16 @@ export default class Shape {
      */
     didRemove() { }
 
+    /**
+     * @method didSelect
+     * @return {void}
+     */
+    didSelect() { }
+
+    /**
+     * @method didDeselect
+     * @return {void}
+     */
+    didDeselect() { }
+
 }
