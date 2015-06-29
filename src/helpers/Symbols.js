@@ -9,5 +9,6 @@ export default {
     SVG:       Symbol('svg'),
     MIDDLEMAN: Symbol('middleman'),
     SHAPES:    Symbol('shapes'),
-    OPTIONS:   Symbol('options')
+    OPTIONS:   Symbol('options'),
+    ABILITIES: Symbol('abilities')
 }

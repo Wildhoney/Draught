@@ -1,3 +1,6 @@
+import Symbols from '../helpers/Symbols.js';
+import Movable from '../abilities/Movable.js';
+
 /**
  * @module Draft
  * @submodule Shape
@@ -5,6 +8,18 @@
  * @link https://github.com/Wildhoney/Draft
  */
 export default class Shape {
+
+    /**
+     * @constructor
+     * @return {Shape}
+     */
+    constructor() {
+
+        this[Symbols.ABILITIES] = {
+            movable: new Movable()
+        };
+
+    }
 
     /**
      * @method didAdd
