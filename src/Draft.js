@@ -1,6 +1,7 @@
 import Middleman      from './helpers/Middleman.js';
 import Symbols        from './helpers/Symbols.js';
 import {objectAssign} from './helpers/Polyfills.js';
+import invocator      from './helpers/Invocator.js';
 
 /**
  * @module Draft
@@ -52,7 +53,11 @@ export default class Draft {
 
         const shapes = this[Symbols.SHAPES];
         const index  = shapes.indexOf(shape);
+
+        invocator.will('remove', shape);
         shape.remove();
+        invocator.did('remove', shape);
+
         shapes.splice(index, 1);
         return shapes.length;
 
