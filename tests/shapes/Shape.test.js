@@ -7,6 +7,9 @@ import Movable   from '../../src/abilities/Movable.js';
 
 describe('Shape', () => {
 
+    const mockSVGElement = document.createElement('svg');
+    const getDraft       = (options) => new Draft(mockSVGElement, options);
+
     it('Should be able to define the abilities for each shape;', () => {
 
         const rectangle = new Rectangle();
@@ -32,14 +35,28 @@ describe('Shape', () => {
 
     it('Should be able to overwrite default shape options and set options once instantiated;', () => {
 
-        const rectangle = new Rectangle({ fill: 'red' });
+        const draft     = getDraft();
+        const rectangle = new Rectangle({ fill: 'red', opacity: 1 });
+        draft.addShape(rectangle);
+        const element   = rectangle[Symbols.ELEMENT];
+
         expect(rectangle.attribute('fill')).toEqual('red');
+        expect(element.node().getAttribute('fill')).toEqual('red');
+        expect(rectangle.attribute('opacity')).toEqual(1);
+        expect(element.node().getAttribute('opacity')).toEqual('1');
+
 
         rectangle.attribute('fill', 'green');
         expect(rectangle.attribute('fill')).toEqual('green');
+        expect(element.node().getAttribute('fill')).toEqual('green');
+        expect(rectangle.attribute('opacity')).toEqual(1);
+        expect(element.node().getAttribute('opacity')).toEqual('1');
 
-        rectangle.setAttribute('opacity', 0.5);
-        expect(rectangle.getAttribute('opacity')).toEqual(0.5);
+        rectangle.attribute('opacity', 0.5);
+        expect(rectangle.attribute('fill')).toEqual('green');
+        expect(element.node().getAttribute('fill')).toEqual('green');
+        expect(rectangle.attribute('opacity')).toEqual(0.5);
+        expect(element.node().getAttribute('opacity')).toEqual('0.5');
 
     });
 

@@ -18,10 +18,8 @@ export default class Shape {
      */
     constructor(attributes = {}) {
 
-        const defaultAttributes  = (typeof this.getDefaultAttributes === 'function') ? this.getDefaultAttributes() : {};
-        this[Symbols.ATTRIBUTES] = objectAssign(defaultAttributes, attributes);
-
-        this[Symbols.ABILITIES] = {
+        this[Symbols.ATTRIBUTES] = attributes;
+        this[Symbols.ABILITIES]  = {
             movable: new Movable()
         };
 
@@ -45,38 +43,32 @@ export default class Shape {
     attribute(name, value) {
 
         if (typeof value === 'undefined') {
-            return this.getAttribute(name);
+            return this[Symbols.ELEMENT].datum()[name];
         }
 
-        this.setAttribute(name, value);
+        this[Symbols.ELEMENT].datum()[name] = value;
+        this[Symbols.ELEMENT].attr(name, value);
         return this;
 
-    }
-
-    /**
-     * @method getAttribute
-     * @param {String} name
-     * @return {String}
-     */
-    getAttribute(name) {
-        return this[Symbols.ATTRIBUTES][name];
-    }
-
-    /**
-     * @method setAttribute
-     * @param {String} name
-     * @param {*} value
-     * @return {void}
-     */
-    setAttribute(name, value) {
-        this[Symbols.ATTRIBUTES][name] = value;
     }
 
     /**
      * @method didAdd
      * @return {void}
      */
-    didAdd() { }
+    didAdd() {
+
+        const svg               = this[Symbols.MIDDLEMAN].getD3();
+        const defaultAttributes = (typeof this.getDefaultAttributes === 'function') ? this.getDefaultAttributes() : {};
+        const attributes        = objectAssign(defaultAttributes, this[Symbols.ATTRIBUTES]);
+
+        this[Symbols.ELEMENT]   = svg.append(this.getTag()).datum({});
+
+        // Assign each attribute from the default attributes defined on the shape, as well as those defined
+        // by the user when instantiating the shape.
+        Object.keys(attributes).forEach((key) => this.attribute(key, attributes[key]));
+
+    }
 
     /**
      * @method didRemove

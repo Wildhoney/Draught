@@ -1,4 +1,4 @@
-import symbols from './Symbols.js';
+import Symbols from './Symbols.js';
 
 /**
  * @module Draft
@@ -14,7 +14,15 @@ export default class Middleman {
      * @return {Facade}
      */
     constructor(draft) {
-        this[symbols.DRAFT] = draft;
+        this[Symbols.DRAFT] = draft;
+    }
+
+    /**
+     * @method getD3
+     * @return {Object}
+     */
+    getD3() {
+        return this[Symbols.DRAFT][Symbols.SVG];
     }
 
     /**
@@ -22,7 +30,7 @@ export default class Middleman {
      * @return {Array}
      */
     getShapes() {
-        return this[symbols.DRAFT].getShapes();
+        return this[Symbols.DRAFT].getShapes();
     }
 
 }

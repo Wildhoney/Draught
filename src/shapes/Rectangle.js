@@ -23,7 +23,8 @@ export default class Rectangle extends Shape {
     getDefaultAttributes() {
 
         return {
-            fill: 'blue'
+            fill: 'blue',
+            opacity: 1
         };
 
     }
