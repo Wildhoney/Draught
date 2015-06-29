@@ -8,4 +8,12 @@ import Shape from './Shape.js';
  */
 export default class Rectangle extends Shape {
 
+    /**
+     * @method getTag
+     * @return {String}
+     */
+    getTag() {
+        return 'rect';
+    }
+
 }

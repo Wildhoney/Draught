@@ -1,5 +1,6 @@
 import Symbols from '../helpers/Symbols.js';
 import Movable from '../abilities/Movable.js';
+import Throw   from '../helpers/Throw.js';
 
 /**
  * @module Draft
@@ -19,6 +20,14 @@ export default class Shape {
             movable: new Movable()
         };
 
+    }
+
+    /**
+     * @method getTag
+     * @return {String}
+     */
+    getTag() {
+        new Throw('Draft.js: Tag name must be defined for a shape using the `getTag` method.');
     }
 
     /**
