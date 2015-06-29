@@ -70,29 +70,23 @@ describe('Draft', () => {
         const draft = getDraft();
         const shape = new Rectangle();
 
-        spyOn(shape, 'willAdd').and.callThrough();
         spyOn(shape, 'didAdd').and.callThrough();
-        spyOn(shape, 'willRemove').and.callThrough();
         spyOn(shape, 'didRemove').and.callThrough();
 
         const addLength = draft.addShape(shape);
         expect(addLength).toEqual(1);
-        expect(shape.willAdd.calls.count()).toEqual(1);
         expect(shape.didAdd.calls.count()).toEqual(1);
 
         const removeLength = draft.removeShape(shape);
         expect(removeLength).toEqual(0);
-        expect(shape.willRemove.calls.count()).toEqual(1);
-        expect(shape.willAdd.calls.count()).toEqual(1);
+        expect(shape.didRemove.calls.count()).toEqual(1);
 
         draft.addShape(shape);
-        expect(shape.willAdd.calls.count()).toEqual(2);
         expect(shape.didAdd.calls.count()).toEqual(2);
 
         const clearLength = draft.clearShapes();
         expect(clearLength).toEqual(0);
-        expect(shape.willRemove.calls.count()).toEqual(2);
-        expect(shape.willAdd.calls.count()).toEqual(2);
+        expect(shape.didRemove.calls.count()).toEqual(2);
 
     });
 

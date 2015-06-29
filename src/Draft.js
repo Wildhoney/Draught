@@ -38,7 +38,6 @@ export default class Draft {
 
         const shapes = this[Symbols.SHAPES];
 
-        invocator.will('add', shape);
         shapes.push(shape);
         invocator.did('add', shape);
 
@@ -59,7 +58,6 @@ export default class Draft {
         const shapes = this[Symbols.SHAPES];
         const index  = shapes.indexOf(shape);
 
-        invocator.will('remove', shape);
         shapes.splice(index, 1);
         invocator.did('remove', shape);
 
@@ -75,9 +73,8 @@ export default class Draft {
 
         const shapes = this[Symbols.SHAPES];
 
-        shapes.forEach((shape) => invocator.will('remove', shape));
-        shapes.length = 0;
         shapes.forEach((shape) => invocator.did('remove', shape));
+        shapes.length = 0;
 
         return shapes.length;
 

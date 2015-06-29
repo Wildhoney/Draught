@@ -44,22 +44,12 @@ export default (() => {
     return {
 
         /**
-         * @method will
-         * @param {String} type
-         * @param {Shape} shape
-         * @return {Boolean}
-         */
-            will(type, shape) {
-            return tryInvoke(shape, `will${capitalize(type)}`);
-        },
-
-        /**
          * @method did
          * @param {String} type
          * @param {Shape} shape
          * @return {Boolean}
          */
-            did(type, shape) {
+        did(type, shape) {
             return tryInvoke(shape, `did${capitalize(type)}`);
         }
 

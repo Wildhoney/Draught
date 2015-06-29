@@ -7,22 +7,10 @@
 export default class Shape {
 
     /**
-     * @method willAdd
-     * @return {void}
-     */
-    willAdd() { }
-
-    /**
      * @method didAdd
      * @return {void}
      */
     didAdd() { }
-
-    /**
-     * @method willRemove
-     * @return {void}
-     */
-    willRemove() { }
 
     /**
      * @method didRemove
