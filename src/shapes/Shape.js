@@ -27,7 +27,7 @@ export default class Shape {
      * @return {String}
      */
     getTag() {
-        new Throw('Draft.js: Tag name must be defined for a shape using the `getTag` method.');
+        new Throw('Tag name must be defined for a shape using the `getTag` method');
     }
 
     /**
