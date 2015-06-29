@@ -18,7 +18,8 @@ describe('Shape', () => {
     it('Should be able to throw an exception if the object does not define a `getTag` method;', () => {
 
         const shapeMock = new class ShapeMock extends Shape {};
-        expect(() => shapeMock.getTag()).toThrow(new Error('Draft.js: Tag name must be defined for a shape using the `getTag` method.'));
+        const message   = 'Draft.js: Tag name must be defined for a shape using the `getTag` method.';
+        expect(() => shapeMock.getTag()).toThrow(new Error(message));
 
     });
 

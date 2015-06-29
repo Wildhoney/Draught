@@ -24,7 +24,8 @@ export default class Shape {
 
     /**
      * @method getTag
-     * @return {String}
+     * @throws {Error} Will throw an exception if the `getTag` method hasn't been defined on the child object.
+     * @return {void}
      */
     getTag() {
         new Throw('Tag name must be defined for a shape using the `getTag` method');
