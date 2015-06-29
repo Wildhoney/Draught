@@ -2,7 +2,7 @@ import invocator from '../../src/helpers/Invocator.js';
 
 describe('Invocator', () => {
 
-    it('Should be able to invoke the hooks', () => {
+    it('Should be able to invoke the hooks;', () => {
 
         const shapeMock = { didRemove:  () => {}, didAdd: () => {} };
 
