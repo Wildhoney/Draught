@@ -5,9 +5,9 @@ describe('Reorder', () => {
     const svg    = d3.select(document.createElement('svg'));
     const group  = svg.append('g');
 
-    const first  = group.append('g').attr('class', 'first').datum({ z: 2 });
-    const second = group.append('g').attr('class', 'second').datum({ z: 1 });
-    const third  = group.append('g').attr('class', 'third').datum({ z: 3 });
+    const first  = group.append('g').attr('class', 'shape first').datum({ z: 2 });
+    const second = group.append('g').attr('class', 'shape second').datum({ z: 1 });
+    const third  = group.append('g').attr('class', 'shape third').datum({ z: 3 });
 
     const getNodeAtIndex = (index) => {
         return group.node().querySelector('g:nth-of-type(' + index + ')');
@@ -15,7 +15,7 @@ describe('Reorder', () => {
 
     it('Should be able to reorder the shape elements;', () => {
 
-        reorder(group.selectAll('g'), first);
+        reorder(group.selectAll('g.shape'), first);
 
         expect(getNodeAtIndex(1).classList.contains('second')).toBeTruthy();
         expect(getNodeAtIndex(2).classList.contains('first')).toBeTruthy();
