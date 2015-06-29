@@ -107,4 +107,32 @@ describe('Draft', () => {
 
     });
 
+    it('Should be able to select/deselect only certain shapes;', () => {
+
+        const draft  = getDraft();
+        const shapes = { first: new Rectangle(), second: new Rectangle() };
+
+        draft.addShape(shapes.first);
+        draft.addShape(shapes.second);
+
+        spyOn(shapes.first, 'didSelect').and.callThrough();
+        spyOn(shapes.second, 'didSelect').and.callThrough();
+
+        spyOn(shapes.first, 'didDeselect').and.callThrough();
+        spyOn(shapes.second, 'didDeselect').and.callThrough();
+
+        draft.selectShapes([shapes.first]);
+        expect(shapes.first.didSelect.calls.count()).toEqual(1);
+        expect(shapes.second.didSelect.calls.count()).toEqual(0);
+
+        draft.deselectShapes([shapes.first]);
+        expect(shapes.first.didDeselect.calls.count()).toEqual(1);
+        expect(shapes.second.didDeselect.calls.count()).toEqual(0);
+
+        draft.selectShapes();
+        expect(shapes.first.didSelect.calls.count()).toEqual(2);
+        expect(shapes.second.didSelect.calls.count()).toEqual(1);
+
+    });
+
 });
