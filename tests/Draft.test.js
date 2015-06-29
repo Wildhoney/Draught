@@ -38,9 +38,6 @@ describe('Draft', () => {
         const draft  = getDraft();
         const shapes = { first: new Rectangle(), second: new Rectangle() };
 
-        spyOn(shapes.first, 'remove').and.callThrough();
-        spyOn(shapes.second, 'remove').and.callThrough();
-
         expect(draft.getShapes().length).toEqual(0);
         draft.addShape(shapes.first);
         draft.addShape(shapes.second);
@@ -56,9 +53,6 @@ describe('Draft', () => {
         draft.clearShapes();
         expect(draft.getShapes().length).toEqual(0);
 
-        expect(shapes.first.remove.calls.count()).toEqual(2);
-        expect(shapes.second.remove.calls.count()).toEqual(2);
-
     });
 
     it('Should be able to add the middleman object to each added shape;', () => {
@@ -68,6 +62,34 @@ describe('Draft', () => {
 
         expect(draft.addShape(shape)).toEqual(shape);
         expect(shape[Symbols.MIDDLEMAN] instanceof Middleman).toBeTruthy();
+
+    });
+
+    it('Should be able to invoke the callback hooks from the invocator;', () => {
+
+        const draft = getDraft();
+        const shape = new Rectangle();
+
+        spyOn(shape, 'willAdd').and.callThrough();
+        spyOn(shape, 'didAdd').and.callThrough();
+        spyOn(shape, 'willRemove').and.callThrough();
+        spyOn(shape, 'didRemove').and.callThrough();
+
+        draft.addShape(shape);
+        expect(shape.willAdd.calls.count()).toEqual(1);
+        expect(shape.didAdd.calls.count()).toEqual(1);
+
+        draft.removeShape(shape);
+        expect(shape.willRemove.calls.count()).toEqual(1);
+        expect(shape.willAdd.calls.count()).toEqual(1);
+
+        draft.addShape(shape);
+        expect(shape.willAdd.calls.count()).toEqual(2);
+        expect(shape.didAdd.calls.count()).toEqual(2);
+
+        draft.clearShapes();
+        expect(shape.willRemove.calls.count()).toEqual(2);
+        expect(shape.willAdd.calls.count()).toEqual(2);
 
     });
 

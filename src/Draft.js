@@ -35,7 +35,9 @@ export default class Draft {
      */
     addShape(shape) {
 
+        invocator.will('add', shape);
         this[Symbols.SHAPES].push(shape);
+        invocator.did('add', shape);
 
         // Put the interface for interacting with Draft into the shape object.
         shape[Symbols.MIDDLEMAN] = this[Symbols.MIDDLEMAN];
@@ -55,10 +57,9 @@ export default class Draft {
         const index  = shapes.indexOf(shape);
 
         invocator.will('remove', shape);
-        shape.remove();
+        shapes.splice(index, 1);
         invocator.did('remove', shape);
 
-        shapes.splice(index, 1);
         return shapes.length;
 
     }
@@ -70,8 +71,11 @@ export default class Draft {
     clearShapes() {
 
         const shapes = this[Symbols.SHAPES];
-        shapes.forEach((shape) => shape.remove());
+
+        shapes.forEach((shape) => invocator.will('remove', shape));
         shapes.length = 0;
+        shapes.forEach((shape) => invocator.did('remove', shape));
+
         return shapes.length;
 
     }
