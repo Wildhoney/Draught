@@ -72,10 +72,8 @@ export default class Draft {
     clearShapes() {
 
         const shapes = this[Symbols.SHAPES];
-
-        shapes.forEach((shape) => invocator.did('remove', shape));
+        invocator.did('remove', shapes);
         shapes.length = 0;
-
         return shapes.length;
 
     }
@@ -94,7 +92,7 @@ export default class Draft {
      * @return {void}
      */
     selectShapes(shapes = this.getShapes()) {
-        shapes.forEach((shape) => invocator.did('select', shape));
+        invocator.did('select', shapes);
     }
 
     /**
@@ -103,7 +101,7 @@ export default class Draft {
      * @return {void}
      */
     deselectShapes(shapes = this.getShapes()) {
-        shapes.forEach((shape) => invocator.did('deselect', shape));
+        invocator.did('deselect', shapes);
     }
 
     /**

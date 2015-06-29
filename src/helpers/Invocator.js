@@ -46,11 +46,17 @@ export default (() => {
         /**
          * @method did
          * @param {String} type
-         * @param {Shape} shape
+         * @param {Array|Shape} shapes
          * @return {Boolean}
          */
-        did(type, shape) {
-            return tryInvoke(shape, `did${capitalize(type)}`);
+        did(type, shapes) {
+
+            shapes = Array.isArray(shapes) ? shapes : [shapes];
+
+            return shapes.every((shape) => {
+                return tryInvoke(shape, `did${capitalize(type)}`);
+            });
+
         }
 
     };
