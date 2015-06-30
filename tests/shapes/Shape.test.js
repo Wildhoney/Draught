@@ -31,6 +31,21 @@ describe('Shape', () => {
 
     });
 
+    it('Should be able to apply default attributes to a shape;', () => {
+
+        const draft     = getDraft();
+        const rectangle = new Rectangle();
+        draft.addShape(rectangle);
+        const element   = rectangle[Symbols.ELEMENT];
+        const defaults  = (new Rectangle()).defaultAttributes();
+
+        expect(rectangle.attribute('fill')).toEqual(defaults.fill);
+        expect(element.node().getAttribute('fill')).toEqual(defaults.fill);
+        expect(rectangle.attribute('opacity')).toEqual(defaults.opacity);
+        expect(element.node().getAttribute('opacity')).toEqual(String(defaults.opacity));
+
+    });
+
     it('Should be able to overwrite default shape options and set options once instantiated;', () => {
 
         const draft     = getDraft();
