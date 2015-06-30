@@ -16,4 +16,12 @@ export default class Ability {
         return this[Symbols.SHAPE];
     }
 
+    /**
+     * @method getMiddleman
+     * @return {Middleman}
+     */
+    getMiddleman() {
+        return this.getShape()[Symbols.MIDDLEMAN];
+    }
+
 }
