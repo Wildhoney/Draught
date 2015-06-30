@@ -2,6 +2,7 @@ import Symbols        from '../helpers/Symbols.js';
 import Movable        from '../abilities/Movable.js';
 import Throw          from '../helpers/Throw.js';
 import {objectAssign} from '../helpers/Polyfills.js';
+import setAttribute   from '../helpers/Attributes.js';
 
 /**
  * @module Draft
@@ -56,7 +57,7 @@ export default class Shape {
         }
 
         this[Symbols.ELEMENT].datum()[name] = value;
-        this[Symbols.ELEMENT].attr(name, value);
+        setAttribute(this[Symbols.ELEMENT], name, value);
 
         return this;
 

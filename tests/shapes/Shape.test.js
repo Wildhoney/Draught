@@ -82,4 +82,21 @@ describe('Shape', () => {
 
     });
 
+    it('Should be able to set the transform attribute when defining X and Y values;', () => {
+
+        const draft     = getDraft();
+        const rectangle = new Rectangle();
+
+        draft.addShape(rectangle);
+        rectangle.attribute('x', 100).attribute('y', 120);
+        const element   = rectangle[Symbols.ELEMENT];
+
+        expect(rectangle.attribute('x')).toEqual(100);
+        expect(rectangle.attribute('y')).toEqual(120);
+        expect(element.node().getAttribute('transform')).toEqual('translate(100, 120)');
+        expect(element.node().getAttribute('x')).toBeNull();
+        expect(element.node().getAttribute('y')).toBeNull();
+
+    });
+
 });
