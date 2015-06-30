@@ -1,4 +1,5 @@
-import Draft     from '../../src/Draft.js';
+import {getDraft} from '../Bootstrap.js';
+
 import Symbols   from '../../src/helpers/Symbols.js';
 import Middleman from '../../src/helpers/Middleman.js';
 import Shape     from '../../src/shapes/Shape.js';
@@ -6,9 +7,6 @@ import Rectangle from '../../src/shapes/Rectangle.js';
 import Movable   from '../../src/abilities/Movable.js';
 
 describe('Shape', () => {
-
-    const mockSVGElement = document.createElement('svg');
-    const getDraft       = (options) => new Draft(mockSVGElement, options);
 
     it('Should be able to define the abilities for each shape;', () => {
 

@@ -1,12 +1,11 @@
+import {getDraft, mockSVGElement} from './Bootstrap.js';
+
 import Draft     from '../src/Draft.js';
 import Symbols   from '../src/helpers/Symbols.js';
 import Middleman from '../src/helpers/Middleman.js';
 import Rectangle from '../src/shapes/Rectangle.js';
 
 describe('Draft', () => {
-
-    const mockSVGElement = document.createElement('svg');
-    const getDraft       = (options) => new Draft(mockSVGElement, options);
 
     it('Should be able to instantiate the constructor function;', () => {
         expect(getDraft() instanceof Draft).toBeTruthy();

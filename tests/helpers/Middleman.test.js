@@ -1,12 +1,10 @@
-import Draft     from '../../src/Draft.js';
+import {getDraft} from '../Bootstrap.js';
+
 import Middleman from '../../src/helpers/Middleman.js';
 import Symbols   from '../../src/helpers/Symbols.js';
 import Rectangle from '../../src/shapes/Rectangle.js';
 
 describe('Middleman', () => {
-
-    const mockSVGElement = document.createElement('svg');
-    const getDraft       = (options) => new Draft(mockSVGElement, options);
 
     it('Should be able to get all of the shapes;', () => {
 
