@@ -60,4 +60,13 @@ describe('Shape', () => {
 
     });
 
+    it('Should be able to add the shape into each ability instance;', () => {
+
+        const rectangle = new Rectangle();
+        const abilities = rectangle[Symbols.ABILITIES];
+
+        expect(abilities.movable[Symbols.SHAPE] instanceof Rectangle).toBeTruthy();
+
+    });
+
 });

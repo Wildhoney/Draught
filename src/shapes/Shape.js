@@ -18,10 +18,20 @@ export default class Shape {
      */
     constructor(attributes = {}) {
 
-        this[Symbols.ATTRIBUTES] = attributes;
-        this[Symbols.ABILITIES]  = {
+        const abilities  = {
             movable: new Movable()
         };
+
+        Object.keys(abilities).forEach((key) => {
+
+            // Add the shape object into each ability instance.
+            abilities[key][Symbols.SHAPE] = this;
+
+        });
+
+
+        this[Symbols.ATTRIBUTES] = attributes;
+        this[Symbols.ABILITIES]  = abilities;
 
     }
 
@@ -48,6 +58,7 @@ export default class Shape {
 
         this[Symbols.ELEMENT].datum()[name] = value;
         this[Symbols.ELEMENT].attr(name, value);
+
         return this;
 
     }

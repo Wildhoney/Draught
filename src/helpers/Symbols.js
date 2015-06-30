@@ -10,6 +10,7 @@ export default {
     ELEMENT:    Symbol('element'),
     ATTRIBUTES: Symbol('attributes'),
     MIDDLEMAN:  Symbol('middleman'),
+    SHAPE:      Symbol('shape'),
     SHAPES:     Symbol('shapes'),
     OPTIONS:    Symbol('options'),
     ABILITIES:  Symbol('abilities')
