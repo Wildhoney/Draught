@@ -69,10 +69,10 @@ export default class Shape {
      */
     didAdd() {
 
-        const svg               = this[Symbols.MIDDLEMAN].getD3();
-        const attributes        = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
+        const svg             = this[Symbols.MIDDLEMAN].getD3();
+        const attributes      = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
 
-        this[Symbols.ELEMENT]   = svg.append(this.tagName()).datum({});
+        this[Symbols.ELEMENT] = svg.append(this.tagName()).datum({});
 
         // Assign each attribute from the default attributes defined on the shape, as well as those defined
         // by the user when instantiating the shape.
