@@ -9,18 +9,18 @@ import Shape from './Shape.js';
 export default class Rectangle extends Shape {
 
     /**
-     * @method getTag
+     * @method tagName
      * @return {String}
      */
-    getTag() {
+    tagName() {
         return 'rect';
     }
 
     /**
-     * @method getDefaultAttributes
+     * @method defaultAttributes
      * @return {Object}
      */
-    getDefaultAttributes() {
+    defaultAttributes() {
 
         return {
             fill: 'blue',

@@ -29,19 +29,18 @@ export default class Shape {
 
         });
 
-
         this[Symbols.ATTRIBUTES] = attributes;
         this[Symbols.ABILITIES]  = abilities;
 
     }
 
     /**
-     * @method getTag
-     * @throws {Error} Will throw an exception if the `getTag` method hasn't been defined on the child object.
+     * @method tagName
+     * @throws {Error} Will throw an exception if the `tagName` method hasn't been defined on the child object.
      * @return {void}
      */
-    getTag() {
-        new Throw('Tag name must be defined for a shape using the `getTag` method');
+    tagName() {
+        new Throw('Tag name must be defined for a shape using the `tagName` method');
     }
 
     /**
@@ -70,10 +69,9 @@ export default class Shape {
     didAdd() {
 
         const svg               = this[Symbols.MIDDLEMAN].getD3();
-        const defaultAttributes = (typeof this.getDefaultAttributes === 'function') ? this.getDefaultAttributes() : {};
-        const attributes        = objectAssign(defaultAttributes, this[Symbols.ATTRIBUTES]);
+        const attributes        = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
 
-        this[Symbols.ELEMENT]   = svg.append(this.getTag()).datum({});
+        this[Symbols.ELEMENT]   = svg.append(this.tagName()).datum({});
 
         // Assign each attribute from the default attributes defined on the shape, as well as those defined
         // by the user when instantiating the shape.
@@ -98,5 +96,13 @@ export default class Shape {
      * @return {void}
      */
     didDeselect() { }
+
+    /**
+     * @method defaultAttributes
+     * @return {Object}
+     */
+    defaultAttributes() {
+        return {};
+    }
 
 }

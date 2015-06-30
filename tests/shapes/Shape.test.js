@@ -16,18 +16,18 @@ describe('Shape', () => {
 
     });
 
-    it('Should be able to throw an exception if the object does not define a `getTag` method;', () => {
+    it('Should be able to throw an exception if the object does not define a `tagName` method;', () => {
 
         const shapeMock = new class ShapeMock extends Shape {};
-        const message   = 'Draft.js: Tag name must be defined for a shape using the `getTag` method.';
-        expect(() => shapeMock.getTag()).toThrow(new Error(message));
+        const message   = 'Draft.js: Tag name must be defined for a shape using the `tagName` method.';
+        expect(() => shapeMock.tagName()).toThrow(new Error(message));
 
     });
 
     it('Should be able to identify the shape tag;', () => {
 
         const rectangle = new Rectangle();
-        expect(rectangle.getTag()).toEqual('rect');
+        expect(rectangle.tagName()).toEqual('rect');
 
     });
 
