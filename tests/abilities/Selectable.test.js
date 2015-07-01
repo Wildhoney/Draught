@@ -44,4 +44,20 @@ describe('Selectable', () => {
 
     });
 
+    it('Should be able to retain selection on element with naked click when more than one selected;', () => {
+
+        const draft  = getDraft();
+        const shapes = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+
+        Mousetrap.trigger('mod+a');
+        expect(draft.selected().length).toEqual(2);
+
+        const event = new MouseEvent('click', { bubbles: true, cancelable: false });
+        shapes.first[Symbols.ELEMENT].node().dispatchEvent(event);
+        expect(draft.selected().length).toEqual(1);
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeFalsy();
+
+    });
+
 });

@@ -30,6 +30,13 @@ export default class Selectable extends Ability {
 
         if (this.shape().isSelected()) {
 
+            if (!keyMap.multiSelect) {
+
+                // Deselect all others and select only the current shape.
+                return void this.middleman().deselect({ exclude: this.shape() });
+
+            }
+
             // Deselect the shape if it's currently selected.
             return void this.middleman().deselect({ include: this.shape() });
 
