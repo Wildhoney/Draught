@@ -45,6 +45,14 @@ export default class Shape {
     }
 
     /**
+     * @method isSelected
+     * @return {Boolean}
+     */
+    isSelected() {
+        return this[Symbols.IS_SELECTED];
+    }
+
+    /**
      * @method attr
      * @param {String} name
      * @param {String} [value=undefined]
@@ -90,13 +98,17 @@ export default class Shape {
      * @method didSelect
      * @return {void}
      */
-    didSelect() { }
+    didSelect() {
+        this[Symbols.IS_SELECTED] = true;
+    }
 
     /**
      * @method didDeselect
      * @return {void}
      */
-    didDeselect() { }
+    didDeselect() {
+        this[Symbols.IS_SELECTED] = false;
+    }
 
     /**
      * @method defaultAttributes
