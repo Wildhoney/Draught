@@ -45,12 +45,12 @@ export default class Shape {
     }
 
     /**
-     * @method attribute
+     * @method attr
      * @param {String} name
      * @param {String} [value=undefined]
      * @return {Shape|*}
      */
-    attribute(name, value) {
+    attr(name, value) {
 
         if (typeof value === 'undefined') {
             return this[Symbols.ELEMENT].datum()[name];
@@ -69,14 +69,14 @@ export default class Shape {
      */
     didAdd() {
 
-        const svg             = this[Symbols.MIDDLEMAN].getD3();
-        const attributes      = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
+        const svg        = this[Symbols.MIDDLEMAN].getD3();
+        const attributes = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
 
         this[Symbols.ELEMENT] = svg.append(this.tagName()).datum({});
 
         // Assign each attribute from the default attributes defined on the shape, as well as those defined
         // by the user when instantiating the shape.
-        Object.keys(attributes).forEach((key) => this.attribute(key, attributes[key]));
+        Object.keys(attributes).forEach((key) => this.attr(key, attributes[key]));
 
     }
 

@@ -39,9 +39,9 @@ describe('Shape', () => {
         const element   = rectangle[Symbols.ELEMENT];
         const defaults  = (new Rectangle()).defaultAttributes();
 
-        expect(rectangle.attribute('fill')).toEqual(defaults.fill);
+        expect(rectangle.attr('fill')).toEqual(defaults.fill);
         expect(element.node().getAttribute('fill')).toEqual(defaults.fill);
-        expect(rectangle.attribute('opacity')).toEqual(defaults.opacity);
+        expect(rectangle.attr('opacity')).toEqual(defaults.opacity);
         expect(element.node().getAttribute('opacity')).toEqual(String(defaults.opacity));
 
     });
@@ -53,22 +53,22 @@ describe('Shape', () => {
         draft.add(rectangle);
         const element   = rectangle[Symbols.ELEMENT];
 
-        expect(rectangle.attribute('fill')).toEqual('red');
+        expect(rectangle.attr('fill')).toEqual('red');
         expect(element.node().getAttribute('fill')).toEqual('red');
-        expect(rectangle.attribute('opacity')).toEqual(1);
+        expect(rectangle.attr('opacity')).toEqual(1);
         expect(element.node().getAttribute('opacity')).toEqual('1');
 
 
-        rectangle.attribute('fill', 'green');
-        expect(rectangle.attribute('fill')).toEqual('green');
+        rectangle.attr('fill', 'green');
+        expect(rectangle.attr('fill')).toEqual('green');
         expect(element.node().getAttribute('fill')).toEqual('green');
-        expect(rectangle.attribute('opacity')).toEqual(1);
+        expect(rectangle.attr('opacity')).toEqual(1);
         expect(element.node().getAttribute('opacity')).toEqual('1');
 
-        rectangle.attribute('opacity', 0.5);
-        expect(rectangle.attribute('fill')).toEqual('green');
+        rectangle.attr('opacity', 0.5);
+        expect(rectangle.attr('fill')).toEqual('green');
         expect(element.node().getAttribute('fill')).toEqual('green');
-        expect(rectangle.attribute('opacity')).toEqual(0.5);
+        expect(rectangle.attr('opacity')).toEqual(0.5);
         expect(element.node().getAttribute('opacity')).toEqual('0.5');
 
     });
@@ -88,11 +88,11 @@ describe('Shape', () => {
         const rectangle = new Rectangle();
 
         draft.add(rectangle);
-        rectangle.attribute('x', 100).attribute('y', 120);
+        rectangle.attr('x', 100).attr('y', 120);
         const element   = rectangle[Symbols.ELEMENT];
 
-        expect(rectangle.attribute('x')).toEqual(100);
-        expect(rectangle.attribute('y')).toEqual(120);
+        expect(rectangle.attr('x')).toEqual(100);
+        expect(rectangle.attr('y')).toEqual(120);
         expect(element.node().getAttribute('transform')).toEqual('translate(100, 120)');
         expect(element.node().getAttribute('x')).toBeNull();
         expect(element.node().getAttribute('y')).toBeNull();
