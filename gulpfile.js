@@ -63,7 +63,7 @@
     });
 
     gulp.task('test', ['lint', 'karma']);
-    gulp.task('build', ['compile', 'minify']);
+    gulp.task('build', ['vendor', 'compile', 'minify']);
     gulp.task('default', ['test', 'build']);
     gulp.task('watch', function watch() {
         return gulp.watch(config.src, ['vendor']);
