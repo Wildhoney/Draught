@@ -41,35 +41,35 @@ describe('Shape', () => {
 
         expect(rectangle.attr('fill')).toEqual(defaults.fill);
         expect(element.node().getAttribute('fill')).toEqual(defaults.fill);
-        expect(rectangle.attr('opacity')).toEqual(defaults.opacity);
-        expect(element.node().getAttribute('opacity')).toEqual(String(defaults.opacity));
+        expect(rectangle.attr('height')).toEqual(defaults.height);
+        expect(element.node().getAttribute('height')).toEqual(String(defaults.height));
 
     });
 
     it('Should be able to overwrite default shape options and set options once instantiated;', () => {
 
         const draft     = getDraft();
-        const rectangle = new Rectangle({ fill: 'red', opacity: 1 });
+        const rectangle = new Rectangle({ fill: 'red', height: 100 });
         draft.add(rectangle);
         const element   = rectangle[Symbols.ELEMENT];
 
         expect(rectangle.attr('fill')).toEqual('red');
         expect(element.node().getAttribute('fill')).toEqual('red');
-        expect(rectangle.attr('opacity')).toEqual(1);
-        expect(element.node().getAttribute('opacity')).toEqual('1');
+        expect(rectangle.attr('height')).toEqual(100);
+        expect(element.node().getAttribute('height')).toEqual('100');
 
 
         rectangle.attr('fill', 'green');
         expect(rectangle.attr('fill')).toEqual('green');
         expect(element.node().getAttribute('fill')).toEqual('green');
-        expect(rectangle.attr('opacity')).toEqual(1);
-        expect(element.node().getAttribute('opacity')).toEqual('1');
+        expect(rectangle.attr('height')).toEqual(100);
+        expect(element.node().getAttribute('height')).toEqual('100');
 
-        rectangle.attr('opacity', 0.5);
+        rectangle.attr('height', 200);
         expect(rectangle.attr('fill')).toEqual('green');
         expect(element.node().getAttribute('fill')).toEqual('green');
-        expect(rectangle.attr('opacity')).toEqual(0.5);
-        expect(element.node().getAttribute('opacity')).toEqual('0.5');
+        expect(rectangle.attr('height')).toEqual(200);
+        expect(element.node().getAttribute('height')).toEqual('200');
 
     });
 
