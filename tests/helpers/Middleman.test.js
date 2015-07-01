@@ -51,9 +51,20 @@ describe('Middleman', () => {
         expect(shapes.first.isSelected()).toBeFalsy();
         expect(shapes.second.isSelected()).toBeFalsy();
 
+        const firstEvent = new MouseEvent('click', { bubbles: true, cancelable: false });
+        shapes.first[Symbols.ELEMENT].node().dispatchEvent(firstEvent);
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeFalsy();
+
+        const secondEvent = new MouseEvent('click', { bubbles: true, cancelable: false });
+        Mousetrap.trigger('mod', 'keydown');
+        shapes.second[Symbols.ELEMENT].node().dispatchEvent(secondEvent);
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
     });
 
-    it('Should be able to deselect all selected shapes when the canvas is clicked;', () => {
+    it('Should be able to deselect all selected shapes when the canvas is clicked and not propagated;', () => {
 
         const draft     = getDraft();
         const svg       = draft[Symbols.SVG];
@@ -64,10 +75,17 @@ describe('Middleman', () => {
         expect(shapes.first.isSelected()).toBeTruthy();
         expect(shapes.second.isSelected()).toBeTruthy();
 
-        var event = new MouseEvent('click', { bubbles: true, cancelable: false });
-        svg.node().dispatchEvent(event);
+        const rootEvent = new MouseEvent('click', { bubbles: true, cancelable: false });
+        svg.node().dispatchEvent(rootEvent);
         expect(shapes.first.isSelected()).toBeFalsy();
         expect(shapes.second.isSelected()).toBeFalsy();
+
+        middleman.select();
+        const shapeGroup = draft[Symbols.GROUPS].shapes;
+        const groupEvent = new MouseEvent('click', { bubbles: true, cancelable: false });
+        shapeGroup.node().dispatchEvent(groupEvent);
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeTruthy();
 
     });
 

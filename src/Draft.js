@@ -27,9 +27,11 @@ class Draft {
         const width = this[Symbols.OPTIONS].documentWidth;
         const height = this[Symbols.OPTIONS].documentHeight;
         const svg = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
-        this[Symbols.GROUPS] = {
-            shapes: svg.append('g').attr('class', 'shapes'),
-            markers: svg.append('g').attr('class', 'markers')
+
+        const stopPropagation = () => d3.event.stopPropagation();
+        this[Symbols.GROUPS]  = {
+            shapes: svg.append('g').attr('class', 'shapes').on('click', stopPropagation),
+            markers: svg.append('g').attr('class', 'markers').on('click', stopPropagation)
         };
 
         // Deselect all shapes when the canvas is clicked.
