@@ -3,6 +3,7 @@ import Selectable     from '../abilities/Selectable.js';
 import Throw          from '../helpers/Throw.js';
 import {objectAssign} from '../helpers/Polyfills.js';
 import setAttribute   from '../helpers/Attributes.js';
+import invocator      from '../helpers/Invocator.js';
 
 /**
  * @module Draft
@@ -18,21 +19,7 @@ export default class Shape {
      * @return {Shape}
      */
     constructor(attributes = {}) {
-
-        const abilities  = {
-            selectable: new Selectable()
-        };
-
-        Object.keys(abilities).forEach((key) => {
-
-            // Add the shape object into each ability instance.
-            abilities[key][Symbols.SHAPE] = this;
-
-        });
-
         this[Symbols.ATTRIBUTES] = attributes;
-        this[Symbols.ABILITIES]  = abilities;
-
     }
 
     /**
@@ -77,14 +64,28 @@ export default class Shape {
      */
     didAdd() {
 
-        const group      = this[Symbols.MIDDLEMAN].groups().shapes;
-        const attributes = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
-
+        const group           = this[Symbols.MIDDLEMAN].groups().shapes;
+        const attributes      = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
         this[Symbols.ELEMENT] = group.append('g').append(this.tagName()).datum({});
 
         // Assign each attribute from the default attributes defined on the shape, as well as those defined
         // by the user when instantiating the shape.
         Object.keys(attributes).forEach((key) => this.attr(key, attributes[key]));
+
+        const abilities  = {
+            selectable: new Selectable()
+        };
+
+        Object.keys(abilities).forEach((key) => {
+
+            // Add the shape object into each ability instance, and invoke the `didAdd` method.
+            const ability = abilities[key];
+            ability[Symbols.SHAPE] = this;
+            invocator.did('add', ability);
+
+        });
+
+        this[Symbols.ABILITIES]  = abilities;
 
     }
 

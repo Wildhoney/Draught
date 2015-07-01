@@ -10,7 +10,8 @@ describe('Shape', () => {
 
     it('Should be able to define the abilities for each shape;', () => {
 
-        const rectangle = new Rectangle();
+        const draft     = getDraft();
+        const rectangle = draft.add(new Rectangle());
         const abilities = rectangle[Symbols.ABILITIES];
         expect(abilities.selectable instanceof Selectable).toBeTruthy();
 
@@ -75,7 +76,8 @@ describe('Shape', () => {
 
     it('Should be able to add the shape into each ability instance;', () => {
 
-        const rectangle = new Rectangle();
+        const draft     = getDraft();
+        const rectangle = draft.add(new Rectangle());
         const abilities = rectangle[Symbols.ABILITIES];
 
         expect(abilities.selectable[Symbols.SHAPE] instanceof Rectangle).toBeTruthy();
