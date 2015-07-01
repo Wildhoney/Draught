@@ -28,7 +28,7 @@ describe('Draft', () => {
 
         expect(options.documentHeight).toEqual('50%');
         expect(options.documentWidth).toEqual('100%');
-        expect(draft.getOptions().gridSize).toEqual(5);
+        expect(draft.options().gridSize).toEqual(5);
 
     });
 
@@ -37,20 +37,20 @@ describe('Draft', () => {
         const draft  = getDraft();
         const shapes = { first: new Rectangle(), second: new Rectangle() };
 
-        expect(draft.getShapes().length).toEqual(0);
-        draft.addShape(shapes.first);
-        draft.addShape(shapes.second);
-        expect(draft.getShapes().length).toEqual(2);
-        draft.removeShape(shapes.first);
-        expect(draft.getShapes().length).toEqual(1);
-        draft.removeShape(shapes.second);
-        expect(draft.getShapes().length).toEqual(0);
+        expect(draft.all().length).toEqual(0);
+        draft.add(shapes.first);
+        draft.add(shapes.second);
+        expect(draft.all().length).toEqual(2);
+        draft.remove(shapes.first);
+        expect(draft.all().length).toEqual(1);
+        draft.remove(shapes.second);
+        expect(draft.all().length).toEqual(0);
 
-        draft.addShape(shapes.first);
-        draft.addShape(shapes.second);
-        expect(draft.getShapes().length).toEqual(2);
-        draft.clearShapes();
-        expect(draft.getShapes().length).toEqual(0);
+        draft.add(shapes.first);
+        draft.add(shapes.second);
+        expect(draft.all().length).toEqual(2);
+        draft.clear();
+        expect(draft.all().length).toEqual(0);
 
     });
 
@@ -59,7 +59,7 @@ describe('Draft', () => {
         const draft = getDraft();
         const shape = new Rectangle();
 
-        expect(draft.addShape(shape)).toEqual(1);
+        expect(draft.add(shape)).toEqual(shape);
         expect(shape[Symbols.MIDDLEMAN] instanceof Middleman).toBeTruthy();
 
     });
@@ -72,18 +72,16 @@ describe('Draft', () => {
         spyOn(shape, 'didAdd').and.callThrough();
         spyOn(shape, 'didRemove').and.callThrough();
 
-        const addLength = draft.addShape(shape);
-        expect(addLength).toEqual(1);
+        expect(draft.add(shape)).toEqual(shape);
         expect(shape.didAdd.calls.count()).toEqual(1);
 
-        const removeLength = draft.removeShape(shape);
-        expect(removeLength).toEqual(0);
+        expect(draft.remove(shape)).toEqual(0);
         expect(shape.didRemove.calls.count()).toEqual(1);
 
-        draft.addShape(shape);
+        draft.add(shape);
         expect(shape.didAdd.calls.count()).toEqual(2);
 
-        const clearLength = draft.clearShapes();
+        const clearLength = draft.clear();
         expect(clearLength).toEqual(0);
         expect(shape.didRemove.calls.count()).toEqual(2);
 
@@ -93,7 +91,7 @@ describe('Draft', () => {
 
         const draft = getDraft();
         const shape = new Rectangle();
-        draft.addShape(shape);
+        draft.add(shape);
 
         spyOn(shape, 'didSelect').and.callThrough();
         spyOn(shape, 'didDeselect').and.callThrough();
@@ -111,8 +109,8 @@ describe('Draft', () => {
         const draft  = getDraft();
         const shapes = { first: new Rectangle(), second: new Rectangle() };
 
-        draft.addShape(shapes.first);
-        draft.addShape(shapes.second);
+        draft.add(shapes.first);
+        draft.add(shapes.second);
 
         spyOn(shapes.first, 'didSelect').and.callThrough();
         spyOn(shapes.second, 'didSelect').and.callThrough();

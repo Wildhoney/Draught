@@ -35,7 +35,7 @@ describe('Shape', () => {
 
         const draft     = getDraft();
         const rectangle = new Rectangle();
-        draft.addShape(rectangle);
+        draft.add(rectangle);
         const element   = rectangle[Symbols.ELEMENT];
         const defaults  = (new Rectangle()).defaultAttributes();
 
@@ -50,7 +50,7 @@ describe('Shape', () => {
 
         const draft     = getDraft();
         const rectangle = new Rectangle({ fill: 'red', opacity: 1 });
-        draft.addShape(rectangle);
+        draft.add(rectangle);
         const element   = rectangle[Symbols.ELEMENT];
 
         expect(rectangle.attribute('fill')).toEqual('red');
@@ -87,7 +87,7 @@ describe('Shape', () => {
         const draft     = getDraft();
         const rectangle = new Rectangle();
 
-        draft.addShape(rectangle);
+        draft.add(rectangle);
         rectangle.attribute('x', 100).attribute('y', 120);
         const element   = rectangle[Symbols.ELEMENT];
 

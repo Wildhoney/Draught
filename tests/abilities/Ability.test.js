@@ -24,7 +24,7 @@ describe('Ability', () => {
         const movable = rectangle[Symbols.ABILITIES].movable;
         expect(movable.getMiddleman()).toBeUndefined();
 
-        draft.addShape(rectangle);
+        draft.add(rectangle);
         expect(movable.getMiddleman()).toEqual(draft[Symbols.MIDDLEMAN]);
 
     });

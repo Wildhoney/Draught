@@ -7,8 +7,10 @@
         var svgElement = $document.querySelector('svg'),
             draft      = new Draft(svgElement);
 
-        var first  = draft.add('rect').fill('lightpink').x(200).y(160).height(100).width(100),
-            second = draft.add('rect').fill('lightblue').x(160).y(100).height(100).width(200);
+        var first  = draft.add('rectangle'),
+            second = draft.add('rectangle');
+
+        console.log(first);
 
     });
 

@@ -13,11 +13,11 @@ describe('Middleman', () => {
         const shape     = new Rectangle();
 
         expect(middleman.constructor).toEqual(Middleman);
-        expect(middleman.getShapes().length).toEqual(0);
-        draft.addShape(shape);
-        expect(middleman.getShapes().length).toEqual(1);
-        draft.clearShapes();
-        expect(middleman.getShapes().length).toEqual(0);
+        expect(middleman.all().length).toEqual(0);
+        draft.add(shape);
+        expect(middleman.all().length).toEqual(1);
+        draft.clear();
+        expect(middleman.all().length).toEqual(0);
 
     });
 

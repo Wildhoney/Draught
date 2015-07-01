@@ -49,6 +49,10 @@
         return compile('dist/' + config.release, 'src/Draft.js');
     });
 
+    gulp.task('vendor', function() {
+        return compile('public/vendor/draft/' + config.release, 'src/Draft.js');
+    });
+
     gulp.task('minify', ['compile'], function() {
 
         return gulp.src('dist/' + config.release)

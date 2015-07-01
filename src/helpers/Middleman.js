@@ -26,11 +26,11 @@ export default class Middleman {
     }
 
     /**
-     * @method getShapes
+     * @method all
      * @return {Array}
      */
-    getShapes() {
-        return this[Symbols.DRAFT].getShapes();
+    all() {
+        return this[Symbols.DRAFT].all();
     }
 
 }
