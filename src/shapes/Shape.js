@@ -1,5 +1,5 @@
 import Symbols        from '../helpers/Symbols.js';
-import Movable        from '../abilities/Movable.js';
+import Selectable     from '../abilities/Selectable.js';
 import Throw          from '../helpers/Throw.js';
 import {objectAssign} from '../helpers/Polyfills.js';
 import setAttribute   from '../helpers/Attributes.js';
@@ -20,7 +20,7 @@ export default class Shape {
     constructor(attributes = {}) {
 
         const abilities  = {
-            movable: new Movable()
+            selectable: new Selectable()
         };
 
         Object.keys(abilities).forEach((key) => {

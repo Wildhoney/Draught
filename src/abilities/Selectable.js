@@ -2,10 +2,10 @@ import Ability from './Ability.js';
 
 /**
  * @module Draft
- * @submodule Movable
+ * @submodule Selectable
  * @author Adam Timberlake
  * @link https://github.com/Wildhoney/Draft
  */
-export default class Movable extends Ability {
+export default class Selectable extends Ability {
 
 }

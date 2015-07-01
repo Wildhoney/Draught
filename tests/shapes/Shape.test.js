@@ -1,10 +1,10 @@
 import {getDraft} from '../Bootstrap.js';
 
-import Symbols   from '../../src/helpers/Symbols.js';
-import Middleman from '../../src/helpers/Middleman.js';
-import Shape     from '../../src/shapes/Shape.js';
-import Rectangle from '../../src/shapes/Rectangle.js';
-import Movable   from '../../src/abilities/Movable.js';
+import Symbols    from '../../src/helpers/Symbols.js';
+import Middleman  from '../../src/helpers/Middleman.js';
+import Shape      from '../../src/shapes/Shape.js';
+import Rectangle  from '../../src/shapes/Rectangle.js';
+import Selectable from '../../src/abilities/Selectable.js';
 
 describe('Shape', () => {
 
@@ -12,7 +12,7 @@ describe('Shape', () => {
 
         const rectangle = new Rectangle();
         const abilities = rectangle[Symbols.ABILITIES];
-        expect(abilities.movable instanceof Movable).toBeTruthy();
+        expect(abilities.selectable instanceof Selectable).toBeTruthy();
 
     });
 
@@ -78,7 +78,7 @@ describe('Shape', () => {
         const rectangle = new Rectangle();
         const abilities = rectangle[Symbols.ABILITIES];
 
-        expect(abilities.movable[Symbols.SHAPE] instanceof Rectangle).toBeTruthy();
+        expect(abilities.selectable[Symbols.SHAPE] instanceof Rectangle).toBeTruthy();
 
     });
 
