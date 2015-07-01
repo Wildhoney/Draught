@@ -89,13 +89,16 @@ describe('Shape', () => {
 
         draft.add(rectangle);
         rectangle.attr('x', 100).attr('y', 120);
-        const element   = rectangle[Symbols.ELEMENT];
+        const element = rectangle[Symbols.ELEMENT];
 
         expect(rectangle.attr('x')).toEqual(100);
         expect(rectangle.attr('y')).toEqual(120);
         expect(element.node().getAttribute('transform')).toEqual('translate(100, 120)');
         expect(element.node().getAttribute('x')).toBeNull();
         expect(element.node().getAttribute('y')).toBeNull();
+
+        rectangle.attr('y', 350);
+        expect(element.node().getAttribute('transform')).toEqual('translate(100, 350)');
 
     });
 

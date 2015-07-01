@@ -55,7 +55,7 @@ export default class Shape {
     /**
      * @method attr
      * @param {String} name
-     * @param {String} [value=undefined]
+     * @param {*} [value=undefined]
      * @return {Shape|*}
      */
     attr(name, value) {
