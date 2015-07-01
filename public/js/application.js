@@ -7,13 +7,15 @@
         var svgElement = $document.querySelector('svg'),
             draft      = new Draft(svgElement);
 
-        var first  = draft.add('rectangle');
-
-        first.attr('fill', 'red')
+        draft.add('rectangle')
+             .attr('fill', 'red')
              .attr('x', 100)
-             .attr('y', 200)
-             .attr('height', 100)
-             .attr('width', 200);
+             .attr('y', 200);
+
+        draft.add('rectangle')
+             .attr('fill', 'blue')
+             .attr('x', 50)
+             .attr('y', 25);
 
     });
 

@@ -132,4 +132,15 @@ describe('Draft', () => {
 
     });
 
+    it('Should be able to add a shape by its name, and throw an exception when not found;', () => {
+
+        const draft = getDraft();
+        const shape = draft.add('rectangle');
+
+        expect(shape.constructor.name).toEqual('Rectangle');
+
+        expect(() => draft.add('non-existent')).toThrow(new Error('Draft.js: Cannot map "non-existent" to a shape object.'));
+
+    });
+
 });

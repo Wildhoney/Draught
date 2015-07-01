@@ -25,7 +25,9 @@ export default class Rectangle extends Shape {
         return {
             fill: 'blue',
             height: 100,
-            width: 100
+            width: 100,
+            x: 0,
+            y: 0
         };
 
     }
