@@ -53,4 +53,22 @@ describe('Middleman', () => {
 
     });
 
+    it('Should be able to deselect all selected shapes when the canvas is clicked;', () => {
+
+        const draft     = getDraft();
+        const svg       = draft[Symbols.SVG];
+        const middleman = draft[Symbols.MIDDLEMAN];
+        const shapes    = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+
+        middleman.select();
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        var event = new MouseEvent('click', { bubbles: true, cancelable: false });
+        svg.node().dispatchEvent(event);
+        expect(shapes.first.isSelected()).toBeFalsy();
+        expect(shapes.second.isSelected()).toBeFalsy();
+
+    });
+
 });

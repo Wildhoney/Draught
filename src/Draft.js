@@ -19,18 +19,21 @@ class Draft {
      */
     constructor(element, options = {}) {
 
-        this[Symbols.SHAPES]    = [];
-        this[Symbols.OPTIONS]   = (Object.assign || objectAssign)(this.options(), options);
+        this[Symbols.SHAPES] = [];
+        this[Symbols.OPTIONS] = (Object.assign || objectAssign)(this.options(), options);
         this[Symbols.MIDDLEMAN] = new Middleman(this);
 
         // Render the SVG component using the defined options.
-        const width          = this[Symbols.OPTIONS].documentWidth;
-        const height         = this[Symbols.OPTIONS].documentHeight;
-        const svg            = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
+        const width = this[Symbols.OPTIONS].documentWidth;
+        const height = this[Symbols.OPTIONS].documentHeight;
+        const svg = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
         this[Symbols.GROUPS] = {
-            shapes:  svg.append('g').attr('class', 'shapes'),
+            shapes: svg.append('g').attr('class', 'shapes'),
             markers: svg.append('g').attr('class', 'markers')
-        }
+        };
+
+        // Deselect all shapes when the canvas is clicked.
+        svg.on('click', () => this.deselect());
 
     }
 
@@ -41,13 +44,9 @@ class Draft {
      */
     add(shape) {
 
-        if (typeof shape === 'string') {
-
-            // Resolve the shape name to the shape object, if the user has passed the shape
-            // as a string.
-            shape = mapper(shape);
-
-        }
+        // Resolve the shape name to the shape object, if the user has passed the shape
+        // as a string.
+        shape = (typeof shape === 'string') ? mapper(shape) : shape;
 
         const shapes = this[Symbols.SHAPES];
         shapes.push(shape);
@@ -106,7 +105,6 @@ class Draft {
      */
     select(shapes = this.all()) {
         invocator.did('select', shapes);
-        //console.log(this.all().filter((shape) => shape.isSelected()));
     }
 
     /**
@@ -116,7 +114,6 @@ class Draft {
      */
     deselect(shapes = this.all()) {
         invocator.did('deselect', shapes);
-        //console.log(this.all().filter((shape) => shape.isSelected()));
     }
 
     /**
