@@ -1,4 +1,5 @@
-import Symbols from './Symbols.js';
+import Symbols     from './Symbols.js';
+import KeyBindings from './KeyBindings.js';
 
 /**
  * @module Draft
@@ -11,10 +12,15 @@ export default class Middleman {
     /**
      * @constructor
      * @param {Draft} draft
-     * @return {Facade}
+     * @return {Middleman}
      */
     constructor(draft) {
-        this[Symbols.DRAFT] = draft;
+
+        this[Symbols.DRAFT]   = draft;
+        this[Symbols.KEY_MAP] = {};
+
+        new KeyBindings(this);
+
     }
 
     /**
@@ -23,6 +29,30 @@ export default class Middleman {
      */
     getD3() {
         return this[Symbols.DRAFT][Symbols.SVG];
+    }
+
+    /**
+     * @method keyMap
+     * @return {Object}
+     */
+    keyMap() {
+        return this[Symbols.KEY_MAP];
+    }
+
+    /**
+     * @method select
+     * @param {Array} [shapes]
+     */
+    select(shapes) {
+        this[Symbols.DRAFT].selectShapes(shapes);
+    }
+
+    /**
+     * @method deselect
+     * @param {Array} [shapes]
+     */
+    deselect(shapes) {
+        this[Symbols.DRAFT].deselectShapes(shapes);
     }
 
     /**
