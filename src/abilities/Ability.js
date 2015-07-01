@@ -10,7 +10,7 @@ export default class Ability {
 
     /**
      * @method getShape
-     * @return {Shape}
+     * @return {Ability}
      */
     getShape() {
         return this[Symbols.SHAPE];

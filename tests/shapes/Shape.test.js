@@ -1,4 +1,4 @@
-import {getDraft} from '../Bootstrap.js';
+import {getDraft, mockSVGElement} from '../Bootstrap.js';
 
 import Symbols    from '../../src/helpers/Symbols.js';
 import Middleman  from '../../src/helpers/Middleman.js';
@@ -99,6 +99,17 @@ describe('Shape', () => {
 
         rectangle.attr('y', 350);
         expect(element.node().getAttribute('transform')).toEqual('translate(100, 350)');
+
+    });
+
+    it('Should be able to render shapes in the shapes group;', () => {
+
+        const draft = getDraft();
+        draft.add('rectangle');
+
+        expect(mockSVGElement.querySelectorAll('g.shapes').length).toEqual(1);
+        expect(mockSVGElement.querySelectorAll('g.markers').length).toEqual(1);
+        expect(mockSVGElement.querySelectorAll('g.shapes > g > rect').length).toEqual(1);
 
     });
 

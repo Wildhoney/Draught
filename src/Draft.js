@@ -24,9 +24,13 @@ class Draft {
         this[Symbols.MIDDLEMAN] = new Middleman(this);
 
         // Render the SVG component using the defined options.
-        const width       = this[Symbols.OPTIONS].documentWidth;
-        const height      = this[Symbols.OPTIONS].documentHeight;
-        this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
+        const width          = this[Symbols.OPTIONS].documentWidth;
+        const height         = this[Symbols.OPTIONS].documentHeight;
+        const svg            = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
+        this[Symbols.GROUPS] = {
+            shapes:  svg.append('g').attr('class', 'shapes'),
+            markers: svg.append('g').attr('class', 'markers')
+        }
 
     }
 

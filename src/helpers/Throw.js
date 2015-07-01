@@ -9,7 +9,7 @@ export default class Throw {
     /**
      * @constructor
      * @param {String} message
-     * @return {Facade}
+     * @return {Throw}
      */
     constructor(message) {
         throw new Error(`Draft.js: ${message}.`);

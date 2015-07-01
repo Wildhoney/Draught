@@ -13,6 +13,7 @@ export default {
     MIDDLEMAN:   Symbol('middleman'),
     SHAPE:       Symbol('shape'),
     SHAPES:      Symbol('shapes'),
+    GROUPS:      Symbol('groups'),
     OPTIONS:     Symbol('options'),
     ABILITIES:   Symbol('abilities'),
     KEY_MAP:     Symbol('keyMap')

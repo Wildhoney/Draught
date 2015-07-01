@@ -24,11 +24,19 @@ export default class Middleman {
     }
 
     /**
-     * @method getD3
+     * @method d3
      * @return {Object}
      */
-    getD3() {
+    d3() {
         return this[Symbols.DRAFT][Symbols.SVG];
+    }
+
+    /**
+     * @method groups
+     * @return {Object}
+     */
+    groups() {
+        return this[Symbols.DRAFT][Symbols.GROUPS];
     }
 
     /**
