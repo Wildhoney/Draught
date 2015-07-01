@@ -33,11 +33,11 @@ export default class Middleman {
     }
 
     /**
-     * @method groups
+     * @method layers
      * @return {Object}
      */
-    groups() {
-        return this[Symbols.DRAFT][Symbols.GROUPS];
+    layers() {
+        return this[Symbols.DRAFT][Symbols.LAYERS];
     }
 
     /**
@@ -54,7 +54,7 @@ export default class Middleman {
      * @return {void}
      */
     select(options) {
-        invocator.includeExclude(this, this[Symbols.DRAFT].select, options);
+        invocator.includeExclude(this[Symbols.DRAFT], this[Symbols.DRAFT].select, options);
     }
 
     /**
@@ -63,7 +63,7 @@ export default class Middleman {
      * @return {void}
      */
     deselect(options) {
-        invocator.includeExclude(this, this[Symbols.DRAFT].deselect, options);
+        invocator.includeExclude(this[Symbols.DRAFT], this[Symbols.DRAFT].deselect, options);
     }
 
     /**

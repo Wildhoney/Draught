@@ -5,16 +5,18 @@
  * @link https://github.com/Wildhoney/Draft
  */
 export default {
-    DRAFT:       Symbol('draft'),
-    SVG:         Symbol('svg'),
-    ELEMENT:     Symbol('element'),
-    IS_SELECTED: Symbol('isSelected'),
-    ATTRIBUTES:  Symbol('attributes'),
-    MIDDLEMAN:   Symbol('middleman'),
-    SHAPE:       Symbol('shape'),
-    SHAPES:      Symbol('shapes'),
-    GROUPS:      Symbol('groups'),
-    OPTIONS:     Symbol('options'),
-    ABILITIES:   Symbol('abilities'),
-    KEY_MAP:     Symbol('keyMap')
+    DRAFT:        Symbol('draft'),
+    SVG:          Symbol('svg'),
+    ELEMENT:      Symbol('element'),
+    IS_SELECTED:  Symbol('isSelected'),
+    ATTRIBUTES:   Symbol('attributes'),
+    MIDDLEMAN:    Symbol('middleman'),
+    SHAPE:        Symbol('shape'),
+    SHAPES:       Symbol('shapes'),
+    LAYERS:       Symbol('layers'),
+    GROUP:        Symbol('group'),
+    BOUNDING_BOX: Symbol('boundingBox'),
+    OPTIONS:      Symbol('options'),
+    ABILITIES:    Symbol('abilities'),
+    KEY_MAP:      Symbol('keyMap')
 }

@@ -81,7 +81,7 @@ describe('Middleman', () => {
         expect(shapes.second.isSelected()).toBeFalsy();
 
         middleman.select();
-        const shapeGroup = draft[Symbols.GROUPS].shapes;
+        const shapeGroup = draft[Symbols.LAYERS].shapes;
         const groupEvent = new MouseEvent('click', { bubbles: true, cancelable: false });
         shapeGroup.node().dispatchEvent(groupEvent);
         expect(shapes.first.isSelected()).toBeTruthy();

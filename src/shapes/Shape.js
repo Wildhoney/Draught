@@ -64,9 +64,10 @@ export default class Shape {
      */
     didAdd() {
 
-        const group           = this[Symbols.MIDDLEMAN].groups().shapes;
+        const layer           = this[Symbols.MIDDLEMAN].layers().shapes;
         const attributes      = objectAssign(this.defaultAttributes(), this[Symbols.ATTRIBUTES]);
-        this[Symbols.ELEMENT] = group.append('g').append(this.tagName()).datum({});
+        this[Symbols.GROUP]   = layer.append('g');
+        this[Symbols.ELEMENT] = this[Symbols.GROUP].append(this.tagName()).datum({});
 
         // Assign each attribute from the default attributes defined on the shape, as well as those defined
         // by the user when instantiating the shape.
@@ -85,7 +86,7 @@ export default class Shape {
 
         });
 
-        this[Symbols.ABILITIES]  = abilities;
+        this[Symbols.ABILITIES] = abilities;
 
     }
 
@@ -109,6 +110,23 @@ export default class Shape {
      */
     didDeselect() {
         this[Symbols.IS_SELECTED] = false;
+    }
+
+    /**
+     * @method boundingBox
+     * @return {Object}
+     */
+    boundingBox() {
+
+        const hasBBox = typeof this[Symbols.GROUP].node().getBBox === 'function';
+
+        return hasBBox ? this[Symbols.GROUP].node().getBBox() : {
+            height: this.attr('height'),
+            width:  this.attr('width'),
+            x:      this.attr('x'),
+            y:      this.attr('y')
+        };
+
     }
 
     /**

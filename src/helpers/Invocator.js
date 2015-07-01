@@ -1,3 +1,5 @@
+import Symbols from './Symbols.js';
+
 /**
  * @method tryInvoke
  * @param {Object} context
@@ -61,15 +63,16 @@ export default (() => {
 
         /**
          * @method includeExclude
-         * @param {Middleman} middleman
+         * @param {Draft} draft
          * @param {Function} fn
          * @param {Object} [options={}]
          * @return {void}
          */
-        includeExclude(middleman, fn, options = {}) {
+        includeExclude(draft, fn, options = {}) {
 
-            const include = options.include || undefined;
-            const exclude = options.exclude || undefined;
+            const include   = options.include || undefined;
+            const exclude   = options.exclude || undefined;
+            const middleman = draft[Symbols.MIDDLEMAN];
 
             /**
              * @method allExcluding
@@ -87,14 +90,14 @@ export default (() => {
             };
 
             if (include) {
-                return void fn.apply(middleman, [include]);
+                return void fn.apply(draft, [include]);
             }
 
             if (!exclude) {
-                return void fn.apply(middleman);
+                return void fn.apply(draft);
             }
 
-            fn.apply(middleman, [allExcluding(exclude)]);
+            fn.apply(draft, [allExcluding(exclude)]);
 
         }
 

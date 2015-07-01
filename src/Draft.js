@@ -1,5 +1,6 @@
 import Middleman      from './helpers/Middleman.js';
 import Symbols        from './helpers/Symbols.js';
+import BoundingBox    from './helpers/BoundingBox.js';
 import {objectAssign} from './helpers/Polyfills.js';
 import invocator      from './helpers/Invocator.js';
 import mapper         from './helpers/Mapper.js';
@@ -19,17 +20,18 @@ class Draft {
      */
     constructor(element, options = {}) {
 
-        this[Symbols.SHAPES] = [];
-        this[Symbols.OPTIONS] = (Object.assign || objectAssign)(this.options(), options);
-        this[Symbols.MIDDLEMAN] = new Middleman(this);
+        this[Symbols.SHAPES]       = [];
+        this[Symbols.OPTIONS]      = (Object.assign || objectAssign)(this.options(), options);
+        this[Symbols.MIDDLEMAN]    = new Middleman(this);
+        this[Symbols.BOUNDING_BOX] = new BoundingBox();
 
         // Render the SVG component using the defined options.
-        const width = this[Symbols.OPTIONS].documentWidth;
+        const width  = this[Symbols.OPTIONS].documentWidth;
         const height = this[Symbols.OPTIONS].documentHeight;
-        const svg = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
+        const svg    = this[Symbols.SVG] = d3.select(element).attr('width', width).attr('height', height);
 
         const stopPropagation = () => d3.event.stopPropagation();
-        this[Symbols.GROUPS]  = {
+        this[Symbols.LAYERS]  = {
             shapes: svg.append('g').attr('class', 'shapes').on('click', stopPropagation),
             markers: svg.append('g').attr('class', 'markers').on('click', stopPropagation)
         };
@@ -107,6 +109,7 @@ class Draft {
      */
     select(shapes = this.all()) {
         invocator.did('select', shapes);
+        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].markers);
     }
 
     /**
@@ -116,6 +119,15 @@ class Draft {
      */
     deselect(shapes = this.all()) {
         invocator.did('deselect', shapes);
+        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].markers);
+    }
+
+    /**
+     * @method selected
+     * @return {Array}
+     */
+    selected() {
+        return this.all().filter((shape) => shape.isSelected());
     }
 
     /**
