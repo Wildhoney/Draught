@@ -57,6 +57,45 @@ export default (() => {
                 return tryInvoke(shape, `did${capitalize(type)}`);
             });
 
+        },
+
+        /**
+         * @method includeExclude
+         * @param {Middleman} middleman
+         * @param {Function} fn
+         * @param {Object} [options={}]
+         * @return {void}
+         */
+        includeExclude(middleman, fn, options = {}) {
+
+            const include = options.include || undefined;
+            const exclude = options.exclude || undefined;
+
+            /**
+             * @method allExcluding
+             * @param {Array} excluding
+             * @return {Array}
+             */
+            const allExcluding = (excluding) => {
+
+                excluding = Array.isArray(excluding) ? excluding : [excluding];
+
+                return middleman.all().filter((shape) => {
+                    return !~excluding.indexOf(shape);
+                });
+
+            };
+
+            if (include) {
+                return void fn.apply(middleman, [include]);
+            }
+
+            if (!exclude) {
+                return void fn.apply(middleman);
+            }
+
+            fn.apply(middleman, [allExcluding(exclude)]);
+
         }
 
     };

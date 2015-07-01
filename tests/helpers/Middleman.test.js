@@ -21,4 +21,36 @@ describe('Middleman', () => {
 
     });
 
+    it('Should be able to invoke select/deselect with include/exclude;', () => {
+
+        const draft     = getDraft();
+        const middleman = draft[Symbols.MIDDLEMAN];
+        const shapes    = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+
+        middleman.select({ exclude: shapes.first });
+        expect(shapes.first.isSelected()).toBeFalsy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        middleman.select();
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        middleman.deselect({ exclude: shapes.second });
+        expect(shapes.first.isSelected()).toBeFalsy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        middleman.select({ include: [shapes.first, shapes.second] });
+        expect(shapes.first.isSelected()).toBeTruthy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        middleman.deselect({ include: [shapes.first] });
+        expect(shapes.first.isSelected()).toBeFalsy();
+        expect(shapes.second.isSelected()).toBeTruthy();
+
+        middleman.deselect();
+        expect(shapes.first.isSelected()).toBeFalsy();
+        expect(shapes.second.isSelected()).toBeFalsy();
+
+    });
+
 });

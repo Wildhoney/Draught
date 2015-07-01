@@ -12,8 +12,8 @@ describe('Ability', () => {
         const rectangle  = draft.add(new Rectangle());
         const selectable = rectangle[Symbols.ABILITIES].selectable;
 
-        expect(typeof selectable.getShape).toBe('function');
-        expect(selectable.getShape()).toEqual(rectangle);
+        expect(typeof selectable.shape).toBe('function');
+        expect(selectable.shape()).toEqual(rectangle);
 
     });
 
@@ -23,7 +23,7 @@ describe('Ability', () => {
         const rectangle = draft.add(new Rectangle());
 
         const selectable = rectangle[Symbols.ABILITIES].selectable;
-        expect(selectable.getMiddleman()).toEqual(draft[Symbols.MIDDLEMAN]);
+        expect(selectable.middleman()).toEqual(draft[Symbols.MIDDLEMAN]);
 
     });
 

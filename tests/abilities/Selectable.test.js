@@ -18,25 +18,25 @@ describe('Selectable', () => {
         spyOn(shapes.first, 'didDeselect').and.callThrough();
         spyOn(shapes.second, 'didDeselect').and.callThrough();
 
-        draft.selectShapes(shapes.first);
+        draft.select(shapes.first);
         expect(shapes.first.didSelect.calls.count()).toEqual(1);
         expect(shapes.second.didSelect.calls.count()).toEqual(0);
         expect(shapes.first.isSelected()).toBeTruthy();
         expect(shapes.second.isSelected()).toBeFalsy();
 
-        draft.selectShapes();
+        draft.select();
         expect(shapes.first.didSelect.calls.count()).toEqual(2);
         expect(shapes.second.didSelect.calls.count()).toEqual(1);
         expect(shapes.first.isSelected()).toBeTruthy();
         expect(shapes.second.isSelected()).toBeTruthy();
 
-        draft.deselectShapes(shapes.second);
+        draft.deselect(shapes.second);
         expect(shapes.first.didDeselect.calls.count()).toEqual(0);
         expect(shapes.second.didDeselect.calls.count()).toEqual(1);
         expect(shapes.first.isSelected()).toBeTruthy();
         expect(shapes.second.isSelected()).toBeFalsy();
 
-        draft.deselectShapes();
+        draft.deselect();
         expect(shapes.first.didDeselect.calls.count()).toEqual(1);
         expect(shapes.second.didDeselect.calls.count()).toEqual(2);
         expect(shapes.first.isSelected()).toBeFalsy();

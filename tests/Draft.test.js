@@ -96,10 +96,10 @@ describe('Draft', () => {
         spyOn(shape, 'didSelect').and.callThrough();
         spyOn(shape, 'didDeselect').and.callThrough();
 
-        draft.selectShapes();
+        draft.select();
         expect(shape.didSelect.calls.count()).toEqual(1);
 
-        draft.deselectShapes();
+        draft.deselect();
         expect(shape.didDeselect.calls.count()).toEqual(1);
 
     });
@@ -118,15 +118,15 @@ describe('Draft', () => {
         spyOn(shapes.first, 'didDeselect').and.callThrough();
         spyOn(shapes.second, 'didDeselect').and.callThrough();
 
-        draft.selectShapes([shapes.first]);
+        draft.select([shapes.first]);
         expect(shapes.first.didSelect.calls.count()).toEqual(1);
         expect(shapes.second.didSelect.calls.count()).toEqual(0);
 
-        draft.deselectShapes([shapes.first]);
+        draft.deselect([shapes.first]);
         expect(shapes.first.didDeselect.calls.count()).toEqual(1);
         expect(shapes.second.didDeselect.calls.count()).toEqual(0);
 
-        draft.selectShapes();
+        draft.select();
         expect(shapes.first.didSelect.calls.count()).toEqual(2);
         expect(shapes.second.didSelect.calls.count()).toEqual(1);
 

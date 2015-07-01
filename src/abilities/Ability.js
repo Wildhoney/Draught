@@ -9,19 +9,19 @@ import Symbols from '../helpers/Symbols.js';
 export default class Ability {
 
     /**
-     * @method getShape
+     * @method shape
      * @return {Ability}
      */
-    getShape() {
+    shape() {
         return this[Symbols.SHAPE];
     }
 
     /**
-     * @method getMiddleman
+     * @method middleman
      * @return {Middleman}
      */
-    getMiddleman() {
-        return this.getShape()[Symbols.MIDDLEMAN];
+    middleman() {
+        return this.shape()[Symbols.MIDDLEMAN];
     }
 
 }

@@ -15,7 +15,34 @@ export default class Selectable extends Ability {
      */
     didAdd() {
 
-        //console.log(this.getShape()[Symbols.ELEMENT])
+        const element = this.shape()[Symbols.ELEMENT];
+        element.on('click', this.handleClick.bind(this));
+
+    }
+
+    /**
+     * @method handleClick
+     * @return {void}
+     */
+    handleClick() {
+
+        const keyMap = this.middleman()[Symbols.KEY_MAP];
+
+        if (this.shape().isSelected()) {
+
+            // Deselect the shape if it's currently selected.
+            return void this.middleman().deselect({ include: this.shape() });
+
+        }
+
+        if (!keyMap.multiSelect) {
+
+            // Deselect all shapes except for the current.
+            this.middleman().deselect({ exclude: this.shape() });
+
+        }
+
+        this.middleman().select({ include: this.shape() });
 
     }
 

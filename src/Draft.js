@@ -100,21 +100,23 @@ class Draft {
     }
 
     /**
-     * @method selectShapes
+     * @method select
      * @param {Array} [shapes=this.all()]
      * @return {void}
      */
-    selectShapes(shapes = this.all()) {
+    select(shapes = this.all()) {
         invocator.did('select', shapes);
+        //console.log(this.all().filter((shape) => shape.isSelected()));
     }
 
     /**
-     * @method deselectShapes
+     * @method deselect
      * @param {Array} [shapes=this.all()]
      * @return {void}
      */
-    deselectShapes(shapes = this.all()) {
+    deselect(shapes = this.all()) {
         invocator.did('deselect', shapes);
+        //console.log(this.all().filter((shape) => shape.isSelected()));
     }
 
     /**

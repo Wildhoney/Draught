@@ -1,5 +1,6 @@
 import Symbols     from './Symbols.js';
 import KeyBindings from './KeyBindings.js';
+import invocator   from './Invocator.js';
 
 /**
  * @module Draft
@@ -49,18 +50,20 @@ export default class Middleman {
 
     /**
      * @method select
-     * @param {Array} [shapes]
+     * @param {Object} options
+     * @return {void}
      */
-    select(shapes) {
-        this[Symbols.DRAFT].selectShapes(shapes);
+    select(options) {
+        invocator.includeExclude(this, this[Symbols.DRAFT].select, options);
     }
 
     /**
      * @method deselect
-     * @param {Array} [shapes]
+     * @param {Object} options
+     * @return {void}
      */
-    deselect(shapes) {
-        this[Symbols.DRAFT].deselectShapes(shapes);
+    deselect(options) {
+        invocator.includeExclude(this, this[Symbols.DRAFT].deselect, options);
     }
 
     /**
