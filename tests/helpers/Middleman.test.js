@@ -101,4 +101,33 @@ describe('Middleman', () => {
 
     });
 
+    it('Should be able to return the D3 instance;', () => {
+
+        const draft     = getDraft();
+        const middleman = draft[Symbols.MIDDLEMAN];
+        expect(middleman.d3()).toEqual(draft[Symbols.SVG]);
+
+    });
+
+    it('Should be able to return the key map object;', () => {
+
+        const draft     = getDraft();
+        const middleman = draft[Symbols.MIDDLEMAN];
+        expect(typeof middleman.keyMap()).toBe('object');
+        expect(middleman.keyMap().multiSelect).toBeFalsy();
+        expect(middleman.keyMap().aspectRatio).toBeFalsy();
+
+    });
+
+    it('Should be able to yield the D3 layers;', () => {
+
+        const draft     = getDraft();
+        const middleman = draft[Symbols.MIDDLEMAN];
+        expect(typeof middleman.layers()).toBe('object');
+        expect(Object.keys(middleman.layers())).toEqual(['shapes', 'markers']);
+        expect(middleman.layers().shapes.node().nodeName.toLowerCase()).toEqual('g');
+        expect(middleman.layers().markers.node().nodeName.toLowerCase()).toEqual('g');
+
+    });
+
 });
