@@ -107,8 +107,8 @@ export default class BoundingBox {
     dragStart(x = null, y = null) {
 
         this.start = {
-            x: (x !== null) ? x : d3.event.sourceEvent.clientX - parseInt(this.bBox.attr('x')),
-            y: (y !== null) ? y : d3.event.sourceEvent.clientY - parseInt(this.bBox.attr('y'))
+            x: (x !== null) ? x : d3.event.sourceEvent.clientX - Number(this.bBox.attr('x')),
+            y: (y !== null) ? y : d3.event.sourceEvent.clientY - Number(this.bBox.attr('y'))
         };
 
     }
