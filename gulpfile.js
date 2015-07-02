@@ -50,7 +50,18 @@
     });
 
     gulp.task('vendor', function() {
-        return compile('public/vendor/draft/' + config.release, 'src/Draft.js');
+
+        var path  = 'public/vendor/draft/';
+        var fs    = require('fs');
+
+        try {
+            fs.lstatSync(path);
+        } catch (e) {
+            fs.mkdirSync(path)
+        }
+
+        return compile(path + config.release, 'src/Draft.js');
+
     });
 
     gulp.task('minify', ['compile'], function() {
