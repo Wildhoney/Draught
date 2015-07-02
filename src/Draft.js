@@ -22,8 +22,8 @@ class Draft {
 
         this[Symbols.SHAPES]       = [];
         this[Symbols.OPTIONS]      = (Object.assign || objectAssign)(this.options(), options);
-        this[Symbols.MIDDLEMAN]    = new Middleman(this);
-        this[Symbols.BOUNDING_BOX] = new BoundingBox();
+        const middleman            = this[Symbols.MIDDLEMAN]    = new Middleman(this);
+        this[Symbols.BOUNDING_BOX] = new BoundingBox(middleman);
 
         // Render the SVG component using the defined options.
         const width  = this[Symbols.OPTIONS].documentWidth;
@@ -37,7 +37,15 @@ class Draft {
         };
 
         // Deselect all shapes when the canvas is clicked.
-        svg.on('click', () => this.deselect());
+        svg.on('click', () => {
+
+            if (!middleman.preventDeselect()) {
+                this.deselect();
+            }
+
+            middleman.preventDeselect(false);
+
+        });
 
     }
 

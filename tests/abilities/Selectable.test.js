@@ -60,4 +60,53 @@ describe('Selectable', () => {
 
     });
 
+    it('Should be able to select the shapes when clicking on the bounding box;', () => {
+
+        const draft       = getDraft();
+        const shapes      = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+        const boundingBox = draft[Symbols.BOUNDING_BOX];
+        const middleman   = draft[Symbols.MIDDLEMAN];
+
+        spyOn(shapes.first, 'didSelect').and.callThrough();
+
+        spyOn(boundingBox, 'handleClick').and.callFake(() => {
+
+            if (middleman.preventDeselect()) {
+                middleman.preventDeselect(false);
+                return;
+            }
+
+            const event = new MouseEvent('click', { bubbles: true, cancelable: false });
+            shapes.first[Symbols.ELEMENT].node().dispatchEvent(event);
+
+        });
+
+        Mousetrap.trigger('mod+a');
+        expect(draft.selected().length).toEqual(2);
+
+        const bBox            = draft[Symbols.BOUNDING_BOX].bBox.node();
+        const firstClickEvent = new MouseEvent('click', { bubbles: false, cancelable: false });
+        bBox.dispatchEvent(firstClickEvent);
+
+        expect(draft.selected().length).toEqual(1);
+        expect(shapes.first.didSelect).toHaveBeenCalled();
+        expect(shapes.first.didSelect.calls.count()).toEqual(1);
+        expect(middleman.preventDeselect()).toBeFalsy();
+
+        // Simulate drag event on the bBox.
+        boundingBox.drag();
+        expect(middleman.preventDeselect()).toBeTruthy();
+        const secondClickEvent = new MouseEvent('click', { bubbles: false, cancelable: false });
+        bBox.dispatchEvent(secondClickEvent);
+        expect(middleman.preventDeselect()).toBeFalsy();
+
+        boundingBox.drag();
+        expect(middleman.preventDeselect()).toBeTruthy();
+        const thirdClickEvent = new MouseEvent('click', { bubbles: false, cancelable: false });
+        bBox.dispatchEvent(thirdClickEvent);
+        draft[Symbols.SVG].node().dispatchEvent(thirdClickEvent);
+        expect(middleman.preventDeselect()).toBeFalsy();
+
+    });
+
 });

@@ -89,4 +89,16 @@ describe('Middleman', () => {
 
     });
 
+    it('Should be able to resolve a shape given an element;', () => {
+
+        const draft     = getDraft();
+        const shape     = draft.add('rectangle');
+        const element   = shape[Symbols.ELEMENT].node();
+        const middleman = draft[Symbols.MIDDLEMAN];
+
+        expect(middleman.fromElement(element)).toEqual(shape);
+        expect(middleman.fromElement({})).toBeUndefined();
+
+    });
+
 });

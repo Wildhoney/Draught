@@ -17,8 +17,9 @@ export default class Middleman {
      */
     constructor(draft) {
 
-        this[Symbols.DRAFT]   = draft;
-        this[Symbols.KEY_MAP] = {};
+        this[Symbols.DRAFT]        = draft;
+        this[Symbols.KEY_MAP]      = {};
+        this[Symbols.CAN_DESELECT] = false;
 
         new KeyBindings(this);
 
@@ -72,6 +73,33 @@ export default class Middleman {
      */
     all() {
         return this[Symbols.DRAFT].all();
+    }
+
+    /**
+     * @method fromElement
+     * @param {HTMLElement} element
+     * @return {Shape}
+     */
+    fromElement(element) {
+
+        return this.all().filter((shape) => {
+            return element === shape[Symbols.ELEMENT].node();
+        })[0];
+
+    }
+
+    /**
+     * @method preventDeselect
+     * @param {Boolean} [value=undefined]
+     */
+    preventDeselect(value) {
+
+        if (typeof value === 'undefined') {
+            return this[Symbols.CAN_DESELECT];
+        }
+
+        this[Symbols.CAN_DESELECT] = value;
+
     }
 
 }

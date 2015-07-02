@@ -1,3 +1,5 @@
+import Symbols from './Symbols.js';
+
 /**
  * @module Draft
  * @submodule BoundingBox
@@ -5,6 +7,42 @@
  * @link https://github.com/Wildhoney/Draft
  */
 export default class BoundingBox {
+
+    /**
+     * @constructor
+     * @param {Middleman} middleman
+     * @return {BoundingBox}
+     */
+    constructor(middleman) {
+        this[Symbols.MIDDLEMAN] = middleman;
+    }
+
+    /**
+     * @method handleClick
+     * @return {void}
+     */
+    handleClick() {
+
+        const middleman = this[Symbols.MIDDLEMAN];
+        d3.event.stopPropagation();
+
+        if (middleman.preventDeselect()) {
+            middleman.preventDeselect(false);
+            return;
+        }
+
+        const mouseX = d3.event.pageX;
+        const mouseY = d3.event.pageY;
+
+        this.bBox.attr('pointer-events', 'none');
+        const element = document.elementFromPoint(mouseX, mouseY);
+        this.bBox.attr('pointer-events', 'all');
+
+        if (middleman.fromElement(element)) {
+            const event = new MouseEvent('click', { bubbles: true, cancelable: false });
+            element.dispatchEvent(event);
+        }
+    }
 
     /**
      * @method drawBoundingBox
@@ -46,17 +84,41 @@ export default class BoundingBox {
         this.bBox = layer.append('rect')
                          .datum(model)
                          .classed('drag-box', true)
-                         .attr('pointer-events', 'none')
                          .attr('x',      ((d) => d.minX))
                          .attr('y',      ((d) => d.minY))
                          .attr('width',  ((d) => d.maxX - d.minX))
-                         .attr('height', ((d) => d.maxY - d.minY));
+                         .attr('height', ((d) => d.maxY - d.minY))
+                         .on('click', this.handleClick.bind(this));
 
-        //const dragStart = ['dragstart', () => this.dragStart()],
-        //      drag      = ['drag',      () => this.drag()],
-        //      dragEnd   = ['dragend',   () => this.dragEnd()];
-        //
-        //this.bBox.call(d3.behavior.drag().on(...dragStart).on(...drag).on(...dragEnd));
+        const dragStart = ['dragstart', () => this.dragStart()];
+        const drag      = ['drag',      () => this.drag()];
+        const dragEnd   = ['dragend',   () => this.dragEnd()];
+
+        this.bBox.call(d3.behavior.drag().on(...dragStart).on(...drag).on(...dragEnd));
+
+    }
+
+    /**
+     * @method drag
+     * @return {void}
+     */
+    drag() {
+        this[Symbols.MIDDLEMAN].preventDeselect(true);
+    }
+
+    /**
+     * @method dragStart
+     * @return {void}
+     */
+    dragStart() {
+
+    }
+
+    /**
+     * @method dragEnd
+     * @return {void}
+     */
+    dragEnd() {
 
     }
 

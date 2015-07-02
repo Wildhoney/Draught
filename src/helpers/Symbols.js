@@ -18,5 +18,6 @@ export default {
     BOUNDING_BOX: Symbol('boundingBox'),
     OPTIONS:      Symbol('options'),
     ABILITIES:    Symbol('abilities'),
-    KEY_MAP:      Symbol('keyMap')
+    KEY_MAP:      Symbol('keyMap'),
+    CAN_DESELECT: Symbol('canDeselect')
 }
