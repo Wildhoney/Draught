@@ -11,7 +11,7 @@ module.exports = function(config) {
             'public/vendor/d3/d3.js',
             'public/vendor/mousetrap/mousetrap.js'
         ],
-        reporters: ['progress'],
+        reporters: ['spec'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
