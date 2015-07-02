@@ -20,6 +20,12 @@
     "draw"
   ],
   "author": "Adam Timberlake <adam.timberlake@gmail.com>",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public",
+    "tests"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Wildhoney/Draft/issues"

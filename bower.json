@@ -17,8 +17,9 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "public/vendor",
-    "tests"
+    "public",
+    "tests",
+    "src"
   ],
   "dependencies": {
     "d3": "~3.5.5",
