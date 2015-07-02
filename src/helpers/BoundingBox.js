@@ -99,18 +99,44 @@ export default class BoundingBox {
     }
 
     /**
-     * @method drag
+     * @method dragStart
+     * @param {Number} [x=null]
+     * @param {Number} [y=null]
      * @return {void}
      */
-    drag() {
-        this[Symbols.MIDDLEMAN].preventDeselect(true);
+    dragStart(x = null, y = null) {
+
+        this.start = {
+            x: (x !== null) ? x : d3.event.sourceEvent.clientX - parseInt(this.bBox.attr('x')),
+            y: (y !== null) ? y : d3.event.sourceEvent.clientY - parseInt(this.bBox.attr('y'))
+        };
+
     }
 
     /**
-     * @method dragStart
+     * @method drag
+     * @param {Number} [x=null]
+     * @param {Number} [y=null]
+     * @param {Number} [multipleOf=this[Symbols.MIDDLEMAN].options().gridSize]
      * @return {void}
      */
-    dragStart() {
+    drag(x = null, y = null, multipleOf = this[Symbols.MIDDLEMAN].options().gridSize) {
+
+        this[Symbols.MIDDLEMAN].preventDeselect(true);
+
+        x = (x !== null) ? x : d3.event.sourceEvent.clientX;
+        y = (y !== null) ? y : d3.event.sourceEvent.clientY;
+
+        const mX = (x - this.start.x),
+              mY = (y - this.start.y),
+              eX = Math.ceil(mX / multipleOf) * multipleOf,
+              eY = Math.ceil(mY / multipleOf) * multipleOf;
+
+        this.bBox.datum().x = eX;
+        this.bBox.attr('x', eX);
+
+        this.bBox.datum().y = eY;
+        this.bBox.attr('y', eY);
 
     }
 
@@ -119,7 +145,7 @@ export default class BoundingBox {
      * @return {void}
      */
     dragEnd() {
-
+        //this.bBox.remove();
     }
 
 }

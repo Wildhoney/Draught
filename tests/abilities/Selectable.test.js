@@ -46,8 +46,11 @@ describe('Selectable', () => {
 
     it('Should be able to retain selection on element with naked click when more than one selected;', () => {
 
-        const draft  = getDraft();
-        const shapes = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+        d3.event = { sourceEvent: {} };
+
+        const draft       = getDraft();
+        const shapes      = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
+        const boundingBox = draft[Symbols.BOUNDING_BOX];
 
         Mousetrap.trigger('mod+a');
         expect(draft.selected().length).toEqual(2);
@@ -94,6 +97,7 @@ describe('Selectable', () => {
         expect(middleman.preventDeselect()).toBeFalsy();
 
         // Simulate drag event on the bBox.
+        boundingBox.dragStart(10, 10);
         boundingBox.drag();
         expect(middleman.preventDeselect()).toBeTruthy();
         const secondClickEvent = new MouseEvent('click', { bubbles: false, cancelable: false });

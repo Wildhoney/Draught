@@ -42,6 +42,14 @@ export default class Middleman {
     }
 
     /**
+     * @method options
+     * @return {Object}
+     */
+    options() {
+        return this[Symbols.DRAFT].options();
+    }
+
+    /**
      * @method keyMap
      * @return {Object}
      */
