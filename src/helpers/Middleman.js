@@ -84,6 +84,14 @@ export default class Middleman {
     }
 
     /**
+     * @method selected
+     * @return {Array}
+     */
+    selected() {
+        return this[Symbols.DRAFT].selected();
+    }
+
+    /**
      * @method fromElement
      * @param {HTMLElement} element
      * @return {Shape}

@@ -106,9 +106,17 @@ export default class BoundingBox {
      */
     dragStart(x = null, y = null) {
 
+        const sX = Number(this.bBox.attr('x'));
+        const sY = Number(this.bBox.attr('y'));
+
         this.start = {
-            x: (x !== null) ? x : d3.event.sourceEvent.clientX - Number(this.bBox.attr('x')),
-            y: (y !== null) ? y : d3.event.sourceEvent.clientY - Number(this.bBox.attr('y'))
+            x: (x !== null) ? x : d3.event.sourceEvent.clientX - sX,
+            y: (y !== null) ? y : d3.event.sourceEvent.clientY - sY
+        };
+
+        this.move = {
+            start: { x: sX, y: sY },
+            end:   { }
         };
 
     }
@@ -133,10 +141,12 @@ export default class BoundingBox {
               eY = Math.ceil(mY / multipleOf) * multipleOf;
 
         this.bBox.datum().x = eX;
-        this.bBox.attr('x', eX);
-
         this.bBox.datum().y = eY;
+
+        this.bBox.attr('x', eX);
         this.bBox.attr('y', eY);
+
+        this.move.end = { x: eX, y: eY };
 
     }
 
@@ -145,7 +155,22 @@ export default class BoundingBox {
      * @return {void}
      */
     dragEnd() {
-        //this.bBox.remove();
+
+        const eX = this.move.end.x - this.move.start.x;
+        const eY = this.move.end.y - this.move.start.y;
+
+        // Move each shape by the delta between the start and end points.
+        this[Symbols.MIDDLEMAN].selected().forEach((shape) => {
+
+            const currentX = shape.attr('x');
+            const currentY = shape.attr('y');
+            const moveX    = currentX + eX;
+            const moveY    = currentY + eY;
+
+            shape.attr('x', moveX).attr('y', moveY);
+
+        });
+
     }
 
 }
