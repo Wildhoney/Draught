@@ -1,4 +1,4 @@
-import {objectAssign} from '../../src/helpers/Polyfills.js';
+import {objectAssign} from '../../src/helpers/Polyfills';
 
 describe('Polyfills', () => {
 

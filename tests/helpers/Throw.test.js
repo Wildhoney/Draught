@@ -1,4 +1,4 @@
-import Throw from '../../src/helpers/Throw.js';
+import Throw from '../../src/helpers/Throw';
 
 describe('Throw', () => {
 

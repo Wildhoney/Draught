@@ -1,4 +1,4 @@
-import Symbols from '../../src/helpers/Symbols.js';
+import Symbols from '../../src/helpers/Symbols';
 
 describe('Symbols', () => {
 

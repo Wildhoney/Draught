@@ -1,7 +1,7 @@
-import {getDraft, mockSVGElement} from '../Bootstrap.js';
+import {getDraft, mockSVGElement} from '../Bootstrap';
 
-import Symbols from '../../src/helpers/Symbols.js';
-import BoundingBox from '../../src/helpers/BoundingBox.js';
+import Symbols from '../../src/helpers/Symbols';
+import BoundingBox from '../../src/helpers/BoundingBox';
 
 describe('Bounding Box', () => {
 

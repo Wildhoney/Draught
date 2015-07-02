@@ -1,4 +1,4 @@
-import setAttribute from '../../src/helpers/Attributes.js';
+import setAttribute from '../../src/helpers/Attributes';
 
 describe('Attributes', () => {
 

@@ -1,4 +1,4 @@
-import mapper from '../../src/helpers/Mapper.js';
+import mapper from '../../src/helpers/Mapper';
 
 describe('Mapper', () => {
 

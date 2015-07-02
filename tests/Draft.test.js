@@ -1,9 +1,9 @@
-import {getDraft, mockSVGElement} from './Bootstrap.js';
+import {getDraft, mockSVGElement} from './Bootstrap';
 
-import Draft     from '../src/Draft.js';
-import Symbols   from '../src/helpers/Symbols.js';
-import Middleman from '../src/helpers/Middleman.js';
-import Rectangle from '../src/shapes/Rectangle.js';
+import Draft     from '../src/Draft';
+import Symbols   from '../src/helpers/Symbols';
+import Middleman from '../src/helpers/Middleman';
+import Rectangle from '../src/shapes/Rectangle';
 
 describe('Draft', () => {
 

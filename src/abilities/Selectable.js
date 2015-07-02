@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import Symbols from './../helpers/Symbols.js';
+import Ability from './Ability';
+import Symbols from './../helpers/Symbols';
 
 /**
  * @module Draft

@@ -1,8 +1,8 @@
-import {getDraft} from '../Bootstrap.js';
+import {getDraft} from '../Bootstrap';
 
-import Rectangle   from '../../src/shapes/Rectangle.js';
-import Symbols     from '../../src/helpers/Symbols.js';
-import KeyBindings from '../../src/helpers/KeyBindings.js';
+import Rectangle   from '../../src/shapes/Rectangle';
+import Symbols     from '../../src/helpers/Symbols';
+import KeyBindings from '../../src/helpers/KeyBindings';
 
 describe('Key Bindings', () => {
 

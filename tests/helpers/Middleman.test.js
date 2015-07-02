@@ -1,8 +1,8 @@
-import {getDraft} from '../Bootstrap.js';
+import {getDraft} from '../Bootstrap';
 
-import Middleman from '../../src/helpers/Middleman.js';
-import Symbols   from '../../src/helpers/Symbols.js';
-import Rectangle from '../../src/shapes/Rectangle.js';
+import Middleman from '../../src/helpers/Middleman';
+import Symbols   from '../../src/helpers/Symbols';
+import Rectangle from '../../src/shapes/Rectangle';
 
 describe('Middleman', () => {
 

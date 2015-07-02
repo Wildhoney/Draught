@@ -1,6 +1,6 @@
-import Symbols     from './Symbols.js';
-import KeyBindings from './KeyBindings.js';
-import invocator   from './Invocator.js';
+import Symbols     from './Symbols';
+import KeyBindings from './KeyBindings';
+import invocator   from './Invocator';
 
 /**
  * @module Draft

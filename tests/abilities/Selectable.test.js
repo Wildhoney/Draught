@@ -1,7 +1,7 @@
-import {getDraft} from '../Bootstrap.js';
+import {getDraft} from '../Bootstrap';
 
-import Symbols   from '../../src/helpers/Symbols.js';
-import Rectangle from '../../src/shapes/Rectangle.js';
+import Symbols   from '../../src/helpers/Symbols';
+import Rectangle from '../../src/shapes/Rectangle';
 
 describe('Selectable', () => {
 

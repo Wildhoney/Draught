@@ -1,4 +1,4 @@
-import Rectangle from '../../src/shapes/Rectangle.js';
+import Rectangle from '../../src/shapes/Rectangle';
 
 describe('Rectangle', () => {
 

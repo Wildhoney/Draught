@@ -1,9 +1,9 @@
-import Middleman      from './helpers/Middleman.js';
-import Symbols        from './helpers/Symbols.js';
-import BoundingBox    from './helpers/BoundingBox.js';
-import {objectAssign} from './helpers/Polyfills.js';
-import invocator      from './helpers/Invocator.js';
-import mapper         from './helpers/Mapper.js';
+import Middleman      from './helpers/Middleman';
+import Symbols        from './helpers/Symbols';
+import BoundingBox    from './helpers/BoundingBox';
+import {objectAssign} from './helpers/Polyfills';
+import invocator      from './helpers/Invocator';
+import mapper         from './helpers/Mapper';
 
 /**
  * @module Draft

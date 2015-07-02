@@ -1,4 +1,4 @@
-import invocator from '../../src/helpers/Invocator.js';
+import invocator from '../../src/helpers/Invocator';
 
 describe('Invocator', () => {
 

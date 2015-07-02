@@ -1,9 +1,9 @@
-import Symbols        from '../helpers/Symbols.js';
-import Selectable     from '../abilities/Selectable.js';
-import Throw          from '../helpers/Throw.js';
-import {objectAssign} from '../helpers/Polyfills.js';
-import setAttribute   from '../helpers/Attributes.js';
-import invocator      from '../helpers/Invocator.js';
+import Symbols        from '../helpers/Symbols';
+import Selectable     from '../abilities/Selectable';
+import Throw          from '../helpers/Throw';
+import {objectAssign} from '../helpers/Polyfills';
+import setAttribute   from '../helpers/Attributes';
+import invocator      from '../helpers/Invocator';
 
 /**
  * @module Draft

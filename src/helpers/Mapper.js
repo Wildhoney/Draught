@@ -1,5 +1,5 @@
-import Throw     from '../helpers/Throw.js';
-import Rectangle from '../shapes/Rectangle.js';
+import Throw     from '../helpers/Throw';
+import Rectangle from '../shapes/Rectangle';
 
 /**
  * @module Draft

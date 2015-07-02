@@ -1,4 +1,4 @@
-import Symbols from './Symbols.js';
+import Symbols from './Symbols';
 
 /**
  * @module Draft

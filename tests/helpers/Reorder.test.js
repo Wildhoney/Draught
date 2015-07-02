@@ -1,4 +1,4 @@
-import reorder from '../../src/helpers/Reorder.js';
+import reorder from '../../src/helpers/Reorder';
 
 describe('Reorder', () => {
 

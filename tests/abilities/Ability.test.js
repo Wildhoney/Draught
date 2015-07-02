@@ -1,8 +1,8 @@
-import {getDraft} from '../Bootstrap.js';
+import {getDraft} from '../Bootstrap';
 
-import Symbols    from '../../src/helpers/Symbols.js';
-import Selectable from '../../src/abilities/Selectable.js';
-import Rectangle  from '../../src/shapes/Rectangle.js';
+import Symbols    from '../../src/helpers/Symbols';
+import Selectable from '../../src/abilities/Selectable';
+import Rectangle  from '../../src/shapes/Rectangle';
 
 describe('Ability', () => {
 
