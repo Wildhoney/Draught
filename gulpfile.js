@@ -54,11 +54,8 @@
         var path  = 'public/vendor/draft/';
         var fs    = require('fs');
 
-        try {
-            fs.lstatSync(path);
-        } catch (e) {
-            fs.mkdirSync(path)
-        }
+        try       { fs.lstatSync(path); }
+        catch (e) { fs.mkdirSync(path); }
 
         return compile(path + config.release, 'src/Draft.js');
 
