@@ -9,6 +9,7 @@ describe('Draft', () => {
 
     it('Should be able to instantiate the constructor function;', () => {
         expect(getDraft() instanceof Draft).toBeTruthy();
+        expect(window.Draft).toEqual(Draft);
     });
 
     it('Should be able to setup the D3 using the passed in element;', () => {
