@@ -5,6 +5,7 @@ npm-debug.log
 # Bower
 public/vendor/*
 !public/vendor/*.gitkeep
+!public/vendor/draft/.gitkeep
 
 # IDE
 .idea
