@@ -1,9 +1,9 @@
 import Symbols        from '../helpers/Symbols';
-import Selectable     from '../abilities/Selectable';
 import Throw          from '../helpers/Throw';
 import {objectAssign} from '../helpers/Polyfills';
 import setAttribute   from '../helpers/Attributes';
 import invocator      from '../helpers/Invocator';
+import Selectable     from '../abilities/Selectable';
 
 /**
  * @module Draft

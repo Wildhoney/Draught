@@ -118,4 +118,12 @@ export default class Middleman {
 
     }
 
+    /**
+     * @method boundingBox
+     * @return {BoundingBox}
+     */
+    boundingBox() {
+        return this[Symbols.DRAFT][Symbols.BOUNDING_BOX];
+    }
+
 }

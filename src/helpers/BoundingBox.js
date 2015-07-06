@@ -110,8 +110,8 @@ export default class BoundingBox {
         const sY = Number(this.bBox.attr('y'));
 
         this.start = {
-            x: (x !== null) ? x : d3.event.sourceEvent.clientX - sX,
-            y: (y !== null) ? y : d3.event.sourceEvent.clientY - sY
+            x: (x !== null) ? x : (d3.event.sourceEvent.overrideX || d3.event.sourceEvent.pageX) - sX,
+            y: (y !== null) ? y : (d3.event.sourceEvent.overrideY || d3.event.sourceEvent.pageY) - sY
         };
 
         this.move = {
@@ -132,8 +132,8 @@ export default class BoundingBox {
 
         this[Symbols.MIDDLEMAN].preventDeselect(true);
 
-        x = (x !== null) ? x : d3.event.sourceEvent.clientX;
-        y = (y !== null) ? y : d3.event.sourceEvent.clientY;
+        x = (x !== null) ? x : d3.event.sourceEvent.pageX;
+        y = (y !== null) ? y : d3.event.sourceEvent.pageY;
 
         const mX = (x - this.start.x),
               mY = (y - this.start.y),
@@ -158,6 +158,10 @@ export default class BoundingBox {
 
         const eX = this.move.end.x - this.move.start.x;
         const eY = this.move.end.y - this.move.start.y;
+
+        if (isNaN(eX) || isNaN(eY)) {
+            return;
+        }
 
         // Move each shape by the delta between the start and end points.
         this[Symbols.MIDDLEMAN].selected().forEach((shape) => {
