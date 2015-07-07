@@ -156,8 +156,8 @@ export default class BoundingBox {
      */
     dragEnd() {
 
-        const eX = this.move.end.x - this.move.start.x;
-        const eY = this.move.end.y - this.move.start.y;
+        const eX    = this.move.end.x - this.move.start.x;
+        const eY    = this.move.end.y - this.move.start.y;
 
         if (isNaN(eX) || isNaN(eY)) {
             return;
@@ -172,6 +172,7 @@ export default class BoundingBox {
             const moveY    = currentY + eY;
 
             shape.attr('x', moveX).attr('y', moveY);
+            shape.didMove();
 
         });
 

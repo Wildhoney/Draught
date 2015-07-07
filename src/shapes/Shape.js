@@ -4,6 +4,7 @@ import {objectAssign} from '../helpers/Polyfills';
 import setAttribute   from '../helpers/Attributes';
 import invocator      from '../helpers/Invocator';
 import Selectable     from '../abilities/Selectable';
+import Resizable      from '../abilities/Resizable';
 
 /**
  * @module Draft
@@ -74,7 +75,8 @@ export default class Shape {
         Object.keys(attributes).forEach((key) => this.attr(key, attributes[key]));
 
         const abilities  = {
-            selectable: new Selectable()
+            selectable: new Selectable(),
+            resizable:  new Resizable()
         };
 
         Object.keys(abilities).forEach((key) => {
@@ -97,11 +99,20 @@ export default class Shape {
     didRemove() { }
 
     /**
+     * @method didMove
+     * @return {void}
+     */
+    didMove() {
+        this[Symbols.ABILITIES].resizable.reattachHandles();
+    }
+
+    /**
      * @method didSelect
      * @return {void}
      */
     didSelect() {
         this[Symbols.IS_SELECTED] = true;
+        this[Symbols.ABILITIES].resizable.didSelect();
     }
 
     /**
@@ -110,6 +121,7 @@ export default class Shape {
      */
     didDeselect() {
         this[Symbols.IS_SELECTED] = false;
+        this[Symbols.ABILITIES].resizable.didDeselect();
     }
 
     /**
