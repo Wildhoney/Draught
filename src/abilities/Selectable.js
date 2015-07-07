@@ -17,14 +17,13 @@ export default class Selectable extends Ability {
 
         const element = this.shape()[Symbols.ELEMENT];
         element.on('click', this.handleClick.bind(this));
-
         element.call(d3.behavior.drag().on('drag', () => this.handleDrag()));
 
     }
 
     /**
      * @method handleDrag
-     * @return {void}
+     * @return {Object}
      */
     handleDrag() {
 
@@ -38,8 +37,9 @@ export default class Selectable extends Ability {
         event.overrideX = d3.event.sourceEvent.pageX;
         event.overrideY = d3.event.sourceEvent.pageY;
 
-        const bBox  = middleman.boundingBox().bBox.node();
+        const bBox = middleman.boundingBox().bBox.node();
         bBox.dispatchEvent(event);
+        return event;
 
     }
 

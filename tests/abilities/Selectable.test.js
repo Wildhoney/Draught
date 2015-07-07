@@ -50,7 +50,6 @@ describe('Selectable', () => {
 
         const draft       = getDraft();
         const shapes      = { first: draft.add(new Rectangle()), second: draft.add(new Rectangle()) };
-        const boundingBox = draft[Symbols.BOUNDING_BOX];
 
         Mousetrap.trigger('mod+a');
         expect(draft.selected().length).toEqual(2);
@@ -110,6 +109,22 @@ describe('Selectable', () => {
         bBox.dispatchEvent(thirdClickEvent);
         draft[Symbols.SVG].node().dispatchEvent(thirdClickEvent);
         expect(middleman.preventDeselect()).toBeFalsy();
+
+    });
+
+    it('Should be able to intercept drag handler and move solitude shape;', () => {
+
+        const draft      = getDraft();
+        const rectangle  = draft.add(new Rectangle()).attr('fill', 'orange');
+        const selectable = rectangle[Symbols.ABILITIES].selectable;
+
+        spyOn(selectable, 'handleClick').and.callThrough();
+
+        d3.event = { sourceEvent: { pageX: 100, pageY: 250 } };
+        const drag = selectable.handleDrag();
+        expect(selectable.handleClick).toHaveBeenCalled();
+        expect(drag.overrideX).toEqual(100);
+        expect(drag.overrideY).toEqual(250);
 
     });
 

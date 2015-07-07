@@ -21,8 +21,8 @@ describe('Ability', () => {
 
         const draft     = getDraft();
         const rectangle = draft.add(new Rectangle());
-
         const selectable = rectangle[Symbols.ABILITIES].selectable;
+
         expect(selectable.middleman()).toEqual(draft[Symbols.MIDDLEMAN]);
 
     });
