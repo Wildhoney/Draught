@@ -48,26 +48,26 @@ export default class Resizable extends Ability {
         const width  = shape.attr('width');
         const height = shape.attr('height');
 
-        const cornerMap = [
-            { x, y },
+        const edgeMap = [
+            { x,                  y },
             { x: x + (width / 2), y },
-            { x: x + width, y },
-            { x: x, y: y + (height / 2) },
-            { x: x, y: y + height },
+            { x: x + width,       y },
+            { x: x,               y: y + (height / 2) },
+            { x: x,               y: y + height },
             { x: x + (width / 2), y: y + height },
-            { x: x + width, y: y + height },
-            { x: x + width, y: y + (height / 2) }
+            { x: x + width,       y: y + height },
+            { x: x + width,       y: y + (height / 2) }
         ];
 
-        cornerMap.forEach((corner) => {
+        edgeMap.forEach((edge) => {
 
             this.handles.append('circle')
                         .attr('fill', 'black')
                         .attr('stroke', 'white')
                         .attr('stroke-width', 1)
                         .attr('r', 3)
-                        .attr('cx', corner.x)
-                        .attr('cy', corner.y);
+                        .attr('cx', edge.x)
+                        .attr('cy', edge.y);
 
         });
 
