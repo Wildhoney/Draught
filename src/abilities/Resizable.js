@@ -1,5 +1,4 @@
 import Ability from './Ability';
-import Symbols from './../helpers/Symbols';
 
 /**
  * @module Draft
