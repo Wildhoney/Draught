@@ -9,13 +9,13 @@
 
         draft.add('rectangle')
              .attr('fill', 'red')
-             .attr('x', 100)
-             .attr('y', 200);
+             .attr('x', 300)
+             .attr('y', 150);
 
-        draft.add('rectangle')
-             .attr('fill', 'blue')
-             .attr('x', 50)
-             .attr('y', 25);
+        //draft.add('rectangle')
+        //     .attr('fill', 'blue')
+        //     .attr('x', 50)
+        //     .attr('y', 25);
 
     });
 
