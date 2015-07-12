@@ -133,9 +133,11 @@ export default class Resizable extends Ability {
      */
     shiftHandles(currentKey) {
 
-        const coords = [];
+        const coords     = [];
+        const regExp     = /(?=[A-Z])/;
+        const dimensions = Object.keys(this.edges);
 
-        Object.keys(this.edges).forEach((key) => {
+        dimensions.forEach((key) => {
 
             // Package all of the coordinates up into a more simple `coords` object for brevity.
             const edge  = this.edges[key];
@@ -172,41 +174,28 @@ export default class Resizable extends Ability {
 
         };
 
-        ['topLeft', 'topRight', 'bottomRight', 'bottomLeft'].forEach((key) => {
+        dimensions.forEach((key) => {
 
             if (currentKey !== key) {
 
-                // First we need to reposition all of the corner handles, so that the handles in the middle can be
-                // positioned relative to these.
-                const parts = key.split(/(?=[A-Z])/).map(key => key.toLowerCase());
+                const parts = key.split(regExp).map(key => key.toLowerCase());
+
+                if (parts[1] === 'middle') {
+
+                    if (key === 'topMiddle' || key === 'bottomMiddle') {
+                        this.edges[key].attr('y', cornerPositions[parts[0]]);
+                        this.edges[key].attr('x', middlePositions[key]);
+                        return;
+                    }
+
+                    this.edges[key].attr('y', middlePositions[key]);
+                    this.edges[key].attr('x', cornerPositions[parts[0]]);
+                    return;
+
+                }
+
                 this.edges[key].attr('y', cornerPositions[parts[0]]);
                 this.edges[key].attr('x', cornerPositions[parts[1]]);
-
-            }
-
-        });
-
-        ['topMiddle', 'bottomMiddle'].forEach((key) => {
-
-            if (currentKey !== key) {
-
-                // Lastly we modify the position handles to be relative to the aforementioned corner handles.
-                const parts = key.split(/(?=[A-Z])/).map(key => key.toLowerCase());
-                this.edges[key].attr('y', cornerPositions[parts[0]]);
-                this.edges[key].attr('x', middlePositions[key]);
-
-            }
-
-        });
-
-        ['leftMiddle', 'rightMiddle'].forEach((key) => {
-
-            if (currentKey !== key) {
-
-                // Lastly we modify the position handles to be relative to the aforementioned corner handles.
-                const parts = key.split(/(?=[A-Z])/).map(key => key.toLowerCase());
-                this.edges[key].attr('y', middlePositions[key]);
-                this.edges[key].attr('x', cornerPositions[parts[0]]);
 
             }
 
@@ -222,11 +211,11 @@ export default class Resizable extends Ability {
      */
     drag(shape, key) {
 
-        const middleman        = this.middleman();
-        const handles          = this.handles;
-        const radius           = this.RADIUS;
-        const reattachHandles  = this.reattachHandles.bind(this);
-        const shiftHandles = this.shiftHandles.bind(this);
+        const middleman       = this.middleman();
+        const handles         = this.handles;
+        const radius          = this.RADIUS;
+        const reattachHandles = this.reattachHandles.bind(this);
+        const shiftHandles    = this.shiftHandles.bind(this);
         let startX, startY, ratio;
 
         return {
@@ -263,7 +252,14 @@ export default class Resizable extends Ability {
                 const finalY  = Math.ceil(moveY / options.gridSize) * options.gridSize;
                 const bBox    = handles.node().getBBox();
 
-                handle.attr('x', finalX).attr('y', finalY);
+                if (key !== 'topMiddle' && key !== 'bottomMiddle') {
+                    handle.attr('x', finalX);
+                }
+
+                if (key !== 'rightMiddle' && key !== 'leftMiddle') {
+                    handle.attr('y', finalY);
+                }
+
                 shiftHandles(key);
 
                 shape.attr('x', bBox.x + (radius / 2)).attr('y', bBox.y + (radius / 2))
