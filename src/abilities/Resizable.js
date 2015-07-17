@@ -51,8 +51,8 @@ export default class Resizable extends Ability {
     attachHandles() {
 
         const shape  = this.shape();
-        const layer  = this.middleman().layers().markers;
-        this.handles = layer.append('g').attr('class', 'resize-handles');
+        const layer  = this.middleman().layers().boundingBox;
+        this.layer   = layer.append('g').attr('class', 'resize-handles');
 
         const x      = shape.attr('x');
         const y      = shape.attr('y');
@@ -75,19 +75,19 @@ export default class Resizable extends Ability {
             const edge          = edgeMap[key];
             const dragBehaviour = this.drag(shape, key);
 
-            this.edges[key] = this.handles.append('image')
-                                          .attr('xlink:href', 'images/handle-main.png')
-                                          .attr('x', edge.x - (this.RADIUS / 2))
-                                          .attr('y', edge.y - (this.RADIUS / 2))
-                                          .attr('stroke', 'red')
-                                          .attr('stroke-width', 3)
-                                          .attr('width', this.RADIUS)
-                                          .attr('height', this.RADIUS)
-                                          .on('click', () => d3.event.stopPropagation())
-                                          .call(d3.behavior.drag()
-                                              .on('dragstart', dragBehaviour.start)
-                                              .on('drag', dragBehaviour.drag)
-                                              .on('dragend', dragBehaviour.end));
+            this.edges[key] = this.layer.append('image')
+                                        .attr('xlink:href', 'images/handle-main.png')
+                                        .attr('x', edge.x - (this.RADIUS / 2))
+                                        .attr('y', edge.y - (this.RADIUS / 2))
+                                        .attr('stroke', 'red')
+                                        .attr('stroke-width', 3)
+                                        .attr('width', this.RADIUS)
+                                        .attr('height', this.RADIUS)
+                                        .on('click', () => d3.event.stopPropagation())
+                                        .call(d3.behavior.drag()
+                                            .on('dragstart', dragBehaviour.start)
+                                            .on('drag', dragBehaviour.drag)
+                                            .on('dragend', dragBehaviour.end));
 
         });
 
@@ -99,8 +99,8 @@ export default class Resizable extends Ability {
      */
     detachHandles() {
 
-        if (this.handles) {
-            this.handles.remove();
+        if (this.layer) {
+            this.layer.remove();
         }
 
     }
@@ -213,7 +213,7 @@ export default class Resizable extends Ability {
     drag(shape, key) {
 
         const middleman        = this.middleman();
-        const handles          = this.handles;
+        const handles          = this.layer;
         const radius           = this.RADIUS;
         const reattachHandles  = this.reattachHandles.bind(this);
         const rearrangeHandles     = this.rearrangeHandles.bind(this);
