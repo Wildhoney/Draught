@@ -3,7 +3,7 @@ import {getDraft} from '../Bootstrap';
 import Symbols   from '../../src/helpers/Symbols';
 import Rectangle from '../../src/shapes/Rectangle';
 
-//describe('Selectable', () => {
+//describe('Resizable', () => {
 //
 //    it('Should be able to remove handles if they exist;', () => {
 //

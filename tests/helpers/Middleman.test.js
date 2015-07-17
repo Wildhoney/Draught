@@ -124,7 +124,7 @@ describe('Middleman', () => {
         const draft     = getDraft();
         const middleman = draft[Symbols.MIDDLEMAN];
         expect(typeof middleman.layers()).toBe('object');
-        expect(Object.keys(middleman.layers())).toEqual(['shapes', 'markers']);
+        expect(Object.keys(middleman.layers())).toEqual(['shapes', 'boundingBox', 'markers']);
         expect(middleman.layers().shapes.node().nodeName.toLowerCase()).toEqual('g');
         expect(middleman.layers().markers.node().nodeName.toLowerCase()).toEqual('g');
 
