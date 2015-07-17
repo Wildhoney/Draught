@@ -32,8 +32,9 @@ class Draft {
 
         const stopPropagation = () => d3.event.stopPropagation();
         this[Symbols.LAYERS]  = {
-            shapes: svg.append('g').attr('class', 'shapes').on('click', stopPropagation),
-            markers: svg.append('g').attr('class', 'markers').on('click', stopPropagation)
+            shapes:      svg.append('g').attr('class', 'shapes').on('click', stopPropagation),
+            boundingBox: svg.append('g').attr('class', 'bounding-box').on('click', stopPropagation),
+            markers:     svg.append('g').attr('class', 'markers').on('click', stopPropagation)
         };
 
         // Deselect all shapes when the canvas is clicked.
@@ -117,7 +118,7 @@ class Draft {
      */
     select(shapes = this.all()) {
         invocator.did('select', shapes);
-        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].markers);
+        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].boundingBox);
     }
 
     /**
@@ -127,7 +128,7 @@ class Draft {
      */
     deselect(shapes = this.all()) {
         invocator.did('deselect', shapes);
-        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].markers);
+        this[Symbols.BOUNDING_BOX].drawBoundingBox(this.selected(), this[Symbols.LAYERS].boundingBox);
     }
 
     /**
@@ -147,7 +148,8 @@ class Draft {
         return this[Symbols.OPTIONS] || {
             documentHeight: '100%',
             documentWidth: '100%',
-            gridSize: 10
+            gridSize: 10,
+            handleRadius: 22
         };
 
     }

@@ -1,4 +1,5 @@
 import Ability from './Ability';
+import Symbols from './../helpers/Symbols';
 
 /**
  * @module Draft
@@ -14,7 +15,6 @@ export default class Resizable extends Ability {
      */
     constructor() {
         super();
-        this.RADIUS = 22;
         this.edges  = {};
     }
 
@@ -23,6 +23,7 @@ export default class Resizable extends Ability {
      * @return {void}
      */
     didSelect() {
+        this.RADIUS = this.middleman().options().handleRadius;
         this.reattachHandles();
     }
 
@@ -97,11 +98,11 @@ export default class Resizable extends Ability {
      * @return {void}
      */
     detachHandles() {
-        
+
         if (this.handles) {
             this.handles.remove();
         }
-        
+
     }
 
     /**
@@ -127,11 +128,11 @@ export default class Resizable extends Ability {
     }
 
     /**
-     * @method shiftHandles
+     * @method rearrangeHandles
      * @param {String} currentKey
      * @return {void}
      */
-    shiftHandles(currentKey) {
+    rearrangeHandles(currentKey) {
 
         const coords     = [];
         const regExp     = /(?=[A-Z])/;
@@ -211,11 +212,12 @@ export default class Resizable extends Ability {
      */
     drag(shape, key) {
 
-        const middleman       = this.middleman();
-        const handles         = this.handles;
-        const radius          = this.RADIUS;
-        const reattachHandles = this.reattachHandles.bind(this);
-        const shiftHandles    = this.shiftHandles.bind(this);
+        const middleman        = this.middleman();
+        const handles          = this.handles;
+        const radius           = this.RADIUS;
+        const reattachHandles  = this.reattachHandles.bind(this);
+        const rearrangeHandles     = this.rearrangeHandles.bind(this);
+        const boundingBoxLayer = middleman[Symbols.DRAFT][Symbols.LAYERS].boundingBox;
         let startX, startY, ratio;
 
         return {
@@ -226,6 +228,7 @@ export default class Resizable extends Ability {
              */
             start: function start() {
 
+                middleman.boundingBox().bBox.remove();
                 middleman.preventDeselect(true);
 
                 const handle = d3.select(this).classed('dragging', true);
@@ -250,7 +253,6 @@ export default class Resizable extends Ability {
                 const moveY   = (d3.event.sourceEvent.pageY - startY);
                 const finalX  = Math.ceil(moveX / options.gridSize) * options.gridSize;
                 const finalY  = Math.ceil(moveY / options.gridSize) * options.gridSize;
-                const bBox    = handles.node().getBBox();
 
                 if (key !== 'topMiddle' && key !== 'bottomMiddle') {
                     handle.attr('x', finalX);
@@ -260,8 +262,9 @@ export default class Resizable extends Ability {
                     handle.attr('y', finalY);
                 }
 
-                shiftHandles(key);
-
+                rearrangeHandles(key);
+                
+                const bBox = handles.node().getBBox();
                 shape.attr('x', bBox.x + (radius / 2)).attr('y', bBox.y + (radius / 2))
                      .attr('height', bBox.height - radius).attr('width', bBox.width - radius);
 
@@ -274,7 +277,8 @@ export default class Resizable extends Ability {
              * @return {void}
              */
             end: function end() {
-                middleman.select([shape]);
+                middleman.boundingBox().drawBoundingBox(middleman.selected(), boundingBoxLayer);
+                middleman.preventDeselect(false);
                 reattachHandles();
             }
 

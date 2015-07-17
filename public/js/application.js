@@ -12,10 +12,10 @@
              .attr('x', 300)
              .attr('y', 150);
 
-        //draft.add('rectangle')
-        //     .attr('fill', 'blue')
-        //     .attr('x', 50)
-        //     .attr('y', 25);
+        draft.add('rectangle')
+             .attr('fill', 'blue')
+             .attr('x', 50)
+             .attr('y', 20);
 
     });
 
