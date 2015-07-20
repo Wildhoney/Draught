@@ -51,8 +51,8 @@ export default class Resizable extends Ability {
     attachHandles() {
 
         const shape  = this.shape();
-        const layer  = this.middleman().layers().boundingBox;
-        this.layer   = layer.append('g').attr('class', 'resize-handles');
+        const layer  = this.middleman().layers().resize;
+        this.layer   = layer.append('g');
 
         const x      = shape.attr('x');
         const y      = shape.attr('y');

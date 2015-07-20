@@ -33,8 +33,8 @@ class Draft {
         const stopPropagation = () => d3.event.stopPropagation();
         this[Symbols.LAYERS]  = {
             shapes:      svg.append('g').attr('class', 'shapes').on('click', stopPropagation),
-            boundingBox: svg.append('g').attr('class', 'bounding-box').on('click', stopPropagation),
-            markers:     svg.append('g').attr('class', 'markers').on('click', stopPropagation)
+            boundingBox: svg.append('g').attr('class', 'bounding').on('click', stopPropagation),
+            resize:      svg.append('g').attr('class', 'resize').on('click', stopPropagation)
         };
 
         // Deselect all shapes when the canvas is clicked.

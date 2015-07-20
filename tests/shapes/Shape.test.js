@@ -110,7 +110,8 @@ describe('Shape', () => {
         draft.add('rectangle');
 
         expect(mockSVGElement.querySelectorAll('g.shapes').length).toEqual(1);
-        expect(mockSVGElement.querySelectorAll('g.markers').length).toEqual(1);
+        expect(mockSVGElement.querySelectorAll('g.bounding').length).toEqual(1);
+        expect(mockSVGElement.querySelectorAll('g.resize').length).toEqual(1);
         expect(mockSVGElement.querySelectorAll('g.shapes > g > rect').length).toEqual(1);
 
     });

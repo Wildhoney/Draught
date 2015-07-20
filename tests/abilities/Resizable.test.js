@@ -10,7 +10,7 @@ describe('Resizable', () => {
         const draft     = getDraft();
         const rectangle = draft.add(new Rectangle()).attr('x', 100).attr('y', 200).attr('width', 250).attr('height', 250);
         const resizable = rectangle[Symbols.ABILITIES].resizable;
-        const layer     = draft[Symbols.LAYERS].boundingBox;
+        const layer     = draft[Symbols.LAYERS].resize;
         const svg       = draft[Symbols.SVG];
         const radius    = draft.options().handleRadius;
 

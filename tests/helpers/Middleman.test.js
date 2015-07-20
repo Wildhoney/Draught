@@ -124,9 +124,10 @@ describe('Middleman', () => {
         const draft     = getDraft();
         const middleman = draft[Symbols.MIDDLEMAN];
         expect(typeof middleman.layers()).toBe('object');
-        expect(Object.keys(middleman.layers())).toEqual(['shapes', 'boundingBox', 'markers']);
+        expect(Object.keys(middleman.layers())).toEqual(['shapes', 'boundingBox', 'resize']);
         expect(middleman.layers().shapes.node().nodeName.toLowerCase()).toEqual('g');
-        expect(middleman.layers().markers.node().nodeName.toLowerCase()).toEqual('g');
+        expect(middleman.layers().boundingBox.node().nodeName.toLowerCase()).toEqual('g');
+        expect(middleman.layers().resize.node().nodeName.toLowerCase()).toEqual('g');
 
     });
 
