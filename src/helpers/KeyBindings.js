@@ -1,4 +1,5 @@
-import Symbols from './Symbols';
+import Mousetrap from 'mousetrap';
+import Symbols   from './Symbols';
 
 /**
  * @module Draft

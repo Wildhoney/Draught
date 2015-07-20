@@ -149,7 +149,9 @@ class Draft {
             documentHeight: '100%',
             documentWidth: '100%',
             gridSize: 10,
-            handleRadius: 22
+            handleRadius: 22,
+            defaultMoveStep: 1,
+            shiftMoveStep: 10
         };
 
     }

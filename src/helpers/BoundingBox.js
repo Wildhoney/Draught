@@ -1,4 +1,5 @@
-import Symbols from './Symbols';
+import Mousetrap from 'mousetrap';
+import Symbols   from './Symbols';
 
 /**
  * @module Draft
@@ -14,7 +15,44 @@ export default class BoundingBox {
      * @return {BoundingBox}
      */
     constructor(middleman) {
+
         this[Symbols.MIDDLEMAN] = middleman;
+        this.listenToKeyboardEvents();
+
+    }
+
+    /**
+     * @method listenToKeyboardEvents
+     * @return {void}
+     */
+    listenToKeyboardEvents() {
+
+        /**
+         * @method moveBy
+         * @param {Object} event
+         * @param {Number} x
+         * @param {Number} y
+         * @return {void}
+         */
+        const moveBy = (event, x, y) => {
+            event.preventDefault();
+            this.moveSelectedBy(x, y, true);
+        };
+
+        const options         = this[Symbols.MIDDLEMAN].options();
+        const defaultMoveStep = options.defaultMoveStep;
+        const shiftMoveStep   = options.shiftMoveStep;
+
+        Mousetrap.bind('left',  (event) => moveBy(event, -defaultMoveStep, 0));
+        Mousetrap.bind('right', (event) => moveBy(event, defaultMoveStep, 0));
+        Mousetrap.bind('up',    (event) => moveBy(event, 0, -defaultMoveStep));
+        Mousetrap.bind('down',  (event) => moveBy(event, 0, defaultMoveStep));
+
+        Mousetrap.bind('shift+left',  (event) => moveBy(event, -shiftMoveStep, 0));
+        Mousetrap.bind('shift+right', (event) => moveBy(event, shiftMoveStep, 0));
+        Mousetrap.bind('shift+up',    (event) => moveBy(event, 0, -shiftMoveStep));
+        Mousetrap.bind('shift+down',  (event) => moveBy(event, 0, shiftMoveStep));
+
     }
 
     /**
@@ -156,23 +194,42 @@ export default class BoundingBox {
      */
     dragEnd() {
 
-        const eX    = this.move.end.x - this.move.start.x;
-        const eY    = this.move.end.y - this.move.start.y;
+        const eX = this.move.end.x - this.move.start.x;
+        const eY = this.move.end.y - this.move.start.y;
 
         if (isNaN(eX) || isNaN(eY)) {
             return;
         }
 
         // Move each shape by the delta between the start and end points.
+        this.moveSelectedBy(eX, eY);
+
+    }
+
+    /**
+     * @method moveSelectedBy
+     * @param {Number} x
+     * @param {Number} y
+     * @param {Boolean} [moveBBox=false]
+     * @return {void}
+     */
+    moveSelectedBy(x, y, moveBBox = false) {
+
         this[Symbols.MIDDLEMAN].selected().forEach((shape) => {
 
             const currentX = shape.attr('x');
             const currentY = shape.attr('y');
-            const moveX    = currentX + eX;
-            const moveY    = currentY + eY;
+            const moveX    = currentX + x;
+            const moveY    = currentY + y;
 
             shape.attr('x', moveX).attr('y', moveY);
+            shape.attr('x', moveX).attr('y', moveY);
             shape.didMove();
+
+            if (moveBBox) {
+                this.bBox.attr('x', moveX).attr('y', moveY);
+                this.bBox.attr('x', moveX).attr('y', moveY);
+            }
 
         });
 
