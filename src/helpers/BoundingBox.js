@@ -15,10 +15,8 @@ export default class BoundingBox {
      * @return {BoundingBox}
      */
     constructor(middleman) {
-
         this[Symbols.MIDDLEMAN] = middleman;
         this.listenToKeyboardEvents();
-
     }
 
     /**
@@ -35,18 +33,23 @@ export default class BoundingBox {
          * @return {void}
          */
         const moveBy = (event, x, y) => {
-            event.preventDefault();
+
+            if (typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+
             this.moveSelectedBy(x, y, true);
+
         };
 
         const options         = this[Symbols.MIDDLEMAN].options();
         const defaultMoveStep = options.defaultMoveStep;
         const shiftMoveStep   = options.shiftMoveStep;
 
-        Mousetrap.bind('left',  (event) => moveBy(event, -defaultMoveStep, 0));
-        Mousetrap.bind('right', (event) => moveBy(event, defaultMoveStep, 0));
-        Mousetrap.bind('up',    (event) => moveBy(event, 0, -defaultMoveStep));
-        Mousetrap.bind('down',  (event) => moveBy(event, 0, defaultMoveStep));
+        Mousetrap.bind('left',        (event) => moveBy(event, -defaultMoveStep, 0));
+        Mousetrap.bind('right',       (event) => moveBy(event, defaultMoveStep, 0));
+        Mousetrap.bind('up',          (event) => moveBy(event, 0, -defaultMoveStep));
+        Mousetrap.bind('down',        (event) => moveBy(event, 0, defaultMoveStep));
 
         Mousetrap.bind('shift+left',  (event) => moveBy(event, -shiftMoveStep, 0));
         Mousetrap.bind('shift+right', (event) => moveBy(event, shiftMoveStep, 0));
