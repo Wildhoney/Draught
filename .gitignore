@@ -1,21 +1,19 @@
-# npm
+# os
+.DS_Store
+
+# npm / node
 node_modules
 npm-debug.log
 
-# Bower
-public/vendor/*
-!public/vendor/.gitkeep
+# bower
+example/vendor/*
 
-# IDE
+# ide
 .idea
 
-# Jasmine
-tests/build/*.js
-!tests/build/.gitkeep
+# publish
+keo.js
+redux.js
 
-# CSS
-public/css/*
-!public/css/.gitkeep
-
-# Temporary
-_src
+# example
+example/js/build.js

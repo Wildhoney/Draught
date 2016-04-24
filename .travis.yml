@@ -1,20 +1,16 @@
 language: node_js
 
 node_js:
-  - '0.10'
+  - '5.9'
+  - '5.10'
+  - '5.11'
 
 addons:
-  firefox: "38.0"
+  firefox: '45.0'
 
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-
-script:
-  - npm install
-  - bower install
-  - gulp test
-  - gulp build
 
 deploy:
   provider: heroku
@@ -25,4 +21,4 @@ deploy:
     secure: A9Lxru9uzHXIZ7m0odZLUw2XCmQmnonicvyzubR3ONowf2HK75qeoozCkNiElT0AUYHKGw/tQi2eE0iyUVKfUKa7+BzUFlcNCTO8J9tmW7pfWspmD1ll3BuxdcorPkd2nbxs9xmhBG9NDLui2YUT5YHQvFshucLFaoq1+VVXLC8=
   app: app-draft
   on:
-    repo: Wildhoney/Draft
+    repo: Wildhoney/Draught
