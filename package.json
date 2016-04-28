@@ -1,6 +1,6 @@
 {
   "name": "draught",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Drawing tool in ES6 for creating diagrams using D3 with an extensible event driven architecture.",
   "main": "dist/draught.min.js",
   "scripts": {
