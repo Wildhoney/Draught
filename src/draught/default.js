@@ -15,13 +15,13 @@ const getDefaultProps = () => {
  * @return {XML}
  */
 const render = ({ props }) => {
-
+    
     return (
         <svg width={props.width} height={props.height}>
-            <rect fill="red" x="100" y="100" width="200" height="200" />
+            {props.shapes.map(model => <model.tag key={model.id} {...model.attributes} />)}
         </svg>
     )
 
 };
 
-export default stitch({ getDefaultProps, render });
+export default stitch({ getDefaultProps, render }, state => state);
