@@ -12,4 +12,12 @@
 
 # Getting Started
 
-`...`
+```javascript
+import create from 'draught';
+import rectangle from 'draught/shape/rectangle';
+
+const element = document.querySelector('svg');
+const diagram = create(element, { width: 200, height: 200 });
+
+const rectangle = diagram.render(rectangle).attr({ fill: 'blue' }).sendToBack();
+    ```
