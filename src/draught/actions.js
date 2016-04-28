@@ -1,11 +1,13 @@
-import { MOVE } from './types';
+import { curry } from 'ramda'
+import { META } from './types';
 
 /**
- * @method move
- * @param {Number} x
- * @param {Number} y
+ * @method setMeta
+ * @param {Object} ref
+ * @param {Object} shape
+ * @param {Object} attrs
  * @return {Object}
  */
-export const move = ({ x, y }) => {
-    return { type: MOVE, x, y };
-};
+export const setMeta = curry((ref, shape, meta) => {
+    return { type: META, ref, shape, meta };
+});

@@ -1,12 +1,18 @@
 import { generate } from 'shortid';
-import { MOVE } from '../types';
+import { META } from '../types';
 
 /**
  * @constant INITIAL_STATE
  * @type {Array}
  */
 const INITIAL_STATE = [
-    { id: 1, tag: 'rect', attributes: { fill: 'red', width: 50, height: 50 }}
+    {
+        id: generate(),
+        tag: 'rect',
+        ref: null,
+        meta: { selected: false },
+        attrs: { fill: 'red', width: 50, height: 50 }
+    }
 ];
 
 /**
@@ -18,9 +24,17 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
         
-        case MOVE:
-            return [{ id: 1, tag: 'rect', attributes: { fill: 'red', width: 50, height: 50, x: action.x, y: action.y }}];
-        
+        case META:
+
+            const index = state.indexOf(action.shape);
+            const model = state[index];
+
+            return [
+                ...state.slice(0, index),
+                { ...model, ref: action.ref, [action.type]: { ...model[action.type], ...action[action.type] } },
+                ...state.slice(index + 1)
+            ];
+
     }
 
     return state;

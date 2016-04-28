@@ -1,5 +1,5 @@
 /**
- * @constant MOVE
- * @type {Symbol}
+ * @constant META
+ * @type {String}
  */
-export const MOVE = Symbol('move');
+export const META = 'meta';

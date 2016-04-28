@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { stitch } from 'keo';
-import { move } from './actions';
+import Shape from './components/shape';
 
 /**
  * @method propTypes
@@ -21,24 +21,13 @@ const getDefaultProps = () => {
 /**
  * @method render
  * @param {Object} props
- * @param {Function} dispatch
  * @return {XML}
  */
-const render = ({ props, dispatch }) => {
-
-    /**
-     * @method createShape
-     * @param {Object} model
-     * @return {XML}
-     */
-    const createShape = model => {
-        return <model.tag key={model.id} {...model.attributes}
-                          onMouseMove={event => dispatch(move({ x: event.pageX, y: event.pageY }))} />;
-    };
-
+const render = ({ props }) => {
+    
     return (
         <svg width={props.width} height={props.height}>
-            {props.shapes.map(model => createShape(model))}
+            {props.shapes.map(model => <Shape key={model.id} {...props} model={model} />)}
         </svg>
     )
 
