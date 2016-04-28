@@ -64,7 +64,7 @@
 
 	var _default2 = _interopRequireDefault(_default);
 
-	var _reducers = __webpack_require__(62);
+	var _reducers = __webpack_require__(64);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -21082,7 +21082,17 @@
 
 	var _keo = __webpack_require__(61);
 
+	var _actions = __webpack_require__(62);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * @method propTypes
+	 * @type {Object}
+	 */
+	var propTypes = {
+	    shapes: _react.PropTypes.array.isRequired
+	};
 
 	/**
 	 * @method getDefaultProps
@@ -21095,22 +21105,36 @@
 	/**
 	 * @method render
 	 * @param {Object} props
+	 * @param {Function} dispatch
 	 * @return {XML}
 	 */
 	var render = function render(_ref) {
 	    var props = _ref.props;
+	    var dispatch = _ref.dispatch;
 
+
+	    /**
+	     * @method createShape
+	     * @param {Object} model
+	     * @return {XML}
+	     */
+	    var createShape = function createShape(model) {
+	        return _react2.default.createElement(model.tag, _extends({ key: model.id }, model.attributes, {
+	            onMouseMove: function onMouseMove(event) {
+	                return dispatch((0, _actions.move)({ x: event.pageX, y: event.pageY }));
+	            } }));
+	    };
 
 	    return _react2.default.createElement(
 	        'svg',
 	        { width: props.width, height: props.height },
 	        props.shapes.map(function (model) {
-	            return _react2.default.createElement(model.tag, _extends({ key: model.id }, model.attributes));
+	            return createShape(model);
 	        })
 	    );
 	};
 
-	exports.default = (0, _keo.stitch)({ getDefaultProps: getDefaultProps, render: render }, function (state) {
+	exports.default = (0, _keo.stitch)({ propTypes: propTypes, getDefaultProps: getDefaultProps, render: render }, function (state) {
 	    return state;
 	});
 
@@ -32675,12 +32699,53 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.move = undefined;
+
+	var _types = __webpack_require__(63);
+
+	/**
+	 * @method move
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @return {Object}
+	 */
+	var move = exports.move = function move(_ref) {
+	  var x = _ref.x;
+	  var y = _ref.y;
+
+	  return { type: _types.MOVE, x: x, y: y };
+	};
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * @constant MOVE
+	 * @type {Symbol}
+	 */
+	var MOVE = exports.MOVE = Symbol('move');
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
 	var _redux = __webpack_require__(33);
 
-	var _shapes = __webpack_require__(63);
+	var _shapes = __webpack_require__(65);
 
 	var _shapes2 = _interopRequireDefault(_shapes);
 
@@ -32691,22 +32756,24 @@
 	});
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
-	var _shortid = __webpack_require__(64);
+	var _shortid = __webpack_require__(66);
+
+	var _types = __webpack_require__(63);
 
 	/**
 	 * @constant INITIAL_STATE
 	 * @type {Array}
 	 */
-	var INITIAL_STATE = [{ id: (0, _shortid.generate)(), tag: 'rect', attributes: { fill: 'red', width: 50, height: 50 } }];
+	var INITIAL_STATE = [{ id: 1, tag: 'rect', attributes: { fill: 'red', width: 50, height: 50 } }];
 
 	/**
 	 * @param {Object} state
@@ -32715,30 +32782,38 @@
 	 */
 
 	exports.default = function () {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
-	  var action = arguments[1];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+	    var action = arguments[1];
 
-	  return state;
+
+	    switch (action.type) {
+
+	        case _types.MOVE:
+	            return [{ id: 1, tag: 'rect', attributes: { fill: 'red', width: 50, height: 50, x: action.x, y: action.y } }];
+
+	    }
+
+	    return state;
 	};
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(65);
+	module.exports = __webpack_require__(67);
 
 /***/ },
-/* 65 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var alphabet = __webpack_require__(66);
-	var encode = __webpack_require__(68);
-	var decode = __webpack_require__(70);
-	var isValid = __webpack_require__(71);
+	var alphabet = __webpack_require__(68);
+	var encode = __webpack_require__(70);
+	var decode = __webpack_require__(72);
+	var isValid = __webpack_require__(73);
 
 	// Ignore all milliseconds before a certain time to reduce the size of the date entropy without sacrificing uniqueness.
 	// This number should be updated every year or so to keep the generated id short.
@@ -32753,7 +32828,7 @@
 	// has a unique value for worker
 	// Note: I don't know if this is automatically set when using third
 	// party cluster solutions such as pm2.
-	var clusterWorkerId = __webpack_require__(72) || 0;
+	var clusterWorkerId = __webpack_require__(74) || 0;
 
 	// Counter is used when shortid is called multiple times in one second.
 	var counter;
@@ -32833,12 +32908,12 @@
 	module.exports.isValid = isValid;
 
 /***/ },
-/* 66 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var randomFromSeed = __webpack_require__(67);
+	var randomFromSeed = __webpack_require__(69);
 
 	var ORIGINAL = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 	var alphabet;
@@ -32936,7 +33011,7 @@
 	};
 
 /***/ },
-/* 67 */
+/* 69 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32966,12 +33041,12 @@
 	};
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var randomByte = __webpack_require__(69);
+	var randomByte = __webpack_require__(71);
 
 	function encode(lookup, number) {
 	    var loopCounter = 0;
@@ -32990,7 +33065,7 @@
 	module.exports = encode;
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33011,12 +33086,12 @@
 	module.exports = randomByte;
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var alphabet = __webpack_require__(66);
+	var alphabet = __webpack_require__(68);
 
 	/**
 	 * Decode the id to get the version and worker
@@ -33034,12 +33109,12 @@
 	module.exports = decode;
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var alphabet = __webpack_require__(66);
+	var alphabet = __webpack_require__(68);
 
 	function isShortId(id) {
 	    if (!id || typeof id !== 'string' || id.length < 6) {
@@ -33059,7 +33134,7 @@
 	module.exports = isShortId;
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';

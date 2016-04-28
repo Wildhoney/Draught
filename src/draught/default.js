@@ -1,5 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { stitch } from 'keo';
+import { move } from './actions';
+
+/**
+ * @method propTypes
+ * @type {Object}
+ */
+const propTypes = {
+    shapes: PropTypes.array.isRequired
+};
 
 /**
  * @method getDefaultProps
@@ -12,16 +21,27 @@ const getDefaultProps = () => {
 /**
  * @method render
  * @param {Object} props
+ * @param {Function} dispatch
  * @return {XML}
  */
-const render = ({ props }) => {
-    
+const render = ({ props, dispatch }) => {
+
+    /**
+     * @method createShape
+     * @param {Object} model
+     * @return {XML}
+     */
+    const createShape = model => {
+        return <model.tag key={model.id} {...model.attributes}
+                          onMouseMove={event => dispatch(move({ x: event.pageX, y: event.pageY }))} />;
+    };
+
     return (
         <svg width={props.width} height={props.height}>
-            {props.shapes.map(model => <model.tag key={model.id} {...model.attributes} />)}
+            {props.shapes.map(model => createShape(model))}
         </svg>
     )
 
 };
 
-export default stitch({ getDefaultProps, render }, state => state);
+export default stitch({ propTypes, getDefaultProps, render }, state => state);
