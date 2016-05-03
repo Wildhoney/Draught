@@ -1,7 +1,7 @@
 require('babel-loader');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './example/js/default.js',
     output: {
         path: __dirname + '/example',
         filename: 'build.js',

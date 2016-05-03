@@ -1,26 +1,38 @@
-import React, { createClass } from 'react';
+import React, { PropTypes, createClass } from 'react';
+import { render } from 'react-dom';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { make } from 'react-standalone';
-import Component from './draught/default';
-import reducers from './draught/reducers';
-
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-const store = createStoreWithMiddleware(reducers);
+import reducers from './reducers';
+import Component from './components/default';
 
 /**
- * @method component
- * @return {XML}
+ * @method create
+ * @param {HTMLElement} mountNode
+ * @return {Object}
  */
-const component = () => {
+export default mountNode => {
 
-    return (
+    const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+    const store = createStoreWithMiddleware(reducers);
+
+    /**
+     * @method add
+     * @param {String} tagName
+     * @return {void}
+     */
+    const add = tagName => {
+        console.log('add shape!');
+        // store.dispatch();
+    };
+
+    render(
         <Provider store={store}>
             <Component />
-        </Provider>
+        </Provider>,
+        mountNode
     );
 
-};
+    return { add };
 
-make('draught-canvas', { component });
+};
