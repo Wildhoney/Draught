@@ -21959,7 +21959,7 @@
 	    tag: 'rect',
 	    ref: null,
 	    meta: { selected: false },
-	    attrs: { fill: 'red', width: 50, height: 50 }
+	    attrs: { fill: 'red', width: 50, height: 50, x: 100, y: 100 }
 	}];
 
 	/**
@@ -22369,6 +22369,10 @@
 
 	var _shape2 = _interopRequireDefault(_shape);
 
+	var _selected = __webpack_require__(211);
+
+	var _selected2 = _interopRequireDefault(_selected);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
@@ -22391,7 +22395,11 @@
 	    return _react2.default.createElement(
 	        'g',
 	        { className: 'draught' },
-	        _react2.default.createElement('g', { className: 'guides' }),
+	        _react2.default.createElement(
+	            'g',
+	            { className: 'guides' },
+	            _react2.default.createElement(_selected2.default, props)
+	        ),
 	        _react2.default.createElement(
 	            'g',
 	            { className: 'shapes' },
@@ -34015,10 +34023,6 @@
 	    var id = _ref2.id;
 	    var props = _ref2.props;
 	    var dispatch = _ref2.dispatch;
-
-
-	    console.log(props.model.meta.selected);
-
 	    var model = props.model;
 
 	    var meta = (0, _actions.setMeta)(id, model);
@@ -39207,6 +39211,66 @@
 	     *
 	     *      R.union([1, 2, 3], [2, 3, 4]); //=> [1, 2, 3, 4]
 	     */var union=_curry2(compose(uniq,_concat));var R={F:F,T:T,__:__,add:add,addIndex:addIndex,adjust:adjust,all:all,allPass:allPass,allUniq:allUniq,always:always,and:and,any:any,anyPass:anyPass,ap:ap,aperture:aperture,append:append,apply:apply,applySpec:applySpec,assoc:assoc,assocPath:assocPath,binary:binary,bind:bind,both:both,call:call,chain:chain,clamp:clamp,clone:clone,comparator:comparator,complement:complement,compose:compose,composeK:composeK,composeP:composeP,concat:concat,cond:cond,construct:construct,constructN:constructN,contains:contains,converge:converge,countBy:countBy,curry:curry,curryN:curryN,dec:dec,defaultTo:defaultTo,difference:difference,differenceWith:differenceWith,dissoc:dissoc,dissocPath:dissocPath,divide:divide,drop:drop,dropLast:dropLast,dropLastWhile:dropLastWhile,dropRepeats:dropRepeats,dropRepeatsWith:dropRepeatsWith,dropWhile:dropWhile,either:either,empty:empty,eqBy:eqBy,eqProps:eqProps,equals:equals,evolve:evolve,filter:filter,find:find,findIndex:findIndex,findLast:findLast,findLastIndex:findLastIndex,flatten:flatten,flip:flip,forEach:forEach,fromPairs:fromPairs,groupBy:groupBy,groupWith:groupWith,gt:gt,gte:gte,has:has,hasIn:hasIn,head:head,identical:identical,identity:identity,ifElse:ifElse,inc:inc,indexBy:indexBy,indexOf:indexOf,init:init,insert:insert,insertAll:insertAll,intersection:intersection,intersectionWith:intersectionWith,intersperse:intersperse,into:into,invert:invert,invertObj:invertObj,invoker:invoker,is:is,isArrayLike:isArrayLike,isEmpty:isEmpty,isNil:isNil,join:join,juxt:juxt,keys:keys,keysIn:keysIn,last:last,lastIndexOf:lastIndexOf,length:length,lens:lens,lensIndex:lensIndex,lensPath:lensPath,lensProp:lensProp,lift:lift,liftN:liftN,lt:lt,lte:lte,map:map,mapAccum:mapAccum,mapAccumRight:mapAccumRight,mapObjIndexed:mapObjIndexed,match:match,mathMod:mathMod,max:max,maxBy:maxBy,mean:mean,median:median,memoize:memoize,merge:merge,mergeAll:mergeAll,mergeWith:mergeWith,mergeWithKey:mergeWithKey,min:min,minBy:minBy,modulo:modulo,multiply:multiply,nAry:nAry,negate:negate,none:none,not:not,nth:nth,nthArg:nthArg,objOf:objOf,of:of,omit:omit,once:once,or:or,over:over,pair:pair,partial:partial,partialRight:partialRight,partition:partition,path:path,pathEq:pathEq,pathOr:pathOr,pathSatisfies:pathSatisfies,pick:pick,pickAll:pickAll,pickBy:pickBy,pipe:pipe,pipeK:pipeK,pipeP:pipeP,pluck:pluck,prepend:prepend,product:product,project:project,prop:prop,propEq:propEq,propIs:propIs,propOr:propOr,propSatisfies:propSatisfies,props:props,range:range,reduce:reduce,reduceBy:reduceBy,reduceRight:reduceRight,reduced:reduced,reject:reject,remove:remove,repeat:repeat,replace:replace,reverse:reverse,scan:scan,sequence:sequence,set:set,slice:slice,sort:sort,sortBy:sortBy,split:split,splitAt:splitAt,splitEvery:splitEvery,splitWhen:splitWhen,subtract:subtract,sum:sum,symmetricDifference:symmetricDifference,symmetricDifferenceWith:symmetricDifferenceWith,tail:tail,take:take,takeLast:takeLast,takeLastWhile:takeLastWhile,takeWhile:takeWhile,tap:tap,test:test,times:times,toLower:toLower,toPairs:toPairs,toPairsIn:toPairsIn,toString:toString,toUpper:toUpper,transduce:transduce,transpose:transpose,traverse:traverse,trim:trim,tryCatch:tryCatch,type:type,unapply:unapply,unary:unary,uncurryN:uncurryN,unfold:unfold,union:union,unionWith:unionWith,uniq:uniq,uniqBy:uniqBy,uniqWith:uniqWith,unless:unless,unnest:unnest,until:until,update:update,useWith:useWith,values:values,valuesIn:valuesIn,view:view,when:when,where:where,whereEq:whereEq,without:without,wrap:wrap,xprod:xprod,zip:zip,zipObj:zipObj,zipWith:zipWith}; /* eslint-env amd */ /* TEST_ENTRY_POINT */if(( false?'undefined':_typeof(exports))==='object'){module.exports=R;}else if(true){!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return R;}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));}else {this.R=R;}}).call(undefined);
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _keo = __webpack_require__(207);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * @constant propTypes
+	 * @type {Object}
+	 */
+	var propTypes = {
+	    shapes: _react.PropTypes.array.isRequired
+	};
+
+	/**
+	 * @method render
+	 * @param {Object} props
+	 * @return {XML}
+	 */
+	var render = function render(_ref) {
+	    var props = _ref.props;
+
+
+	    var selected = props.shapes.filter(function (x) {
+	        return x.meta.selected;
+	    });
+	    var xCoords = selected.map(function (x) {
+	        return x.attrs.x;
+	    });
+	    var yCoords = selected.map(function (x) {
+	        return x.attrs.y;
+	    });
+
+	    if (xCoords) {
+
+	        var minX = Math.min.apply(Math, [xCoords]);
+	        var maxX = Math.max.apply(Math, [xCoords]);
+	        var minY = Math.min.apply(Math, [yCoords]);
+	        var maxY = Math.max.apply(Math, [yCoords]);
+
+	        console.log(minX, maxX, minY, maxY);
+	    }
+
+	    return _react2.default.createElement('rect', { fill: 'red' });
+	};
+
+	exports.default = (0, _keo.stitch)({ propTypes: propTypes, render: render });
 
 /***/ }
 /******/ ]);

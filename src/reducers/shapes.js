@@ -11,7 +11,7 @@ const INITIAL_STATE = [
         tag: 'rect',
         ref: null,
         meta: { selected: false },
-        attrs: { fill: 'red', width: 50, height: 50 }
+        attrs: { fill: 'red', width: 50, height: 50, x: 100, y: 100 }
     }
 ];
 
